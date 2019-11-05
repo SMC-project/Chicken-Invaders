@@ -2,6 +2,9 @@
 #include <Windows.h>
 #include "Map.h"
 
+void GameLoop();
+void CheckForInput(Map& myMap, std::pair<int, int> newPlayerPos, std::pair<int, int>& playerPos);
+
 int main()
 {
 	GameLoop();
@@ -20,5 +23,18 @@ void GameLoop()
 	{
 		
 		//Sleep(500);
+	}
+}
+
+void CheckForInput(Map& myMap, std::pair<int, int> newPlayerPos, std::pair<int, int>& playerPos)
+{
+	if (GetAsyncKeyState(VK_DOWN))
+	{
+		newPlayerPos = playerPos;
+		newPlayerPos.first++;
+
+		myMap.MoveChar(playerPos, newPlayerPos, '@');
+		playerPos = newPlayerPos;
+		myMap.Redraw();
 	}
 }
