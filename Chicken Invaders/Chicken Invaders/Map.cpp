@@ -1,5 +1,6 @@
 #include "Map.h"
 
+
 void Map::Redraw()
 {
 	system("cls");
@@ -18,4 +19,9 @@ bool Map::MoveChar(std::pair<int, int> previousPos, std::pair<int, int> newPos, 
 	map[previousPos.first][previousPos.second] = ' ';
 	map[newPos.first][newPos.second] = chToDraw;
 	return true;
+}
+
+void Map::place(enemy current_enemy)
+{
+	map[current_enemy.m_newPos.first][current_enemy.m_newPos.second] = current_enemy.m_c;
 }

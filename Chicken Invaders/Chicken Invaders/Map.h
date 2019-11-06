@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include "enemy.h"
 
 class Map
 {
@@ -39,4 +40,5 @@ public:
 	void Redraw();
 
 	bool MoveChar(std::pair<int, int> previousPos, std::pair<int, int> newPos, char chToDraw);
+	void place(enemy& current_enemy);
 };
