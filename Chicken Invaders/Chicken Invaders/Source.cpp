@@ -23,7 +23,7 @@ void GameLoop()
 	enemy newEnemy(playerPos,'%');
 	myMap.placeObject(newEnemy);
 	myMap.Redraw();
-	//myMap.MoveEnemy(newEnemy, std::make_pair(1, 2), std::make_pair(19, 2), '%');
+	myMap.MoveEnemy(newEnemy, std::make_pair(1, 2), std::make_pair(19, 2), '%');
 
 	while (stopGame == false)
 	{
