@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Map.h"
 
+
 void GameLoop();
 void CheckForInput(Map& myMap, std::pair<int, int> newPlayerPos, std::pair<int, int>& playerPos);
 bool CollisionCheck(const Map& myMap, std::pair<int, int> newPos);
@@ -19,6 +20,10 @@ void GameLoop()
 	bool stopGame = false;
 	Map myMap;
 	myMap.Redraw();
+	enemy newEnemy(playerPos,'%');
+	myMap.placeObject(newEnemy);
+	myMap.Redraw();
+	//myMap.MoveEnemy(newEnemy, std::make_pair(1, 2), std::make_pair(19, 2), '%');
 
 	while (stopGame == false)
 	{

@@ -1,6 +1,7 @@
 #include "Map.h"
 
 
+
 void Map::Redraw()
 {
 	system("cls");
@@ -9,6 +10,11 @@ void Map::Redraw()
 	{
 		std::cout << map[index] << "\n";
 	}
+}
+
+void Map::placeObject(enemy& newEnemy)
+{
+	map[newEnemy.m_newPos.first][newEnemy.m_newPos.second] = newEnemy.m_c;
 }
 
 bool Map::MoveChar(std::pair<int, int> previousPos, std::pair<int, int> newPos, char chToDraw)
@@ -21,7 +27,31 @@ bool Map::MoveChar(std::pair<int, int> previousPos, std::pair<int, int> newPos, 
 	return true;
 }
 
-void Map::place(enemy current_enemy)
+void Map::MoveEnemy(enemy& newEnemy, std::pair<int, int> startPos, std::pair<int, int> endPos, char chToDraw)
 {
-	map[current_enemy.m_newPos.first][current_enemy.m_newPos.second] = current_enemy.m_c;
+	bool right = true;
+	std::pair<int, int> currentPos=startPos;
+	std::pair<int, int> previousPos;
+	while (1)
+	{
+		if (right == true)
+			if (currentPos.second != endPos.second)
+				right = false;
+			else {
+				currentPos.second++;
+				Map::Redraw();
+			}
+		if (right == false)
+			if (currentPos.second != startPos.second)
+				right = true;
+			else {
+				currentPos.second--;
+				Map::Redraw();
+			}
+	}
+	
 }
+
+
+
+

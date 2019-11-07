@@ -1,5 +1,7 @@
 #pragma once
-#include "Map.h"
+#include<iostream>
+
+
 class enemy
 {
 public:
@@ -8,10 +10,8 @@ public:
 	char m_c;
 
 public:
-	enemy(std::pair<int, int> newPos, char c,Map& mymap);
-	void movement(Map& mymap)
-	{
-		mymap.MoveChar(m_previousPos,m_newPos,m_c);
-	}
+	enemy(std::pair<int, int> newPos, char c);
+	
+	
 };
 

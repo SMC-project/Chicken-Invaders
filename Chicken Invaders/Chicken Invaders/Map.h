@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#include "enemy.h"
+#include"enemy.h"
+
 
 class Map
 {
@@ -11,7 +12,7 @@ public:
 	//Same for collision detection
 	std::vector<std::string> map = {
 		"##################################################################",
-		"##@                                                             ##",
+		"##                                                              ##",
 		"##                                                              ##",
 		"##                                                              ##",
 		"##                                                              ##",
@@ -38,7 +39,8 @@ public:
 	};
 public:
 	void Redraw();
-
+	void placeObject(enemy& newEnemy);
 	bool MoveChar(std::pair<int, int> previousPos, std::pair<int, int> newPos, char chToDraw);
-	void place(enemy& current_enemy);
+	void MoveEnemy(enemy& newEnemy,std::pair<int, int> startPos, std::pair<int, int> endPos, char chToDraw);
+	
 };
