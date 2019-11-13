@@ -2,8 +2,8 @@
 
 void Chicken::isShooting(Map& mymap,Chicken current_chicken)
 {
-	if(current_chicken.Drop_egg)
-		mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = 'o';
+	//if(current_chicken.Drop_egg)
+		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = 'o';
 	
 }
 
@@ -20,8 +20,8 @@ bool Chicken::Drop_Present(Map& mymap, Chicken current_chicken)
 
 void Chicken::isDropingPresent(Map& mymap, Chicken current_chicken)
 {
-	if (current_chicken.Drop_Present)
-		mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '$';
+	//if (current_chicken.Drop_Present)
+		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '$';
 }
 
 bool Chicken::Drop_food()
@@ -37,8 +37,8 @@ bool Chicken::Drop_food()
 
 void Chicken::isDropingFood(Map& mymap, Chicken current_chicken)
 {
-	if (current_chicken.Drop_food)
-		mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '&';
+	//if (current_chicken.Drop_food)
+		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '&';
 }
 
 bool Chicken::Drop_egg()

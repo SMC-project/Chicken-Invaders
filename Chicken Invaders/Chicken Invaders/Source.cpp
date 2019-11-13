@@ -1,34 +1,48 @@
 #include <iostream>
-#include <Windows.h>
-#include "Map.h"
+#include<SFML/Graphics.hpp>
+#include"Map.h"
+#include<Windows.h>
 
 
-void GameLoop();
+void GameLoop(sf::RenderWindow& gameWindow);
 void CheckForInput(Map& myMap, std::pair<int, int> newPlayerPos, std::pair<int, int>& playerPos);
 bool CollisionCheck(const Map& myMap, std::pair<int, int> newPos);
 
 int main()
 {
-	GameLoop();
-	system("pause");
+
+	sf::RenderWindow gameWindow(sf::VideoMode(800, 800), "gameWindow", sf::Style::Close | sf::Style::Resize);
+	gameWindow.setFramerateLimit(30);
+
+	GameLoop(gameWindow);
+	return 0;
+
+
 }
 
-void GameLoop()
-{
-	std::pair<int, int> newPlayerPos;
-	std::pair<int, int> playerPos(1, 2);
-	bool stopGame = false;
-	Map myMap;
-	myMap.Redraw();
-	enemy newEnemy(playerPos,'%');
-	myMap.placeObject(newEnemy);
-	myMap.Redraw();
-	myMap.MoveEnemy(newEnemy, std::make_pair(1, 2), std::make_pair(19, 2), '%');
 
-	while (stopGame == false)
+void GameLoop(sf::RenderWindow& gameWindow)
+{
+	sf::Texture myTexture;
+	myTexture.loadFromFile("Sprites/Weapons/bullet.png");
+	sf::Sprite mySprite(myTexture);
+	mySprite.setPosition(20, 20);
+	mySprite.setScale(.2, .23);
+	while (gameWindow.isOpen())
 	{
-		CheckForInput(myMap, newPlayerPos, playerPos);
-		//Sleep(500);
+		sf::Event eventHandler;
+		while (gameWindow.pollEvent(eventHandler))
+		{
+			if (eventHandler.type == sf::Event::Closed)
+				gameWindow.close();
+		}
+		gameWindow.clear();
+
+		//Here is where we draw stuff;
+		gameWindow.draw(mySprite);
+
+		gameWindow.display();
+
 	}
 }
 
