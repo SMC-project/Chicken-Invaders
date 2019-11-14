@@ -1,7 +1,8 @@
 #include <iostream>
 #include<SFML/Graphics.hpp>
 #include<Windows.h>
-
+#include "Chicken.h"
+using namespace sf;
 
 void GameLoop(sf::RenderWindow& gameWindow);
 
@@ -18,11 +19,16 @@ int main()
 
 void GameLoop(sf::RenderWindow& gameWindow)
 {
-	sf::Texture texture_background;
+	Chicken chicken;
+	sf::Texture texture_background, c;
 	texture_background.loadFromFile("Sprites/Extras/background.png");
+	c.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
 	sf::Sprite sprite_background(texture_background);
 	sprite_background.setPosition(0, 0);
 	sprite_background.setScale(1, 1);
+	chicken.sprite_chicken.setTexture(c);
+	chicken.sprite_chicken.setScale(.5, .5);
+	
 	
 
 	while (gameWindow.isOpen())
@@ -38,11 +44,13 @@ void GameLoop(sf::RenderWindow& gameWindow)
 
 		}
 
+		chicken.Animation();
+
 		gameWindow.clear();
 
 		//Here is where we draw stuff;
 		gameWindow.draw(sprite_background);
-
+		gameWindow.draw(chicken.sprite_chicken);
 		gameWindow.display();
 
 	}
