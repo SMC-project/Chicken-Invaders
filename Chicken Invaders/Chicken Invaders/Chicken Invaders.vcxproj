@@ -24,12 +24,14 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Wave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Chicken.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Wave.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

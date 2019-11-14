@@ -1,5 +1,11 @@
 #include "Chicken.h"
 
+Chicken::Chicken()
+{
+}
+
+
+
 void Chicken::Animation()
 {
 	frame += animSpeed;

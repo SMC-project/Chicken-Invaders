@@ -1,6 +1,7 @@
 #include <iostream>
 #include<SFML/Graphics.hpp>
 #include<Windows.h>
+#include"Wave.h"
 
 #include "Player.h"
 #include "Chicken.h"
@@ -25,15 +26,17 @@ int main()
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 {
-	Chicken chicken;
-	Texture texture_background, c;
+	Wave Wave1;
+	Chicken chicken[5][8];
+
+	Texture texture_background, enemy;
 	texture_background.loadFromFile("Sprites/Extras/background.png");
-	c.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
+	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
 	Sprite sprite_background(texture_background);
 	sprite_background.setPosition(0, 0);
 	sprite_background.setScale(1, 1);
-	chicken.sprite_chicken.setTexture(c);
-	chicken.sprite_chicken.setScale(.5, .5);
+
+	Wave1.setSprite(enemy, chicken);
 	
 	Player player("Sprites/Ship/ship.png", std::make_pair(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 
@@ -60,13 +63,14 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 		//All object's movement
 		player.MoveShip(WINDOW_WIDTH);
-		chicken.Animation();
+		
+	
 
 		gameWindow.clear();
-
+		Wave1.fisrtWavePosition(chicken);
 		//Here is where we draw stuff;
 		gameWindow.draw(sprite_background);
-		gameWindow.draw(chicken.sprite_chicken);
+		Wave1.drawWave(gameWindow, chicken);
 		player.DrawShip(gameWindow);
 
 		gameWindow.display();
