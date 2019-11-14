@@ -38,7 +38,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 	Wave1.setSprite(enemy, chicken);
 	
-	Player player("Sprites/Ship/ship.png", std::make_pair(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
+	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
+	player.LoadLiveSprites("Sprites/Extras/heart.png");
 
 	while (gameWindow.isOpen())
 	{
@@ -48,30 +49,33 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 			if (eventHandler.type == Event::KeyPressed)
 			{
 				if (eventHandler.key.code == Keyboard::Left)
-					player.SetMoveDirection(-1);
+					player.SetMovement(false, 1);
 				if (eventHandler.key.code == Keyboard::Right)
-					player.SetMoveDirection(1);
+					player.SetMovement(true, 1);
 			}
 			if (eventHandler.type == Event::KeyReleased)
 			{
 				if (eventHandler.key.code == Keyboard::Escape)
 					gameWindow.close();
-				if (eventHandler.key.code == Keyboard::Left || eventHandler.key.code == Keyboard::Right)
-					player.SetMoveDirection(0);
+				if (eventHandler.key.code == Keyboard::Left)
+					player.SetMovement(false, 0);
+				if(eventHandler.key.code == Keyboard::Right)
+					player.SetMovement(true, 0);
 			}
 		}
 
 		//All object's movement
 		player.MoveShip(WINDOW_WIDTH);
-		
-	
 
 		gameWindow.clear();
 		Wave1.fisrtWavePosition(chicken);
+
 		//Here is where we draw stuff;
 		gameWindow.draw(sprite_background);
 		Wave1.drawWave(gameWindow, chicken);
+
 		player.DrawShip(gameWindow);
+		player.DrawLives(gameWindow);
 
 		gameWindow.display();
 	}
