@@ -6,9 +6,7 @@ void Wave::fisrtWavePosition(Chicken chicken[5][8])
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
 			chicken[i][j].sprite_chicken.setPosition(400 + j*200 - j*50, 50 + i*200 - i*100);
-	for (int i = 0; i < 5; i++)
-		for (int j = 0; j < 8; j++)
-			chicken[i][j].Animation();
+	
 }
 
 void Wave::drawWave(RenderWindow& map,Chicken chicken[5][8])
@@ -46,7 +44,9 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 				current_x -= 8;
 				if (current_x < 72) left_or_right_movement = !left_or_right_movement;
 			}
-			
+			for (int i = 0; i < 5; i++)
+				for (int j = 0; j < 8; j++)
+					chicken[i][j].Animation();
 			chicken[i][j].sprite_chicken.setPosition(current_x,current_y); 
 			std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
 		}

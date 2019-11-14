@@ -41,7 +41,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
-
+	Wave1.fisrtWavePosition(chicken);
 	while (gameWindow.isOpen())
 	{
 		#pragma region Input
@@ -79,13 +79,13 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		#pragma endregion
 
 		gameWindow.clear();
-		Wave1.fisrtWavePosition(chicken);
+	
 
 		#pragma region DrawEverything
 
 		gameWindow.draw(sprite_background);
 		Wave1.drawWave(gameWindow, chicken);
-
+		Wave1.movementFirstWave(chicken);
 		player.DrawShip(gameWindow);
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
