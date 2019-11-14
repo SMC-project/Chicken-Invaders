@@ -8,7 +8,7 @@ public:
 	Player(const std::string& spritePath, sf::Vector2<int> initialPos);
 
 	//Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
-	void DrawShip(sf::RenderWindow& gameWindow);
+	void DrawShip(sf::RenderWindow& window);
 	//Move the ship, the parameter is used for boundry check so that it doesn't go off-screen
 	void MoveShip(int WINDOW_WIDTH);
 	//Move right is used to know which value to set in the movement vector and the factor for how much to move (max value of 1)
@@ -18,7 +18,16 @@ public:
 	//Load the sprites into a vector of sprites and set their positions
 	void LoadLiveSprites(const std::string& livesSpritePath);
 	//Draw how many lives we have left on the screen
-	void DrawLives(sf::RenderWindow& gameWindow);
+	void DrawLives(sf::RenderWindow& window);
+
+	//Load the font for the text and set up the text's position, size, initial value.
+	void SetUpScore(const std::string& fontPath);
+	//Add to the score, called when defeating an enemy
+	void UpdateScore(int value);
+	//Reset the score, called when the player reaches 0 lives
+	void ResetScore();
+	//Draw the score to the screen
+	void DrawScore(sf::RenderWindow& window);
 
 	//Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
 	//Returns true if we collided with something
@@ -49,5 +58,9 @@ private:
 	int m_lives = 3;				//Number a lives the player has; it is decremented when he dies
 	sf::Sprite m_spriteLives[3];	//Sprites for the UI lives components
 	sf::Texture m_textureLives[3];	//Texture for the lives sprites
+
+	long long m_score = 0;
+	sf::Font m_textFont; 
+	sf::Text m_scoreText;
 };
 

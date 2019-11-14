@@ -104,4 +104,36 @@ void Player::Die()
 {
 	m_lives--;
 	m_spriteShip.setPosition(m_initialPos);
+
+	if (m_lives == 0)
+	{
+		m_lives = 3;
+		ResetScore();
+	}
+}
+
+//Load the font for the text and set up the text's position, size, initial value.
+void Player::SetUpScore(const std::string& fontPath)
+{
+	m_textFont.loadFromFile(fontPath);
+	m_scoreText.setFont(m_textFont);
+	m_scoreText.setPosition(m_spriteLives[2].getPosition().x + 100, 20);
+	m_scoreText.setString(std::to_string(m_score));
+}
+//Add to the score, called when defeating an enemy
+void Player::UpdateScore(int value)
+{
+	m_score += value;
+}
+//Reset the score, called when the player reaches 0 lives
+void Player::ResetScore()
+{
+	m_score = 0;
+}
+
+//Draw the score to the screen
+void Player::DrawScore(sf::RenderWindow& window)
+{
+	m_scoreText.setString(std::to_string(m_score));
+	window.draw(m_scoreText);
 }

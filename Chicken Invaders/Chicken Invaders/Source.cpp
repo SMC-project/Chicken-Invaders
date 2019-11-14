@@ -40,9 +40,12 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
+	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 
 	while (gameWindow.isOpen())
 	{
+		#pragma region Input
+
 		Event eventHandler;
 		while (gameWindow.pollEvent(eventHandler))
 		{
@@ -64,18 +67,30 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 			}
 		}
 
-		//All object's movement
+		#pragma endregion
+
+		#pragma region Movement
+
 		player.MoveShip(WINDOW_WIDTH);
+
+		#pragma endregion
+
+		#pragma region Collisions
+		#pragma endregion
 
 		gameWindow.clear();
 		Wave1.fisrtWavePosition(chicken);
 
-		//Here is where we draw stuff;
+		#pragma region DrawEverything
+
 		gameWindow.draw(sprite_background);
 		Wave1.drawWave(gameWindow, chicken);
 
 		player.DrawShip(gameWindow);
 		player.DrawLives(gameWindow);
+		player.DrawScore(gameWindow);
+
+		#pragma endregion
 
 		gameWindow.display();
 	}
