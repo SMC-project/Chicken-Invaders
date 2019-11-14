@@ -1,53 +1,9 @@
 #include "Chicken.h"
 
-void Chicken::isShooting(Chicken current_chicken)
+void Chicken::Animation()
 {
-	//if(current_chicken.Drop_egg)
-		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = 'o';
+	frame += animSpeed;
+	if (frame > frameCount) frame = 0;
+	sprite_chicken.setTextureRect(IntRect(int(frame) * 256, 0, 256, 256));
 	
-}
-
-bool Chicken::Drop_Present(Chicken current_chicken)
-{
-	srand(time(NULL));
-	int drop = rand() % 100 + 1;
-	if (drop < 21)
-	{
-		return true;
-	}
-	return false;
-}
-
-void Chicken::isDropingPresent( Chicken current_chicken)
-{
-	//if (current_chicken.Drop_Present)
-		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '$';
-}
-
-bool Chicken::Drop_food()
-{
-	srand(time(NULL));
-	int drop = rand() % 100 + 1;
-	if (drop < 41)
-	{
-		return true;
-	}
-	return false;
-}
-
-void Chicken::isDropingFood( Chicken current_chicken)
-{
-	//if (current_chicken.Drop_food)
-		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '&';
-}
-
-bool Chicken::Drop_egg()
-{
-	srand(time(NULL));
-	int drop = rand() % 100 + 1;
-	if (drop < 41)
-	{
-		return true;
-	}
-	return false;
 }
