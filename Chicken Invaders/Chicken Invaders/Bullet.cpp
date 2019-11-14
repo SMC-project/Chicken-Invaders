@@ -94,11 +94,11 @@ Bullet::Bullet(std::pair<int, int> shipCenterPosition)
 void Bullet::Present_Collected()
 {
 	m_bulletLevel;
-	int currentLevel =(int)m_bulletLevel;
+	int currentLevel =static_cast<int>(m_bulletLevel);
 	if (currentLevel < 6)
 	{
 		currentLevel++;
-		m_bulletLevel = (Level)currentLevel;
+		m_bulletLevel = static_cast<Level>(currentLevel);
 		LevelPower(m_bulletLevel);
     }
 
@@ -110,7 +110,7 @@ void Bullet::BulletsPosition_Update()
 
 }
 
-void Bullet::ResetShipLevel()
+void Bullet::ResetBulletLevel()
 {
 	m_bulletLevel = Level::Level_0;
 	LevelPower(m_bulletLevel);

@@ -1,13 +1,13 @@
 #include "Chicken.h"
 
-void Chicken::isShooting(Map& mymap,Chicken current_chicken)
+void Chicken::isShooting(Chicken current_chicken)
 {
 	//if(current_chicken.Drop_egg)
 		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = 'o';
 	
 }
 
-bool Chicken::Drop_Present(Map& mymap, Chicken current_chicken)
+bool Chicken::Drop_Present(Chicken current_chicken)
 {
 	srand(time(NULL));
 	int drop = rand() % 100 + 1;
@@ -18,7 +18,7 @@ bool Chicken::Drop_Present(Map& mymap, Chicken current_chicken)
 	return false;
 }
 
-void Chicken::isDropingPresent(Map& mymap, Chicken current_chicken)
+void Chicken::isDropingPresent( Chicken current_chicken)
 {
 	//if (current_chicken.Drop_Present)
 		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '$';
@@ -35,7 +35,7 @@ bool Chicken::Drop_food()
 	return false;
 }
 
-void Chicken::isDropingFood(Map& mymap, Chicken current_chicken)
+void Chicken::isDropingFood( Chicken current_chicken)
 {
 	//if (current_chicken.Drop_food)
 		//mymap.map[current_chicken.m_newPos.first + 1][current_chicken.m_newPos.second] = '&';

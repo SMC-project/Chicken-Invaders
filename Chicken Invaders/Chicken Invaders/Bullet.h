@@ -23,6 +23,6 @@ public:
 	//Pozitia in care se afla gloantele la fiecare 0,1 secunde;
 	void BulletsPosition_Update();
 	//Nava a fost distrusa
-	void ResetShipLevel();
+	void ResetBulletLevel();
 };
 
