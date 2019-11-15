@@ -2,7 +2,7 @@
 #include<SFML/Graphics.hpp>
 #include<Windows.h>
 #include"Wave.h"
-
+#include"ScrollBackground.h"
 #include "Player.h"
 #include "Chicken.h"
 using namespace sf;
@@ -29,19 +29,16 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave Wave1;
 	Chicken chicken[5][8];
 
-	Texture texture_background, enemy;
-	texture_background.loadFromFile("Sprites/Extras/background.png");
+	Texture enemy;
 	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
-	Sprite sprite_background(texture_background);
-	sprite_background.setPosition(0, 0);
-	sprite_background.setScale(1, 1);
-
+	
 	Wave1.setSprite(enemy, chicken);
 	
 	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken);
+	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
 	while (gameWindow.isOpen())
 	{
 		#pragma region Input
@@ -82,18 +79,21 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 
 		#pragma region DrawEverything
-
-		gameWindow.draw(sprite_background);
+		gameBackground.AnimateBackground();
+		gameBackground.drawBackground(gameWindow);
 		Wave1.drawWave(gameWindow, chicken);
 		Wave1.movementFirstWave(chicken);
+	
+		
 		player.DrawShip(gameWindow);
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
-
+		
 		#pragma endregion
 
 		gameWindow.display();
 	}
 }
+
 
 
