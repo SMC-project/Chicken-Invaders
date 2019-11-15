@@ -4,6 +4,7 @@ class ScrollBackground
 {
 private:
 	sf::Sprite m_backgroundSprite;
+	sf::Sprite m_backgroundSprite1;
 	sf::Texture m_backgroundTexture;
 	float m_pictureHeigh;
 public:

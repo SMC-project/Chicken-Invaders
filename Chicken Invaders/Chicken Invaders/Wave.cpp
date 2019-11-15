@@ -48,6 +48,6 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 				for (int j = 0; j < 8; j++)
 					chicken[i][j].Animation();
 			chicken[i][j].sprite_chicken.setPosition(current_x,current_y); 
-			std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
+			//std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
 		}
 }
