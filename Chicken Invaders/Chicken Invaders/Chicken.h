@@ -13,13 +13,17 @@ public:
 	Chicken();
 	
 	Sprite sprite_chicken;
+	Sprite sprite_explosion;
 	float frame = 0;
-	float animSpeed = 1;
+	float animSpeed = 0.03;
 	int frameCount = 45;
+
+	float frame_explosion = 0;
+	int frameCount_explosion = 45;
+	float animSpeed_explosion = 1;
 public:
 	void Animation();
-private:
-	Sprite mSpriteChicken;
-	Texture mTextureChicken;
+	void explosion();
+
 };
 

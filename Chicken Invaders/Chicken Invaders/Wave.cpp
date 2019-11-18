@@ -1,11 +1,11 @@
 #include "Wave.h"
 
-void Wave::fisrtWavePosition(Chicken chicken[5][8])
+void Wave::fisrtWavePosition(Chicken chicken[5][8],const int WINDOW_WIDTH,const int WINDOW_HEIGHT)
 {
 
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
-			chicken[i][j].sprite_chicken.setPosition(400 + j*200 - j*50, 50 + i*200 - i*100);
+			chicken[i][j].sprite_chicken.setPosition(140*j + WINDOW_WIDTH/4, 120*i + WINDOW_HEIGHT/9);
 	
 }
 
@@ -50,4 +50,18 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 			chicken[i][j].sprite_chicken.setPosition(current_x,current_y); 
 			//std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
 		}
+}
+
+void Wave::setSprite_explosion(Texture& explosion, Chicken& chicken_explode)
+{
+	explosion.loadFromFile("Sprites/Enemy/Normal Chicken/Explosion/type_C.png");
+	chicken_explode.sprite_explosion.setTexture(explosion);
+	chicken_explode.Animation();
+}
+
+void Wave::draw_explosion(RenderWindow& map, Chicken& explode)
+{
+	explode.explosion();
+	map.draw(explode.sprite_explosion);
+
 }

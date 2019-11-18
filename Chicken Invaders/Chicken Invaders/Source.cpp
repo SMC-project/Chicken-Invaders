@@ -28,17 +28,24 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 {
 	Wave Wave1;
 	Chicken chicken[5][8];
+	Chicken explode;
 
-	Texture enemy;
+	Texture enemy,explode_texture;
 	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
 	
 	Wave1.setSprite(enemy, chicken);
+	Wave1.setSprite_explosion(explode_texture,explode);
+
+	explode.sprite_explosion.setPosition(200, 100);
+	explode.sprite_explosion.setScale(.5, .5);
 	
 	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
-	Wave1.fisrtWavePosition(chicken);
+	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
+
+	
 	while (gameWindow.isOpen())
 	{
 		#pragma region Input
@@ -76,15 +83,16 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		#pragma endregion
 
 		gameWindow.clear();
-	
+		
 
 		#pragma region DrawEverything
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
 		Wave1.drawWave(gameWindow, chicken);
 		Wave1.movementFirstWave(chicken);
-	
 		
+		Wave1.draw_explosion(gameWindow, explode);
+
 		player.DrawShip(gameWindow);
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
