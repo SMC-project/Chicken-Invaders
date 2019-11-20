@@ -23,7 +23,7 @@ void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
 		for (int j = 0; j < 8; j++)
 		{
 			chicken[i][j].sprite_chicken.setTexture(enemy);
-			chicken[i][j].sprite_chicken.setScale(.3, .3);
+			chicken[i][j].sprite_chicken.setScale(0.3,0.3);
 		}
 }
 
@@ -32,22 +32,33 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
 		{
+
 			float current_x = chicken[i][j].sprite_chicken.getPosition().x;
 			float current_y = chicken[i][j].sprite_chicken.getPosition().y;
-			if (left_or_right_movement)
+			if (!left_or_right_movement)
 			{
-				current_x += 8;
-				if (current_x > 1754) left_or_right_movement = !left_or_right_movement;
+
+				if (current_x >= 1700) {
+					current_x -= 5;
+					left_or_right_movement = !left_or_right_movement;
+				}
+				else
+					current_x += 5;
 			}
 			else
 			{
-				current_x -= 8;
-				if (current_x < 72) left_or_right_movement = !left_or_right_movement;
+				if (current_x <= 20) {
+					current_x += 5;
+					left_or_right_movement = !left_or_right_movement;
+				}
+				else
+					current_x -= 5;
+
 			}
 			for (int i = 0; i < 5; i++)
 				for (int j = 0; j < 8; j++)
 					chicken[i][j].Animation();
-			chicken[i][j].sprite_chicken.setPosition(current_x,current_y); 
+			chicken[i][j].sprite_chicken.setPosition(current_x, current_y);
 			//std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
 		}
 }
