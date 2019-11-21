@@ -38,8 +38,6 @@ void Wave::movementFirstWave(Chicken chicken[5][8] , Chicken explosion)
 			if (!left_or_right_movement)
 			{
 
-				
-
 				if (current_x >= 1700) {
 					current_x -= 5;
 					left_or_right_movement = !left_or_right_movement;
@@ -86,6 +84,7 @@ void Wave::explosion_setPosition(Chicken& object, float x_POS, float y_POS)
 	object.sprite_explosion.setPosition(x_POS, y_POS);
 }
 
+
 void Wave::setSprite_asteroid(Texture& asteroid, Asteroid& asteroid_object)
 {
 	asteroid.loadFromFile("Sprites/Enemy/asteroidNormal.png");
@@ -104,5 +103,24 @@ void Wave::asteroid_setPosition(Asteroid& asteroid_object, float x_POS, float y_
 	asteroid_object.sprite_asteroid.setPosition(x_POS, y_POS);
 	asteroid_object.sprite_asteroid.setRotation(-45);
 }
+
+void Wave::setSpritePresent(Texture& present, Chicken& dropPresent)
+{
+	present.loadFromFile("Sprites/Extras/gift.png");
+	dropPresent.setDropPresent.setTexture(present);
+	dropPresent.setDropPresent.setScale(.15, .15);
+}
+
+void Wave::drawPresent(RenderWindow& map, Chicken& dropPresent)
+{
+	dropPresent.dropPresent();
+	map.draw(dropPresent.setDropPresent);
+}
+
+void Wave::setPositionPresent(Chicken& newObject, float posX, float posY)
+{
+	newObject.setDropPresent.setPosition(posX, posY);
+}
+
 
 
