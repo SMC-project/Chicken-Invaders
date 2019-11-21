@@ -7,7 +7,7 @@ Player::Player(const std::string& spritePath, sf::Vector2<int> initialPos)
 	m_spriteShip.setTexture(m_textureShip);
 
 	//Resize the sprite so that it doesn't cover too much space
-	m_spriteShip.setScale(0.15f, 0.15f);
+	m_spriteShip.setScale(0.4f, 0.4f);
 	//Retain how many pixels the ship covers because we will need it later for collision check
 	m_shipSize = sf::Vector2(static_cast<int>(m_spriteShip.getTexture()->getSize().x * m_spriteShip.getScale().x),
 		static_cast<int>(m_spriteShip.getTexture()->getSize().y * m_spriteShip.getScale().y));

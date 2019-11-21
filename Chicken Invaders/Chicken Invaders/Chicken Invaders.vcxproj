@@ -23,6 +23,7 @@
     <ClCompile Include="Chicken.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScrollBackground.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Wave.cpp" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="Chicken.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ScrollBackground.h" />
     <ClInclude Include="Wave.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
