@@ -12,5 +12,9 @@ public:
 	void setSprite_explosion(Texture& explosion,Chicken& chicken_explode);
 	void draw_explosion(RenderWindow& map, Chicken& explode);
 	void explosion_setPosition(Chicken& object,float x_POS,float y_POS);
+
+	void setSpritePresent(Texture& present, Chicken& dropPresent);
+	void drawPresent(RenderWindow& map, Chicken& dropPresent);
+	void setPositionPresent(Chicken& newObject, float posX, float posY);
 };
 

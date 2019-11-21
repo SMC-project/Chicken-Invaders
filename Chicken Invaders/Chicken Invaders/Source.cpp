@@ -26,15 +26,19 @@ int main()
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 {
+	
 	Wave Wave1;
 	Chicken chicken[5][8];
 	Chicken explode;
+	Chicken present;
 
-	Texture enemy,explode_texture;
-	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
+	Texture enemy,explode_texture,presentTexture;
+	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");s
 	
+	//The plece where we are setiing Sprites
 	Wave1.setSprite(enemy, chicken);
 	Wave1.setSprite_explosion(explode_texture,explode);
+	Wave1.setSpritePresent(presentTexture, present);
 
 	
 	
@@ -92,6 +96,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		Wave1.movementFirstWave(chicken,explode);
 		
 		Wave1.draw_explosion(gameWindow, explode);
+		Wave1.drawPresent(gameWindow, present);
+		Wave1.setPositionPresent(present, 100, 100);
 
 		player.DrawShip(gameWindow);
 		player.DrawLives(gameWindow);

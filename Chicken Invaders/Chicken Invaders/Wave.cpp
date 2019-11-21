@@ -38,9 +38,6 @@ void Wave::movementFirstWave(Chicken chicken[5][8] , Chicken explosion)
 			if (!left_or_right_movement)
 			{
 
-				current_x += 8;
-				if (current_x > 1754)
-					left_or_right_movement = !left_or_right_movement;
 
 				if (current_x >= 1700) {
 					current_x -= 5;
@@ -88,5 +85,23 @@ void Wave::explosion_setPosition(Chicken& object, float x_POS, float y_POS)
 	object.sprite_explosion.setPosition(x_POS, y_POS);
 }
 
+void Wave::setSpritePresent(Texture& present, Chicken& dropPresent)
+{
+	present.loadFromFile("Sprites/Extras/gift.png");
+	dropPresent.setDropPresent.setTexture(present);
+	dropPresent.setDropPresent.setScale(.15, .15);
 }
+
+void Wave::drawPresent(RenderWindow& map, Chicken& dropPresent)
+{
+	dropPresent.dropPresent();
+	map.draw(dropPresent.setDropPresent);
+}
+
+void Wave::setPositionPresent(Chicken& newObject, float posX, float posY)
+{
+	newObject.setDropPresent.setPosition(posX, posY);
+}
+
+
 
