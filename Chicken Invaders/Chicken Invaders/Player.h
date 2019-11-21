@@ -35,6 +35,10 @@ public:
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
 
+	//Will change the rect of the spritesheet to simulate an animation
+	//It knows which rect to pick so that it renders the expected animation
+	void Animate();
+
 private:
 	sf::Vector2<float> m_initialPos;	//We store the initial position in order to reset the player when he dies
 	sf::Vector2<int> m_shipSize;		//Retain the pixels covered by the sprite; used for collision check
@@ -59,6 +63,11 @@ private:
 	sf::Sprite m_spriteLives[3];	//Sprites for the UI lives components
 	sf::Texture m_textureLives[3];	//Texture for the lives sprites
 
+	//The line and column indexes of the sprite to render, the animation has 4 rows of 10 sprites each
+	int m_animColFrame = 0;
+	int m_animRowFrame = 0;
+
+	//Score variables, I may put them the game manager later
 	long long m_score = 0;
 	sf::Font m_textFont; 
 	sf::Text m_scoreText;

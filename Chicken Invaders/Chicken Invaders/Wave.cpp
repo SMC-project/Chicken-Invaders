@@ -37,28 +37,23 @@ void Wave::movementFirstWave(Chicken chicken[5][8] , Chicken explosion)
 			float current_y = chicken[i][j].sprite_chicken.getPosition().y;
 			if (!left_or_right_movement)
 			{
-
-				current_x += 8;
-				if (current_x > 1754)
-					left_or_right_movement = !left_or_right_movement;
-
-				if (current_x >= 1700) {
+				if (current_x >= 1700) 
+				{
 					current_x -= 5;
 					left_or_right_movement = !left_or_right_movement;
 				}
 				else
 					current_x += 5;
-
 			}
 			else
 			{
-				if (current_x <= 20) {
+				if (current_x <= 20) 
+				{
 					current_x += 5;
 					left_or_right_movement = !left_or_right_movement;
 				}
 				else
 					current_x -= 5;
-
 			}
 			for (int i = 0; i < 5; i++)
 				for (int j = 0; j < 8; j++)
@@ -88,5 +83,5 @@ void Wave::explosion_setPosition(Chicken& object, float x_POS, float y_POS)
 	object.sprite_explosion.setPosition(x_POS, y_POS);
 }
 
-}
+
 

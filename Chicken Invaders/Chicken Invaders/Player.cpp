@@ -6,11 +6,15 @@ Player::Player(const std::string& spritePath, sf::Vector2<int> initialPos)
 	m_textureShip.loadFromFile(spritePath);
 	m_spriteShip.setTexture(m_textureShip);
 
+	m_spriteShip.setTextureRect(sf::IntRect(0, 0, 256, 256));
 	//Resize the sprite so that it doesn't cover too much space
 	m_spriteShip.setScale(0.4f, 0.4f);
 	//Retain how many pixels the ship covers because we will need it later for collision check
-	m_shipSize = sf::Vector2(static_cast<int>(m_spriteShip.getTexture()->getSize().x * m_spriteShip.getScale().x),
-		static_cast<int>(m_spriteShip.getTexture()->getSize().y * m_spriteShip.getScale().y));
+	//We use a sprite sheet that has more than one sprite so we divide it by how many sprotes there are on a row
+	//and on col to get a single sprite's size
+	sf::Vector2 texturePos(m_spriteShip.getTexture()->getSize().x / 10, m_spriteShip.getTexture()->getSize().y / 4);
+	m_shipSize = sf::Vector2(static_cast<int>(texturePos.x * m_spriteShip.getScale().x),
+		static_cast<int>(texturePos.y * m_spriteShip.getScale().y));
 
 	//Center the player on the screen
 	initialPos.x -= m_shipSize.x / 2;
@@ -60,9 +64,34 @@ void Player::MoveShip(int WINDOW_WIDTH)
 void Player::SetMovement(bool moveRight, float factor)
 {
 	if (moveRight)
+	{
 		m_movement.y = factor;
+		//If we pressed right arrow set the row of the sprite sheet to the right animation
+		m_animRowFrame = 2;
+	}
 	else
+	{
 		m_movement.x = -factor;
+		//Otherwise set it to left only if we aren't moving right (pressing both keys)
+		if(m_movement.y == 0)
+			m_animRowFrame = 3;
+	}
+
+	//If we released a key
+	if (factor == 0)
+	{
+		//If we reset both keys set the animation to idle
+		if(m_movement.x == 0 && m_movement.y == 0)
+			m_animRowFrame = 0;
+		else
+		{
+			//Otherwise change it to right or left animation
+			if (m_movement.x < 0)
+				m_animRowFrame = 3;
+			if (m_movement.y > 0)
+				m_animRowFrame = 2;
+		}
+	}
 }
 
 //Load lives sprites, scale the accordingly and set their position
@@ -136,4 +165,26 @@ void Player::DrawScore(sf::RenderWindow& window)
 {
 	m_scoreText.setString(std::to_string(m_score));
 	window.draw(m_scoreText);
+}
+
+//Will change the rect of the spritesheet to simulate an animation
+//It knows which rect to pick so that it renders the expected animation
+void Player::Animate()
+{
+	//Increase the index of the current animation
+	m_animColFrame++;
+	if (m_animRowFrame == 2 || m_animRowFrame == 3)
+	{
+		//If it is a move animation we want to stop at the 5th frame (starts from 0)
+		if (m_animColFrame > 4)
+			m_animColFrame = 4;
+	}
+	else
+	{
+		//Otherwise if it is idle toggle between entire row
+		if (m_animColFrame == 9)
+			m_animColFrame = 0;
+	}
+	//Select the rect to render
+	m_spriteShip.setTextureRect(sf::IntRect(m_animColFrame * 256, 256 * m_animRowFrame, 256, 256));
 }

@@ -35,11 +35,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 	Wave1.setSprite(enemy, chicken);
 	Wave1.setSprite_explosion(explode_texture,explode);
-
 	
-	
-	
-	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
+	Player player("Sprites/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
@@ -66,7 +63,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 					gameWindow.close();
 				if (eventHandler.key.code == Keyboard::Left)
 					player.SetMovement(false, 0);
-				if(eventHandler.key.code == Keyboard::Right)
+				if (eventHandler.key.code == Keyboard::Right)
 					player.SetMovement(true, 0);
 			}
 		}
@@ -93,6 +90,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		
 		Wave1.draw_explosion(gameWindow, explode);
 
+		player.Animate();
 		player.DrawShip(gameWindow);
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
