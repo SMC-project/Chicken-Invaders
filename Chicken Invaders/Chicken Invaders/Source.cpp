@@ -5,6 +5,7 @@
 #include"ScrollBackground.h"
 #include "Player.h"
 #include "Chicken.h"
+#include "Asteroid.h"
 using namespace sf;
 
 
@@ -26,15 +27,28 @@ int main()
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 {
+	
 	Wave Wave1;
 	Chicken chicken[5][8];
 	Chicken explode;
 
-	Texture enemy,explode_texture;
+	Asteroid asteroid;
+
+	Texture enemy,explode_texture,asteroid_texture;
 	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
+
+	Chicken present;
+
+	Texture enemy,explode_texture,presentTexture;
+	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");s
+
 	
+	//The plece where we are setiing Sprites
 	Wave1.setSprite(enemy, chicken);
 	Wave1.setSprite_explosion(explode_texture,explode);
+	Wave1.setSprite_asteroid(asteroid_texture, asteroid);
+
+	Wave1.setSpritePresent(presentTexture, present);
 	
 	Player player("Sprites/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
@@ -88,7 +102,14 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		Wave1.drawWave(gameWindow, chicken);
 		Wave1.movementFirstWave(chicken,explode);
 		
+		Wave1.explosion_setPosition(explode, 100, 100);
+		Wave1.asteroid_setPosition(asteroid, 100, 200);
 		Wave1.draw_explosion(gameWindow, explode);
+
+		Wave1.draw_asteroid(gameWindow, asteroid);
+
+		Wave1.drawPresent(gameWindow, present);
+		Wave1.setPositionPresent(present, 100, 100);
 
 		player.Animate();
 		player.DrawShip(gameWindow);

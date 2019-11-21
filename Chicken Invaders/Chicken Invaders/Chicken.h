@@ -1,6 +1,7 @@
 #pragma once
 #include "enemy.h"
 #include<SFML/Graphics.hpp>
+#include<iostream>
 
 #include<time.h>
 
@@ -14,20 +15,28 @@ public:
 	
 	Sprite sprite_chicken;
 	Sprite sprite_explosion;
-	float frame = 0;
+
+	Sprite sprite_asteroid;
+	Sprite setDropPresent;
 
 	float animSpeed = 0.03;
 
-	
-
 	int frameCount = 45;
-
+	float framePresent = 0;
 	float frame_explosion = 0;
+
 	int frameCount_explosion = 45;
+	int frameCountPresent = 45;
+
+	float animeSpeedPresent = 1;
 	float animSpeed_explosion = 1;
+
 public:
 	void Animation();
 	void explosion();
+
+	void dropPresent();
+
 
 };
 
