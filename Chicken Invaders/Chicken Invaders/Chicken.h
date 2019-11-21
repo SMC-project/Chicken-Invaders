@@ -20,13 +20,13 @@ public:
 	Sprite setDropPresent;
 
 	float animSpeed = 0.03;
-
+	float frame = 0;
 	int frameCount = 45;
 	float framePresent = 0;
 	float frame_explosion = 0;
 
 	int frameCount_explosion = 45;
-	int frameCountPresent = 45;
+	int frameCountPresent = 39;
 
 	float animeSpeedPresent = 1;
 	float animSpeed_explosion = 1;

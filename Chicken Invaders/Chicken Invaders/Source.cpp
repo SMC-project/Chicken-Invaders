@@ -34,13 +34,12 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 	Asteroid asteroid;
 
-	Texture enemy,explode_texture,asteroid_texture;
+	Texture enemy,explode_texture,asteroid_texture,presentTexture;
 	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
 
 	Chicken present;
 
-	Texture enemy,explode_texture,presentTexture;
-	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");s
+
 
 	
 	//The plece where we are setiing Sprites
