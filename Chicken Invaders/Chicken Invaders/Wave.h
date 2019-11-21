@@ -8,8 +8,9 @@ public:
 	void fisrtWavePosition(Chicken chicken[5][8], const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 	void drawWave(RenderWindow& map,Chicken chicken[5][8]);
 	void setSprite(Texture& enemy,Chicken chicken[5][8]);
-	void movementFirstWave(Chicken chicken[5][8]);
+	void movementFirstWave(Chicken chicken[5][8], Chicken explosion);
 	void setSprite_explosion(Texture& explosion,Chicken& chicken_explode);
 	void draw_explosion(RenderWindow& map, Chicken& explode);
+	void explosion_setPosition(Chicken& object,float x_POS,float y_POS);
 };
 

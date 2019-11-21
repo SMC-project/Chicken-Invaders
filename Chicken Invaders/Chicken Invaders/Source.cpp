@@ -36,8 +36,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave1.setSprite(enemy, chicken);
 	Wave1.setSprite_explosion(explode_texture,explode);
 
-	explode.sprite_explosion.setPosition(200, 100);
-	explode.sprite_explosion.setScale(.5, .5);
+	
+	
 	
 	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
@@ -89,7 +89,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
 		Wave1.drawWave(gameWindow, chicken);
-		Wave1.movementFirstWave(chicken);
+		Wave1.movementFirstWave(chicken,explode);
 		
 		Wave1.draw_explosion(gameWindow, explode);
 

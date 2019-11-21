@@ -27,7 +27,7 @@ void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
 		}
 }
 
-void Wave::movementFirstWave(Chicken chicken[5][8])
+void Wave::movementFirstWave(Chicken chicken[5][8] , Chicken explosion)
 {
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
@@ -37,7 +37,8 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 			if (left_or_right_movement)
 			{
 				current_x += 8;
-				if (current_x > 1754) left_or_right_movement = !left_or_right_movement;
+				if (current_x > 1754)
+					left_or_right_movement = !left_or_right_movement;
 			}
 			else
 			{
@@ -56,7 +57,7 @@ void Wave::setSprite_explosion(Texture& explosion, Chicken& chicken_explode)
 {
 	explosion.loadFromFile("Sprites/Enemy/Normal Chicken/Explosion/type_C.png");
 	chicken_explode.sprite_explosion.setTexture(explosion);
-	chicken_explode.Animation();
+	chicken_explode.sprite_explosion.setScale(.5, .5);
 }
 
 void Wave::draw_explosion(RenderWindow& map, Chicken& explode)
@@ -64,4 +65,9 @@ void Wave::draw_explosion(RenderWindow& map, Chicken& explode)
 	explode.explosion();
 	map.draw(explode.sprite_explosion);
 
+}
+
+void Wave::explosion_setPosition(Chicken& object, float x_POS, float y_POS)
+{
+	object.sprite_explosion.setPosition(x_POS, y_POS);
 }
