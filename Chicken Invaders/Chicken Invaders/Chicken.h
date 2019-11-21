@@ -15,7 +15,11 @@ public:
 	Sprite sprite_chicken;
 	Sprite sprite_explosion;
 	float frame = 0;
+
 	float animSpeed = 0.03;
+
+	float animSpeed = 0.05;
+
 	int frameCount = 45;
 
 	float frame_explosion = 0;
