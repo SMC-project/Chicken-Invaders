@@ -37,41 +37,26 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Explosion explode;
 	Asteroid asteroid;
 	Present present;
-	Texture enemy,explode_texture,asteroid_texture,presentTexture;
-	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
 
-	Chicken explode;
-	Present present(500,500);
-
-	Asteroid asteroid;
 
 	//Texture declaration
 	Texture enemy,explode_texture,asteroid_texture,presentTexture;
 	
 	//The plece where we are setting Sprites
 	Wave1.setSprite(enemy, chicken);
-
 	explode.setSprite_explosion(explode_texture,explode);
-	
-
 	asteroid.setSprite_asteroid(asteroid_texture, asteroid);
-
 	present.setSpritePresent(presentTexture, present);
 
 	
 	
 	
-	Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
-	Wave1.setSprite_explosion(explode_texture,explode);
-	Wave1.setSprite_asteroid(asteroid_texture, asteroid);
-
-	present.setSpritePresent(presentTexture, present);
+	//Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	Player player("Sprites/ship.png", Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
-	present.setPosition(present);
-	//present.movePresent(present);
+
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
 
 	//Vector that will hold all the eggs on the screen, when the exit the screen or collide we take them out.
@@ -158,11 +143,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		present.drawPresent(gameWindow, present);
 		present.setPositionPresent(present, 100, 100);
 
-		Wave1.movementFirstWave(chicken,explode);
-		Wave1.explosion_setPosition(explode, 100, 100);
-		Wave1.asteroid_setPosition(asteroid, 100, 200);
-		Wave1.draw_explosion(gameWindow, explode);
-		Wave1.draw_asteroid(gameWindow, asteroid);
+		Wave1.movementFirstWave(chicken);
+	
 
 		present.drawPresent(gameWindow, present);
 

@@ -11,7 +11,7 @@ private:
 	Sprite setDropPresent;
 	float framePresent = 0;
 	int frameCountPresent = 45;
-	float animSpeed_Present = 1;
+	float animSpeed_Present = .8;
 
 public:
 	void dropPresent();

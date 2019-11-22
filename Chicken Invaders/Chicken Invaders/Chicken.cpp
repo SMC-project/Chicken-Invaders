@@ -12,12 +12,4 @@ void Chicken::Animation()
 	
 }
 
-void Chicken::explosion()
-{
-	frame_explosion += animSpeed_explosion;
-	if (frame_explosion > frameCount_explosion) frame_explosion = 0;
-	sprite_explosion.setTextureRect(IntRect(int(frame_explosion) * 256, 0, 256, 256));
-}
-
-
 
