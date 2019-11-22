@@ -1,12 +1,14 @@
 #include <iostream>
 #include<SFML/Graphics.hpp>
 #include<Windows.h>
+
 #include"Wave.h"
 #include"ScrollBackground.h"
 #include "Player.h"
 #include "Chicken.h"
 #include "Asteroid.h"
 #include "Present.h"
+#include "Egg.h"
 using namespace sf;
 
 
@@ -38,12 +40,6 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 	//Texture declaration
 	Texture enemy,explode_texture,asteroid_texture,presentTexture;
-
-
-	
-
-
-
 	
 	//The plece where we are setting Sprites
 	Wave1.setSprite(enemy, chicken);
@@ -58,6 +54,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	present.setPosition(present);
 	//present.movePresent(present);
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
+
+	Egg testEgg("Sprites/Weapons/egg.png", sf::Vector2i(gameWindow.getSize().x / 2, 25));
 
 	//Game widow
 	while (gameWindow.isOpen())
@@ -100,6 +98,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		
 
 		#pragma region DrawEverything
+
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
 		Wave1.drawWave(gameWindow, chicken);
@@ -113,7 +112,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 
 		present.drawPresent(gameWindow, present);
-		
+		testEgg.DrawEgg(gameWindow);
 
 		
 
