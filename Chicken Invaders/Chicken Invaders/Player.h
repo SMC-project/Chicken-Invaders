@@ -5,7 +5,7 @@ class Player
 {
 public:
 	//Load the sprite of the player, set and retain it's initial pos in the center of the screen, calculate pixelSize
-	Player(const std::string& spritePath, sf::Vector2<int> initialPos);
+	Player(const std::string& spritePath, sf::Vector2f initialPos);
 
 	//Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
 	void DrawShip(sf::RenderWindow& window);
@@ -31,13 +31,19 @@ public:
 
 	//Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
 	//Returns true if we collided with something
-	bool CheckCollision(sf::Vector2<float> upperLeft, sf::Vector2<int> lowerRight);
+	bool CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size);
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
 
+	//Will change the rect of the spritesheet to simulate an animation
+	//It knows which rect to pick so that it renders the expected animation
+	void Animate();
+
+	sf::Vector2f GetPosition();
+
 private:
-	sf::Vector2<float> m_initialPos;	//We store the initial position in order to reset the player when he dies
-	sf::Vector2<int> m_shipSize;		//Retain the pixels covered by the sprite; used for collision check
+	sf::Vector2f m_initialPos;	//We store the initial position in order to reset the player when he dies
+	sf::Vector2f m_shipSize;		//Retain the pixels covered by the sprite; used for collision check
 	sf::Sprite m_spriteShip;			//The sprite of the ship
 	sf::Texture m_textureShip;			//The texture that is used to render the sprite
 
@@ -53,12 +59,17 @@ private:
 	*	By implementing it as a vector, when we release a key it will set only one position in the vector to 0, not influencing the other
 	* making movement smooth without interruptions
 	*/
-	sf::Vector2<float> m_movement;
+	sf::Vector2f m_movement;
 
 	int m_lives = 3;				//Number a lives the player has; it is decremented when he dies
 	sf::Sprite m_spriteLives[3];	//Sprites for the UI lives components
 	sf::Texture m_textureLives[3];	//Texture for the lives sprites
 
+	//The line and column indexes of the sprite to render, the animation has 4 rows of 10 sprites each
+	int m_animColFrame = 0;
+	int m_animRowFrame = 0;
+
+	//Score variables, I may put them the game manager later
 	long long m_score = 0;
 	sf::Font m_textFont; 
 	sf::Text m_scoreText;

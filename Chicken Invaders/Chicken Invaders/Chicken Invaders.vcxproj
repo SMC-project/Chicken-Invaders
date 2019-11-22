@@ -22,6 +22,7 @@
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Chicken.cpp" />
+    <ClCompile Include="Egg.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Chicken.h" />
+    <ClInclude Include="Egg.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Player.h" />

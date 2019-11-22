@@ -1,5 +1,6 @@
 #pragma once
 #include<SFML/Graphics.hpp>
+
 #include<iostream>
 #include<time.h>
 
@@ -18,5 +19,5 @@ public:
 	void setSpritePresent(Texture& present, Present& dropPresent);
 	void drawPresent(RenderWindow& map, Present& dropPresent);
 	void setPositionPresent(Present& newObject, float posX, float posY);
-};
 
+};
