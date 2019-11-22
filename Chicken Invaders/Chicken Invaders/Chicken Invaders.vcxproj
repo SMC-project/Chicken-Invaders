@@ -23,7 +23,9 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Chicken.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Present.cpp" />
     <ClCompile Include="ScrollBackground.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Wave.cpp" />
@@ -33,7 +35,9 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Chicken.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Present.h" />
     <ClInclude Include="ScrollBackground.h" />
     <ClInclude Include="Wave.h" />
   </ItemGroup>

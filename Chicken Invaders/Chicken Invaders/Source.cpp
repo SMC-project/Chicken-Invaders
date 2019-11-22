@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "Chicken.h"
 #include "Asteroid.h"
+#include"Present.h"
+#include"Explosion.h"
 using namespace sf;
 
 
@@ -30,26 +32,24 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 	Wave Wave1;
 	Chicken chicken[5][8];
-	Chicken explode;
-
+	Explosion explode;
 	Asteroid asteroid;
-
-	Texture enemy,explode_texture,asteroid_texture;
+	Present present;
+	Texture enemy,explode_texture,asteroid_texture,presentTexture;
 	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
 
-	Chicken present;
 
-	Texture enemy,explode_texture,presentTexture;
-	//enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");s
+	
 
 	
 	//The plece where we are setiing Sprites
 	Wave1.setSprite(enemy, chicken);
-	Wave1.setSprite_explosion(explode_texture,explode);
+	explode.setSprite_explosion(explode_texture,explode);
+	
 
-	Wave1.setSprite_asteroid(asteroid_texture, asteroid);
+	asteroid.setSprite_asteroid(asteroid_texture, asteroid);
 
-	Wave1.setSpritePresent(presentTexture, present);
+	present.setSpritePresent(presentTexture, present);
 
 	
 	
@@ -104,16 +104,16 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
 		Wave1.drawWave(gameWindow, chicken);
-		Wave1.movementFirstWave(chicken,explode);
+		Wave1.movementFirstWave(chicken);
 		
-		Wave1.explosion_setPosition(explode, 100, 100);
-		Wave1.asteroid_setPosition(asteroid, 100, 200);
-		Wave1.draw_explosion(gameWindow, explode);
+		explode.explosion_setPosition(explode, 100, 100);
+		explode.draw_explosion(gameWindow, explode);
 
-		Wave1.draw_asteroid(gameWindow, asteroid);
+		asteroid.asteroid_setPosition(asteroid, 100, 200);
+		asteroid.draw_asteroid(gameWindow, asteroid);
 
-		Wave1.drawPresent(gameWindow, present);
-		Wave1.setPositionPresent(present, 100, 100);
+		present.drawPresent(gameWindow, present);
+		present.setPositionPresent(present, 100, 100);
 
 
 		player.DrawShip(gameWindow);
