@@ -1,10 +1,12 @@
 #pragma once
 #include"Chicken.h"
 #include "Asteroid.h"
+#include "Present.h"
 class Wave
 {
 public:
 	Chicken chicken[5][8];
+
 	bool left_or_right_movement = true;
 	void fisrtWavePosition(Chicken chicken[5][8], const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 	void drawWave(RenderWindow& map,Chicken chicken[5][8]);

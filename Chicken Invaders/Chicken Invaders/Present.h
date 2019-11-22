@@ -8,12 +8,12 @@ using namespace sf;
 class Present
 {
 public:
-	int mCoordX;
-	int mCoordY;
+	float mCoordX;
+	float mCoordY;
 	Texture presentTexture;
 	Present(int coordX, int xoordY);
 
-	Sprite present;
+	Sprite presentSprite;
 
 	float framePresent = 0;
 	int frameCountPresent = 39;
@@ -23,9 +23,9 @@ public:
 	
 	void setSpritePresent(Texture& presentTexture, Present& chickenPresent);
 	void drawPresent(RenderWindow& map, Present& chickenPresent);
-	void setPosition(Present& chickenPresent, float x, float y);
-	void dropPresent();
-	
+	void setPosition(Present& chickenPresent);
+	void spawnPresent();
+	void movePresent(Present& chickenPresent);
 
 
 

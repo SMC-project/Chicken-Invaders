@@ -32,7 +32,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave Wave1;
 	Chicken chicken[5][8];
 	Chicken explode;
-	Present present(100,100);
+	Present present(500,500);
 
 	Asteroid asteroid;
 
@@ -55,6 +55,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
+	present.setPosition(present);
+	//present.movePresent(present);
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
 
 	//Game widow
@@ -111,8 +113,9 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 
 		present.drawPresent(gameWindow, present);
+		
 
-		present.setPosition(present, 500, 500);
+		
 
 		player.Animate();
 		player.DrawShip(gameWindow);
