@@ -23,13 +23,7 @@ void Chicken::explosion()
 
 
 
-void Chicken::dropPresent()
-{
-	framePresent += animeSpeedPresent;
-	if (framePresent > frameCountPresent) framePresent = 0;
-	setDropPresent.setTextureRect(IntRect(int(framePresent) * 256, 0, 256, 256));
 
-}
 
 
 

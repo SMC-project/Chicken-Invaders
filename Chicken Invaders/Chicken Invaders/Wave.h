@@ -19,9 +19,6 @@ public:
 	void draw_asteroid(RenderWindow& map, Asteroid& asteroid_object);
 	void asteroid_setPosition(Asteroid& asteroid_object, float x_POS, float y_POS);
 
-	void setSpritePresent(Texture& present, Chicken& dropPresent);
-	void drawPresent(RenderWindow& map, Chicken& dropPresent);
-	void setPositionPresent(Chicken& newObject, float posX, float posY);
 
 };
 

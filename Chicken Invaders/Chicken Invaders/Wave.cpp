@@ -102,20 +102,4 @@ void Wave::asteroid_setPosition(Asteroid& asteroid_object, float x_POS, float y_
 	asteroid_object.sprite_asteroid.setRotation(-45);
 }
 
-void Wave::setSpritePresent(Texture& present, Chicken& dropPresent)
-{
-	present.loadFromFile("Sprites/Extras/gift.png");
-	dropPresent.setDropPresent.setTexture(present);
-	dropPresent.setDropPresent.setScale(.15, .15);
-}
 
-void Wave::drawPresent(RenderWindow& map, Chicken& dropPresent)
-{
-	dropPresent.dropPresent();
-	map.draw(dropPresent.setDropPresent);
-}
-
-void Wave::setPositionPresent(Chicken& newObject, float posX, float posY)
-{
-	newObject.setDropPresent.setPosition(posX, posY);
-}
