@@ -47,7 +47,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave1.setSprite_asteroid(asteroid_texture, asteroid);
 
 	present.setSpritePresent(presentTexture, present);
-	Player player("Sprites/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
+	Player player("Sprites/ship.png", Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
@@ -55,7 +55,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	//present.movePresent(present);
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
 
-	Egg testEgg("Sprites/Weapons/egg.png", sf::Vector2i(gameWindow.getSize().x / 2, 25));
+	//Vector that will hold all the eggs on the screen, when the exit the screen or collide we take them out.
+	std::vector<Egg> eggs;
 
 	//Game widow
 	while (gameWindow.isOpen())
@@ -71,6 +72,14 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 					player.SetMovement(false, 1);
 				if (eventHandler.key.code == Keyboard::Right)
 					player.SetMovement(true, 1);
+				//This is only for testing purposes, delete it after implementing chickens to shoot eggs
+				if (eventHandler.key.code == Keyboard::R)
+				{
+					for (int index = 0; index < 5; index++)
+					{
+						eggs.push_back(std::move(Egg("Sprites/Weapons/egg.png", sf::Vector2f(320 * (index + 1), 50 * (index + 1)))));
+					}
+				}
 			}
 			if (eventHandler.type == Event::KeyReleased)
 			{
@@ -88,10 +97,25 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		#pragma region Movement
 
 		player.MoveShip(WINDOW_WIDTH);
+		//Move each egg from the eggs vector
+		for (int index = 0; index < eggs.size(); index++)
+			if (eggs[index].FallDown(WINDOW_HEIGHT))
+				eggs.erase(eggs.begin() + index);
+
 
 		#pragma endregion
 
 		#pragma region Collisions
+
+		//Check if any of the eggs collides with the ship
+		for(int index = 0; index < eggs.size(); index++)
+			if (player.CheckCollision(eggs[index].GetPosition(), eggs[index].GetSize()))
+			{
+				//If so erase the egg and kill the player
+				eggs.erase(eggs.begin() + index);
+				player.Die();
+			}
+
 		#pragma endregion
 
 		gameWindow.clear();
@@ -101,20 +125,19 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
+
 		Wave1.drawWave(gameWindow, chicken);
 		Wave1.movementFirstWave(chicken,explode);
-		
 		Wave1.explosion_setPosition(explode, 100, 100);
 		Wave1.asteroid_setPosition(asteroid, 100, 200);
 		Wave1.draw_explosion(gameWindow, explode);
-
 		Wave1.draw_asteroid(gameWindow, asteroid);
 
-
 		present.drawPresent(gameWindow, present);
-		testEgg.DrawEgg(gameWindow);
 
-		
+		//Draw all the eggs
+		for (int index = 0; index < eggs.size(); index++)
+			eggs[index].DrawEgg(gameWindow);
 
 		player.Animate();
 		player.DrawShip(gameWindow);
@@ -126,6 +149,3 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		gameWindow.display();
 	}
 }
-
-
-

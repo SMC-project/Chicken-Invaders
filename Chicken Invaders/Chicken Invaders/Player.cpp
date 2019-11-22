@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(const std::string& spritePath, sf::Vector2<int> initialPos)
+Player::Player(const std::string& spritePath, sf::Vector2f initialPos)
 {
 	//Load the texture and set the sprite
 	m_textureShip.loadFromFile(spritePath);
@@ -13,8 +13,7 @@ Player::Player(const std::string& spritePath, sf::Vector2<int> initialPos)
 	//We use a sprite sheet that has more than one sprite so we divide it by how many sprotes there are on a row
 	//and on col to get a single sprite's size
 	sf::Vector2 texturePos(m_spriteShip.getTexture()->getSize().x / 10, m_spriteShip.getTexture()->getSize().y / 4);
-	m_shipSize = sf::Vector2(static_cast<int>(texturePos.x * m_spriteShip.getScale().x),
-		static_cast<int>(texturePos.y * m_spriteShip.getScale().y));
+	m_shipSize = sf::Vector2f(texturePos.x * m_spriteShip.getScale().x, texturePos.y * m_spriteShip.getScale().y);
 
 	//Center the player on the screen
 	initialPos.x -= m_shipSize.x / 2;
@@ -114,14 +113,14 @@ void Player::DrawLives(sf::RenderWindow& gameWindow)
 }
 
 //Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
-bool Player::CheckCollision(sf::Vector2<float> upperLeft, sf::Vector2<int> lowerRight)
+bool Player::CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size)
 {
 	//Check if the collision object is too far on the right or on the left of our sprite, if so we can't collide
-	if (m_spriteShip.getPosition().x > lowerRight.x || upperLeft.x > m_shipSize.x)
+	if (m_spriteShip.getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_spriteShip.getPosition().x + m_shipSize.x))
 		return false;
 
 	//Check if the collision object is higher or lower than our sprite, if so we can't collide
-	if (m_spriteShip.getPosition().y < lowerRight.y || upperLeft.y < m_shipSize.y)
+	if (m_spriteShip.getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_spriteShip.getPosition().y + m_shipSize.y))
 		return false;
 
 	//If it is not outside our sprite then we are overlapping with it
@@ -188,3 +187,5 @@ void Player::Animate()
 	//Select the rect to render
 	m_spriteShip.setTextureRect(sf::IntRect(m_animColFrame * 256, 256 * m_animRowFrame, 256, 256));
 }
+
+sf::Vector2f Player::GetPosition() { return m_spriteShip.getPosition(); }
