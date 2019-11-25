@@ -10,6 +10,7 @@
 #include"Explosion.h"
 #include "Present.h"
 #include "Egg.h"
+#include"Bullet.h"
 using namespace sf;
 
 
@@ -37,7 +38,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Explosion explode;
 	Asteroid asteroid;
 	Present present;
-
+	
 
 	//Texture declaration
 	Texture enemy,explode_texture,asteroid_texture,presentTexture;
@@ -51,17 +52,20 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 	
 	
+	
 	//Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	Player player("Sprites/ship.png", Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
-
+	
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
-
+	//Gloantele din joc
+	std::vector<Bullet> GameBullets;
+	//Contor folosit pentru teste
+	int Contor = 0;
 	//Vector that will hold all the eggs on the screen, when the exit the screen or collide we take them out.
 	std::vector<Egg> eggs;
-
 	//Game widow
 	while (gameWindow.isOpen())
 	{
@@ -84,6 +88,23 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 						eggs.push_back(std::move(Egg("Sprites/Weapons/egg.png", sf::Vector2f(320 * (index + 1), 50 * (index + 1)))));
 					}
 				}
+				//Funtie folosita pentru teste
+				if (Keyboard::isKeyPressed(Keyboard::Num1))
+				{
+					Contor++;
+					if (Contor > 6)
+						Contor = 7;
+				}
+				if (Keyboard::isKeyPressed(Keyboard::Space))
+				{
+					Bullet x(player.GetPosition().x, player.GetPosition().y);
+					for (int i = 0; i < Contor; i++)
+					{
+						x.Present_Collected();
+					}
+					GameBullets.push_back(std::move(x));
+				}
+				
 			}
 			if (eventHandler.type == Event::KeyReleased)
 			{
@@ -148,7 +169,13 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 		present.drawPresent(gameWindow, present);
 
-
+		for (int i = 0; i < GameBullets.size(); i++)
+		{ 
+			GameBullets[i].Shot(gameWindow);
+		
+		if (GameBullets[i].CheckIfBulletIsOnTheScreen(WINDOW_HEIGHT)==true)
+			GameBullets.pop_back();
+		}
 		//Draw all the eggs
 		for (int index = 0; index < eggs.size(); index++)
 			eggs[index].DrawEgg(gameWindow);
