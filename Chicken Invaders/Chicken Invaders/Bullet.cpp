@@ -35,7 +35,7 @@ void Bullet::LevelPower(Level currentLevel)
 		std::get<2>(m_bullets[0]) = false;
 		std::get<2>(m_bullets[1]) = true;
 		std::get<2>(m_bullets[2]) = false;
-		std::get<2>(m_bullets[3]) = true;
+		std::get<2>(m_bullets[3]) = true; 	m_bulletSprites[3].move(0, 20);
 		std::get<2>(m_bullets[4]) = false;
 		std::get<2>(m_bullets[5]) = true;
 		std::get<2>(m_bullets[6]) = false;
@@ -98,11 +98,21 @@ Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y)
 	m_bulletLevel = Level::Level_0;
 
 	std::get<2>(m_bullets[3]) = true;
+	//Setam pozitia fiecarui glont;
 	for (int i = 0; i < 7; i++)
 	{
-		//std::get<2>(m_bullets[i]) = true;
-		m_bulletSprites[i].setPosition(shipCenterPosition_x - 1 + i * 15, shipCenterPosition_y - 30);
+		m_bulletSprites[i].setPosition(shipCenterPosition_x - 7 + i * 17, shipCenterPosition_y - 10);
 	}
+	//A fost nevoie de cateva ajustari legate de pozitia gloantelor pentru a se intializa mai bine:
+	m_bulletSprites[0].move(-20, 15);
+	m_bulletSprites[1].move(0,  5);
+	m_bulletSprites[6].move(20, 10);
+	m_bulletSprites[3].move(0, -20);
+	//Setam rotatoa fiecarui glont;
+	m_bulletSprites[0].setRotation(-30);
+	m_bulletSprites[6].setRotation(+30);
+	m_bulletSprites[1].setRotation(-20);
+	m_bulletSprites[5].setRotation(+20);
 }
 
 Bullet::Bullet(Bullet&& other) noexcept
@@ -141,9 +151,18 @@ void Bullet::Present_Collected()
 
 void Bullet::BulletsPosition_Update(const int speed)
 {
-	for (int i = 0; i < m_bullets.size(); i++)	
+	for (int i = 2; i < m_bullets.size()-2; i++)	
 		if (std::get<2>(m_bullets[i]) == true)
 					m_bulletSprites[i].move(0, speed);
+	if (std::get<2>(m_bullets[0]) == true)
+		m_bulletSprites[0].move(-3, speed);
+	if (std::get<2>(m_bullets[1]) == true)
+		m_bulletSprites[1].move(-2, speed);
+	if (std::get<2>(m_bullets[5]) == true)
+		m_bulletSprites[5].move(2, speed);
+	if (std::get<2>(m_bullets[6]) == true)
+		m_bulletSprites[6].move(3, speed);
+
 
 }
 
@@ -157,8 +176,11 @@ bool Bullet::CheckIfBulletIsOnTheScreen(const int screenHeight)
 
 void Bullet::ResetBulletLevel()
 {
+	if (m_bulletLevel >= Level::Level_3)
+		m_bulletSprites[3].move(0, -20);
 	m_bulletLevel = Level::Level_0;
 	LevelPower(m_bulletLevel);
+	
 }
 
 void Bullet::Shot(sf::RenderWindow& gameWindow)

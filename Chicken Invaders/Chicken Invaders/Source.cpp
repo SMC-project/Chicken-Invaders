@@ -139,6 +139,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 				//If so erase the egg and kill the player
 				eggs.erase(eggs.begin() + index);
 				player.Die();
+				Contor = 0;
 			}
 
 		#pragma endregion
@@ -173,8 +174,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		{ 
 			GameBullets[i].Shot(gameWindow);
 		
-		if (GameBullets[i].CheckIfBulletIsOnTheScreen(WINDOW_HEIGHT)==true)
-			GameBullets.pop_back();
+			if (GameBullets[i].CheckIfBulletIsOnTheScreen(WINDOW_HEIGHT) == true)
+				GameBullets.erase(GameBullets.begin() + i);
 		}
 		//Draw all the eggs
 		for (int index = 0; index < eggs.size(); index++)

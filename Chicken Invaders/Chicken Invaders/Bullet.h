@@ -10,7 +10,7 @@ private:
 	Level m_bulletLevel;// Aceasta variabila memoreaza cate gloante vor fi initializate de nava
 	std::vector <std::tuple<int, int, bool>> m_bullets; // Salveaza pozitia navei si ce gloante o sa lanseze in funtie de level
 	std::vector<sf::Sprite> m_bulletSprites; //Imaginea gloantelor
-	const int m_bulletSpeed=-10; // Viteza de deplasare a gloantelor
+	const int m_bulletSpeed=-17; // Viteza de deplasare a gloantelor
 	sf::Texture m_bulletTexture;
 
 protected:
