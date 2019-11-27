@@ -12,6 +12,7 @@
 #include"Explosion.h"
 #include "Present.h"
 #include "Egg.h"
+#include"Bullet.h"
 using namespace sf;
 
 
@@ -41,12 +42,14 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Explosion explode;
 	Asteroid asteroid[5][5];
 	Present present;
+
 	wave_number.wave_number = 1;
 
 	//bg music
 	Music background_music;
 	background_music.openFromFile("Music/c.ogg");
 	background_music.play();
+
 
 	
 	//Texture declaration
@@ -73,15 +76,22 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 	
 	
+	
+	//Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	Player player("Sprites/ship.png", Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
+	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
+	
 
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
-
+	//Gloantele din joc
+	std::vector<Bullet> GameBullets;
+	//Contor folosit pentru teste
+	int Contor = 0;
 	//Vector that will hold all the eggs on the screen, when the exit the screen or collide we take them out.
 	std::vector<Egg> eggs;
-	
+
 	//Game widow
 	while (gameWindow.isOpen())
 	{
@@ -104,6 +114,23 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 						eggs.push_back(std::move(Egg("Sprites/Weapons/egg.png", sf::Vector2f(320 * (index + 1), 50 * (index + 1)))));
 					}
 				}
+				//Funtie folosita pentru teste
+				if (Keyboard::isKeyPressed(Keyboard::Num1))
+				{
+					Contor++;
+					if (Contor > 6)
+						Contor = 7;
+				}
+				if (Keyboard::isKeyPressed(Keyboard::Space))
+				{
+					Bullet x(player.GetPosition().x, player.GetPosition().y);
+					for (int i = 0; i < Contor; i++)
+					{
+						x.Present_Collected();
+					}
+					GameBullets.push_back(std::move(x));
+				}
+				
 			}
 			
 			if (eventHandler.type == Event::KeyReleased)
@@ -139,6 +166,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 				//If so erase the egg and kill the player
 				eggs.erase(eggs.begin() + index);
 				player.Die();
+				Contor = 0;
 			}
 
 		#pragma endregion
@@ -168,7 +196,13 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 			Wave3.thirdWave_Movement(asteroid);
 		}
 
-
+		for (int i = 0; i < GameBullets.size(); i++)
+		{ 
+			GameBullets[i].Shot(gameWindow);
+		
+			if (GameBullets[i].CheckIfBulletIsOnTheScreen(WINDOW_HEIGHT) == true)
+				GameBullets.erase(GameBullets.begin() + i);
+		}
 		//Draw all the eggs
 		for (int index = 0; index < eggs.size(); index++)
 			eggs[index].DrawEgg(gameWindow);
