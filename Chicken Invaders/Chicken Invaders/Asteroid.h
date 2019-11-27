@@ -7,12 +7,12 @@ class Asteroid
 {
 private:
 	
-	Sprite sprite_asteroid;
 	float frame_asteroid1 = 0;
 	int framecount_asteroid1 = 29;
-	float animSpeed_Asteroid1 = 1;
+	float animSpeed_Asteroid1 = .2;
 
 public:
+	Sprite sprite_asteroid;
 	void Asteroid_animation();
 
 	//functions of the asteroids

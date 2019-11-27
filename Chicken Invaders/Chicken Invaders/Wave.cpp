@@ -27,7 +27,7 @@ void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
 		}
 }
 
-void Wave::movementFirstWave(Chicken chicken[5][8])
+void Wave::movementFirstWave(Chicken chicken[5][8],Wave& wave3)
 {
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
@@ -51,6 +51,8 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 				{
 					current_x += 5;
 					left_or_right_movement = !left_or_right_movement;
+					wave3.wave_number = 3;
+					
 				}
 				else
 					current_x -= 5;
@@ -63,5 +65,60 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 		}
 
 }
+
+void Wave::drawWave_asteroid(RenderWindow& map, Asteroid asteroidVect[5][5])
+{
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 5; j++)
+			map.draw(asteroidVect[i][j].sprite_asteroid);
+}
+
+void Wave::setSprite_asteroid1(Texture& asteroid, Asteroid asteroidVect[5][5])
+{
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 5; j++)
+		{
+			asteroidVect[i][j].setSprite_asteroid(asteroid, asteroidVect[i][j]);
+		}
+}
+
+void Wave::thirdWave_Position(Asteroid asteroidVect[5][5])
+{
+	srand(time(NULL));
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 5; j++)
+		{
+			
+			random_number = rand() % 900;
+			random_number = -random_number;
+			int current_x = random_number;
+
+			random_number = rand() % 900;
+			random_number = -random_number;
+			int current_y = random_number;
+
+			asteroidVect[i][j].asteroid_setPosition(asteroidVect[i][j], current_x, current_y);
+		}
+}
+
+void Wave::thirdWave_Movement(Asteroid asteroidVect[5][5])
+{
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 5; j++)
+		{
+			float current_x = asteroidVect[i][j].sprite_asteroid.getPosition().x;
+			float current_y = asteroidVect[i][j].sprite_asteroid.getPosition().y;
+			current_x += 10;
+			current_y += 10;
+
+			for (int i = 0; i < 3; i++)
+				for (int j = 0; j < 5; j++)
+					asteroidVect[i][j].Asteroid_animation();
+
+			asteroidVect[i][j].sprite_asteroid.setPosition(current_x, current_y);
+		}
+
+}
+
 
 

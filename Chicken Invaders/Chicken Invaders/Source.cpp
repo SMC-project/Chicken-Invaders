@@ -1,4 +1,6 @@
 #include <iostream>
+#include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
 #include<SFML/Graphics.hpp>
 #include<Windows.h>
 
@@ -33,21 +35,43 @@ int main()
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 {
 	//Class member decalration
+	Wave wave_number;
 	Wave Wave1;
+	Wave Wave3;
 	Chicken chicken[5][8];
 	Explosion explode;
-	Asteroid asteroid;
+	Asteroid asteroid[5][5];
 	Present present;
-	
 
+	wave_number.wave_number = 1;
+
+	//bg music
+	Music background_music;
+	background_music.openFromFile("Music/c.ogg");
+	background_music.play();
+
+
+	
 	//Texture declaration
 	Texture enemy,explode_texture,asteroid_texture,presentTexture;
 	
 	//The plece where we are setting Sprites
-	Wave1.setSprite(enemy, chicken);
-	explode.setSprite_explosion(explode_texture,explode);
-	asteroid.setSprite_asteroid(asteroid_texture, asteroid);
-	present.setSpritePresent(presentTexture, present);
+	if (wave_number.wave_number == 1)
+	{
+		Wave1.setSprite(enemy, chicken);
+		Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
+
+		explode.setSprite_explosion(explode_texture, explode);
+
+		present.setSpritePresent(presentTexture, present);
+
+	}
+	else if (wave_number.wave_number == 3)
+	{
+	}
+
+		Wave3.setSprite_asteroid1(asteroid_texture,asteroid);
+		Wave3.thirdWave_Position(asteroid);
 
 	
 	
@@ -59,6 +83,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
 	Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
 	
+
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
 	//Gloantele din joc
 	std::vector<Bullet> GameBullets;
@@ -66,6 +91,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	int Contor = 0;
 	//Vector that will hold all the eggs on the screen, when the exit the screen or collide we take them out.
 	std::vector<Egg> eggs;
+
 	//Game widow
 	while (gameWindow.isOpen())
 	{
@@ -106,6 +132,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 				}
 				
 			}
+			
 			if (eventHandler.type == Event::KeyReleased)
 			{
 				if (eventHandler.key.code == Keyboard::Escape)
@@ -148,27 +175,26 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		
 
 		#pragma region DrawEverything
-
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
+		if (wave_number.wave_number == 1)
+		{
+			Wave1.drawWave(gameWindow, chicken);
+			Wave1.movementFirstWave(chicken,wave_number);
 
-		Wave1.drawWave(gameWindow, chicken);
+			explode.explosion_setPosition(explode, 100, 100);
+			explode.draw_explosion(gameWindow, explode);
 
-		Wave1.movementFirstWave(chicken);
-		
-		explode.explosion_setPosition(explode, 100, 100);
-		explode.draw_explosion(gameWindow, explode);
+			present.drawPresent(gameWindow, present);
+			present.setPositionPresent(present, 100, 100);
+			present.drawPresent(gameWindow, present);
 
-		asteroid.asteroid_setPosition(asteroid, 100, 200);
-		asteroid.draw_asteroid(gameWindow, asteroid);
-
-		present.drawPresent(gameWindow, present);
-		present.setPositionPresent(present, 100, 100);
-
-		Wave1.movementFirstWave(chicken);
-	
-
-		present.drawPresent(gameWindow, present);
+		}
+		else if (wave_number.wave_number == 3)
+		{	
+			Wave3.drawWave_asteroid(gameWindow, asteroid);
+			Wave3.thirdWave_Movement(asteroid);
+		}
 
 		for (int i = 0; i < GameBullets.size(); i++)
 		{ 
