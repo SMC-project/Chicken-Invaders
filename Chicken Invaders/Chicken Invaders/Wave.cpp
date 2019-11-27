@@ -39,21 +39,21 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 			{
 				if (current_x >= 1700) 
 				{
-					current_x -= 5;
+					current_x -= 3;
 					left_or_right_movement = !left_or_right_movement;
 				}
 				else
-					current_x += 5;
+					current_x += 3;
 			}
 			else
 			{
 				if (current_x <= 20) 
 				{
-					current_x += 5;
+					current_x += 3;
 					left_or_right_movement = !left_or_right_movement;
 				}
 				else
-					current_x -= 5;
+					current_x -= 3;
 			}
 			for (int i = 0; i < 5; i++)
 				for (int j = 0; j < 8; j++)

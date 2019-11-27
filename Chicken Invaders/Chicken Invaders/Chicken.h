@@ -15,7 +15,7 @@ public:
 private:
 	//those are for chicken
 	float frame = 0;
-	float animSpeed = 0.03;
+	float animSpeed = 0.01;
 	int frameCount = 45;
 
 
