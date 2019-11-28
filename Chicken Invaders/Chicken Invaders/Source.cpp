@@ -13,6 +13,7 @@
 #include "Present.h"
 #include "Egg.h"
 #include"Bullet.h"
+#include"TitleScreen.h"
 using namespace sf;
 
 
@@ -35,20 +36,28 @@ int main()
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT)
 {
 	//Class member decalration
-	Wave wave_number;
+	int wave_number = 0;
 	Wave Wave1;
 	Wave Wave3;
 	Chicken chicken[5][8];
 	Explosion explode;
 	Asteroid asteroid[5][5];
 	Present present;
-
-	wave_number.wave_number = 1;
-
+	bool selected = true;
+	bool start_game = false;
+#pragma region music
 	//bg music
 	Music background_music;
 	background_music.openFromFile("Music/c.ogg");
 	background_music.play();
+
+#pragma endregion
+
+#pragma region User Interface
+	Sprite leaderboard_button, leaderboard_hover, exit_button, exit_hover, side_texture, main_background, play_button,tip;
+	Texture t1, t2, t3, t4, t5, t6, t7,t8;
+	TitleScreen titleScreen;
+#pragma endregion
 
 
 	
@@ -56,25 +65,16 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Texture enemy,explode_texture,asteroid_texture,presentTexture;
 	
 	//The plece where we are setting Sprites
-	if (wave_number.wave_number == 1)
-	{
+	
+		titleScreen.IntroMain_SetTextures(t1, t2, t3, t4, t5, t6, t7,t8, titleScreen,WINDOW_WIDTH,WINDOW_HEIGHT);
+	
 		Wave1.setSprite(enemy, chicken);
 		Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
-
 		explode.setSprite_explosion(explode_texture, explode);
-
 		present.setSpritePresent(presentTexture, present);
 
-	}
-	else if (wave_number.wave_number == 3)
-	{
-	}
+		Wave3.setSprite_asteroid1(asteroid_texture, asteroid);
 
-		Wave3.setSprite_asteroid1(asteroid_texture,asteroid);
-		Wave3.thirdWave_Position(asteroid);
-
-	
-	
 	
 	
 	//Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
@@ -114,35 +114,47 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 						eggs.push_back(std::move(Egg("Sprites/Weapons/egg.png", sf::Vector2f(320 * (index + 1), 50 * (index + 1)))));
 					}
 				}
-				//Funtie folosita pentru teste
-				if (Keyboard::isKeyPressed(Keyboard::Num1))
-				{
-					Contor++;
-					if (Contor > 6)
-						Contor = 7;
-				}
-				if (Keyboard::isKeyPressed(Keyboard::Space))
-				{
-					Bullet x(player.GetPosition().x, player.GetPosition().y);
-					for (int i = 0; i < Contor; i++)
-					{
-						x.Present_Collected();
-					}
-					GameBullets.push_back(std::move(x));
-				}
+				
 				
 			}
 			
 			if (eventHandler.type == Event::KeyReleased)
 			{
-				if (eventHandler.key.code == Keyboard::Escape)
-					gameWindow.close();
+				
 				if (eventHandler.key.code == Keyboard::Left)
 					player.SetMovement(false, 0);
 				if (eventHandler.key.code == Keyboard::Right)
 					player.SetMovement(true, 0);
 			}
 		}
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			if (start_game == false)
+			{
+				wave_number = 1;
+				start_game = true;
+			}
+			
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Escape))
+		{
+			if (start_game)
+				gameWindow.close();
+		}
+		if (Keyboard::isKeyPressed(Keyboard::F3))
+		{
+			wave_number = 3;
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::Up))
+		{
+			selected = true;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Down))
+		{
+			selected = false;
+		}
+		
 
 		#pragma endregion
 
@@ -175,12 +187,17 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		
 
 		#pragma region DrawEverything
-		gameBackground.AnimateBackground();
-		gameBackground.drawBackground(gameWindow);
-		if (wave_number.wave_number == 1)
+		
+		if (wave_number == 0)
 		{
+			titleScreen.IntroMain_Display(gameWindow, titleScreen);
+		}
+		 if (wave_number == 1)
+		{
+		    gameBackground.AnimateBackground();
+			gameBackground.drawBackground(gameWindow);
 			Wave1.drawWave(gameWindow, chicken);
-			Wave1.movementFirstWave(chicken,wave_number);
+			Wave1.movementFirstWave(chicken);
 
 			explode.explosion_setPosition(explode, 100, 100);
 			explode.draw_explosion(gameWindow, explode);
@@ -189,11 +206,60 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 			present.setPositionPresent(present, 100, 100);
 			present.drawPresent(gameWindow, present);
 
+			player.Animate();
+			player.DrawShip(gameWindow);
+			player.DrawLives(gameWindow);
+			player.DrawScore(gameWindow);
+
+			//Funtie folosita pentru teste
+			if (Keyboard::isKeyPressed(Keyboard::Num1))
+			{
+				Contor++;
+				if (Contor > 6)
+					Contor = 7;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Space))
+			{
+				Bullet x(player.GetPosition().x, player.GetPosition().y);
+				for (int i = 0; i < Contor; i++)
+				{
+					x.Present_Collected();
+				}
+				GameBullets.push_back(std::move(x));
+			}
+
+
 		}
-		else if (wave_number.wave_number == 3)
+		else if (wave_number == 3)
 		{	
+			gameBackground.AnimateBackground();
+			gameBackground.drawBackground(gameWindow);
+
 			Wave3.drawWave_asteroid(gameWindow, asteroid);
 			Wave3.thirdWave_Movement(asteroid);
+
+			player.Animate();
+			player.DrawShip(gameWindow);
+			player.DrawLives(gameWindow);
+			player.DrawScore(gameWindow);
+
+			//Funtie folosita pentru teste
+			if (Keyboard::isKeyPressed(Keyboard::Num1))
+			{
+				Contor++;
+				if (Contor > 6)
+					Contor = 7;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Space))
+			{
+				Bullet x(player.GetPosition().x, player.GetPosition().y);
+				for (int i = 0; i < Contor; i++)
+				{
+					x.Present_Collected();
+				}
+				GameBullets.push_back(std::move(x));
+			}
+
 		}
 
 		for (int i = 0; i < GameBullets.size(); i++)
@@ -207,10 +273,20 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		for (int index = 0; index < eggs.size(); index++)
 			eggs[index].DrawEgg(gameWindow);
 
-		player.Animate();
-		player.DrawShip(gameWindow);
-		player.DrawLives(gameWindow);
-		player.DrawScore(gameWindow);
+		if (selected)
+		{
+			if (!start_game)
+				titleScreen.menu_Select(gameWindow, titleScreen, selected);
+
+		}
+		else
+		{
+			if (Keyboard::isKeyPressed(Keyboard::Enter))
+				gameWindow.close();
+			if(!start_game)
+				titleScreen.menu_Select(gameWindow, titleScreen, selected);
+
+		}
 		
 		#pragma endregion
 

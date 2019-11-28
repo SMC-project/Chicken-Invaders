@@ -27,7 +27,7 @@ void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
 		}
 }
 
-void Wave::movementFirstWave(Chicken chicken[5][8],Wave& wave3)
+void Wave::movementFirstWave(Chicken chicken[5][8])
 {
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
@@ -51,7 +51,7 @@ void Wave::movementFirstWave(Chicken chicken[5][8],Wave& wave3)
 				{
 					current_x += 5;
 					left_or_right_movement = !left_or_right_movement;
-					wave3.wave_number = 3;
+					
 					
 				}
 				else
