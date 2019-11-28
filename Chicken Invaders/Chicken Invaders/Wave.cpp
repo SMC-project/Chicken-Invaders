@@ -18,7 +18,7 @@ void Wave::drawWave(RenderWindow& map,Chicken chicken[5][8])
 
 void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
 {
-	enemy.loadFromFile("Sprites/Enemy/Normal Chicken/Idle/chicken_animation.png");
+	enemy.loadFromFile("Sprites/Enemy/chicken.png");
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 8; j++)
 		{

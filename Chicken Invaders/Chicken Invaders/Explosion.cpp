@@ -9,7 +9,7 @@ void Explosion::explosion()
 
 void Explosion::setSprite_explosion(Texture& explosion, Explosion& chicken_explode)
 {
-	explosion.loadFromFile("Sprites/Enemy/Normal Chicken/Explosion/type_C.png");
+	explosion.loadFromFile("Sprites/Extras/type_C.png");
 	chicken_explode.sprite_explosion.setTexture(explosion);
 	chicken_explode.sprite_explosion.setScale(.5, .5);
 }
