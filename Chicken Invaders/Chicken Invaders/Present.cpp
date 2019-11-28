@@ -26,3 +26,11 @@ void Present::setPositionPresent(Present& newObject, float posX, float posY)
 	newObject.setDropPresent.setPosition(posX, posY);
 }
 
+bool Present::fallDownPresent(int windowHeight)
+{
+	setDropPresent.move(0, fallDownSpeed);
+	if (setDropPresent.getPosition().y > windowHeight)
+		return true;
+	return false;
+}
+

@@ -30,10 +30,10 @@ public:
 
 #pragma region Wave3
 
-	void drawWave_asteroid(RenderWindow& map, Asteroid asteroidVect[5][5]);
-	void setSprite_asteroid1(Texture& asteroid, Asteroid asteroidVect[5][5]);
-	void thirdWave_Position(Asteroid asteroidVect[5][5]);
-	void thirdWave_Movement(Asteroid asteroidVect[5][5]);
+	void drawWave_asteroid(RenderWindow& map, Asteroid asteroidVect[10][10]);
+	void setSprite_asteroid1(Texture& asteroid, Asteroid asteroidVect[10][10]);
+	void thirdWave_Position(Asteroid asteroidVect[10][10]);
+	void thirdWave_Movement(Asteroid asteroidVect[10][10]);
 
 #pragma endregion
 

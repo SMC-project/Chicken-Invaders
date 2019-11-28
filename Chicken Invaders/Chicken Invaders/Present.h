@@ -12,6 +12,7 @@ private:
 	float framePresent = 0;
 	int frameCountPresent = 45;
 	float animSpeed_Present = .8;
+	float fallDownSpeed = 10;
 
 public:
 	void dropPresent();
@@ -19,5 +20,6 @@ public:
 	void setSpritePresent(Texture& present, Present& dropPresent);
 	void drawPresent(RenderWindow& map, Present& dropPresent);
 	void setPositionPresent(Present& newObject, float posX, float posY);
+	bool fallDownPresent(int windowHeight);
 
 };

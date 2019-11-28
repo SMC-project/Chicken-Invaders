@@ -41,7 +41,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave Wave3;
 	Chicken chicken[5][8];
 	Explosion explode;
-	Asteroid asteroid[5][5];
+	Asteroid asteroid[10][10];
 	Present present;
 	bool selected = true;
 	bool start_game = false;
@@ -201,9 +201,10 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 			explode.explosion_setPosition(explode, 100, 100);
 			explode.draw_explosion(gameWindow, explode);
-
+			
+			present.fallDownPresent(WINDOW_HEIGHT);
 			present.drawPresent(gameWindow, present);
-			present.setPositionPresent(present, 100, 100);
+			
 			present.drawPresent(gameWindow, present);
 
 			player.Animate();
