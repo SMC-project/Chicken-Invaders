@@ -66,5 +66,3 @@ void Wave::movementFirstWave(Chicken chicken[5][8])
 
 }
 
-
-
