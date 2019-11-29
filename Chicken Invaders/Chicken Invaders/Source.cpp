@@ -41,7 +41,6 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	
 	Wave Wave1;
 	Wave Wave3;
-	//Chicken chicken[5][8];
 	Explosion explode;
 
 	Present present;
@@ -59,31 +58,18 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Sprite leaderboard_button, leaderboard_hover, exit_button, exit_hover, side_texture, main_background, play_button,tip;
 	Texture t1, t2, t3, t4, t5, t6, t7,t8;
 	TitleScreen titleScreen;
+	titleScreen.IntroMain_SetTextures(t1, t2, t3, t4, t5, t6, t7, t8, titleScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
 #pragma endregion
-
-
-	
 	//Texture declaration
 	Texture enemy,explode_texture,asteroid_texture,presentTexture,chickenTexture;
 	
-	//The plece where we are setting Sprites
 	
-		titleScreen.IntroMain_SetTextures(t1, t2, t3, t4, t5, t6, t7,t8, titleScreen,WINDOW_WIDTH,WINDOW_HEIGHT);
-	
-		//Wave1.setSprite(enemy, chicken);
-		//Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
 		explode.setSprite_explosion(explode_texture, explode);
 		present.setSpritePresent(presentTexture, present);
 
-		
-
-	
-	
-	//Player player("Sprites/Ship/ship.png", Vector2<int>(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	Player player("Sprites/ship.png", Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8));
 	player.LoadLiveSprites("Sprites/Extras/heart.png");
 	player.SetUpScore("Fonts/Montserrat-Regular.ttf");
-	//Wave1.fisrtWavePosition(chicken,WINDOW_WIDTH,WINDOW_HEIGHT);
 	
 
 	ScrollBackground gameBackground("Sprites/Extras/gbackground.png");
@@ -117,11 +103,10 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	//Vector of chickens
 	std::vector<Chicken> chickens;
 
-	float chickenPosX = 170;
-	float chickenPosy = 120;
-	for (int i = 0; i < 40; i++)
+	
+	for (int index = 0; index < 40; index++)
 	{
-		chickens.push_back(std::move(Chicken(sf::Vector2f(chickenPosX, chickenPosy))));
+		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9))));
 	}
 #pragma endregion
 
@@ -167,7 +152,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		{
 			if (start_game == false)
 			{
-				wave_number = 3;
+				wave_number = 1;
 				start_game = true;
 			}
 			
@@ -229,11 +214,18 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		{
 		    gameBackground.AnimateBackground();
 			gameBackground.drawBackground(gameWindow);
-			//Wave1.drawWave(gameWindow, chicken);
-			//Wave1.movementFirstWave(chicken);
 
 			explode.explosion_setPosition(explode, 100, 100);
 			explode.draw_explosion(gameWindow, explode);
+
+#pragma region Chicken Movement
+			for (int index = 0; index < chickens.size(); index++)
+				if (chickens[index].chickenMovement(WINDOW_WIDTH))
+					chickens.erase(chickens.begin() + index);
+
+
+#pragma endregion
+
 			
 			present.fallDownPresent(WINDOW_HEIGHT);
 			present.drawPresent(gameWindow, present);
@@ -261,6 +253,9 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 				}
 				GameBullets.push_back(std::move(x));
 			}
+			//DRAW CHICKENS
+			for (int index = 0; index < chickens.size(); index++)
+				chickens[index].drawChicken(gameWindow);
 
 
 		}
@@ -278,8 +273,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 #pragma endregion
 #pragma region
-			for (int i = 0; i < chickens.size(); i++)
-				chickens[i].chickenMovement(WINDOW_WIDTH);
+			
 
 
 #pragma region Asteroids movement
@@ -297,9 +291,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 					Contor = 0;
 				}
 #pragma endregion
-			//DRAW CHICKENS
-			for (int i = 0; i < chickens.size(); i++)
-				chickens[i].drawChicken(gameWindow);
+			
 			//Draw all asteroids
 			for (int index = 0; index < asteroids.size(); index++)
 				asteroids[index].draw_asteroid(gameWindow);
