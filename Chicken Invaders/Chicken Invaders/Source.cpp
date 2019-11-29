@@ -41,7 +41,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave Wave3;
 	Chicken chicken[5][8];
 	Explosion explode;
-	Asteroid asteroid[5][5];
+	
 	Present present;
 	bool selected = true;
 	bool start_game = false;
@@ -73,7 +73,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		explode.setSprite_explosion(explode_texture, explode);
 		present.setSpritePresent(presentTexture, present);
 
-		Wave3.setSprite_asteroid1(asteroid_texture, asteroid);
+		
 
 	
 	
@@ -91,7 +91,27 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	int Contor = 0;
 	//Vector that will hold all the eggs on the screen, when the exit the screen or collide we take them out.
 	std::vector<Egg> eggs;
+#pragma region Asteroids init
+	//Vector that will contain all the asteroids
+	std::vector<Asteroid> asteroids;
+#pragma region Asteroids init
+	float random_number;
+	srand(time(NULL));
+	random_number = rand() % 900;
+	random_number = -random_number;
+	float current_x = random_number;
 
+	random_number = rand() % 900;
+	random_number = -random_number;
+	float current_y = random_number;
+	for (int index = 0; index < 15; index++)
+	{
+		asteroids.push_back(std::move(Asteroid(sf::Vector2f(current_x, current_y))));
+	}
+#pragma endregion
+#pragma endregion
+
+	
 	//Game widow
 	while (gameWindow.isOpen())
 	{
@@ -127,25 +147,23 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 					player.SetMovement(true, 0);
 			}
 		}
+		//The game starts when you are in title screen and press space
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
 			if (start_game == false)
 			{
-				wave_number = 1;
+				wave_number = 3;
 				start_game = true;
 			}
 			
 		}
+		//Escape button closes the game only if you pass the title screen
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
 			if (start_game)
 				gameWindow.close();
 		}
-		if (Keyboard::isKeyPressed(Keyboard::F3))
-		{
-			wave_number = 3;
-		}
-
+		//You can select between leaderboards button and exit button
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
 			selected = true;
@@ -158,7 +176,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 		#pragma endregion
 
-		#pragma region Movement
+		#pragma region Movement of the egg
 
 		player.MoveShip(WINDOW_WIDTH);
 		//Move each egg from the eggs vector
@@ -232,17 +250,37 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		}
 		else if (wave_number == 3)
 		{	
-			gameBackground.AnimateBackground();
-			gameBackground.drawBackground(gameWindow);
-
-			Wave3.drawWave_asteroid(gameWindow, asteroid);
-			Wave3.thirdWave_Movement(asteroid);
-
+#pragma region Background
+			 gameBackground.AnimateBackground();
+			 gameBackground.drawBackground(gameWindow);
+#pragma endregion
+#pragma region Player
 			player.Animate();
 			player.DrawShip(gameWindow);
 			player.DrawLives(gameWindow);
 			player.DrawScore(gameWindow);
 
+#pragma endregion
+
+#pragma region Asteroids movement
+			for (int index = 0; index < asteroids.size(); index++)
+				if (asteroids[index].Falldown(WINDOW_HEIGHT))
+					asteroids.erase(asteroids.begin() + index);
+#pragma endregion
+#pragma region Asteroid collision
+			for (int index = 0; index < asteroids.size(); index++)
+				if (player.CheckCollision(asteroids[index].GetPosition(), asteroids[index].GetSize()))
+				{
+					//If so erase the asteroid and kill the player
+					asteroids.erase(asteroids.begin() + index);
+					player.Die();
+					Contor = 0;
+				}
+#pragma endregion
+
+			//Draw all asteroids
+			for (int index = 0; index < asteroids.size(); index++)
+				asteroids[index].draw_asteroid(gameWindow);
 			//Funtie folosita pentru teste
 			if (Keyboard::isKeyPressed(Keyboard::Num1))
 			{
@@ -272,6 +310,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		//Draw all the eggs
 		for (int index = 0; index < eggs.size(); index++)
 			eggs[index].DrawEgg(gameWindow);
+		
 
 		if (selected)
 		{
