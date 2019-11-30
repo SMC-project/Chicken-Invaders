@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(sf::Vector2f initialPos, const sf::Texture& texture)
+void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture)
 {
 	//Load the texture and set the sprite
 	m_spriteShip.setTexture(texture);

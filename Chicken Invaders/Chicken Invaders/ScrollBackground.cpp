@@ -1,5 +1,7 @@
 #include "ScrollBackground.h"
-ScrollBackground::ScrollBackground(const sf::Texture& texture)
+#include <iostream>
+
+void ScrollBackground::Init(const sf::Texture& texture)
 {
 	m_backgroundSprite.setTexture(texture);	
 	m_backgroundSprite.setScale(2, 2);
@@ -8,7 +10,6 @@ ScrollBackground::ScrollBackground(const sf::Texture& texture)
 	m_pictureHeigh = texture.getSize().y * m_backgroundSprite.getScale().y;
 	m_backgroundSprite1.setPosition(0, -m_pictureHeigh);
 	m_backgroundSprite.setPosition(0, -(m_pictureHeigh - 1080));
-
 }
 
 void ScrollBackground::drawBackground(sf::RenderWindow& gameWindow)
@@ -31,5 +32,4 @@ void ScrollBackground::AnimateBackground()
 	}
 	m_backgroundSprite1.setPosition(current_x, secondspriteY);
 	m_backgroundSprite.setPosition(current_x, current_y);
-	
 }

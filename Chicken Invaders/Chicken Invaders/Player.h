@@ -5,7 +5,7 @@ class Player
 {
 public:
 	//Load the sprite of the player, set and retain it's initial pos in the center of the screen, calculate pixelSize
-	Player(sf::Vector2f initialPos, const sf::Texture& texture);
+	void Init(sf::Vector2f initialPos, const sf::Texture& texture);
 
 	//Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
 	void DrawShip(sf::RenderWindow& window);

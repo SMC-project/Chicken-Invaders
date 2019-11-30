@@ -32,7 +32,8 @@ public:
 	};
 
 public:
-	bool Init();
+	bool Init1();
+	bool Init2();
 	const sf::Texture& GetTexture(const TextureType& type);
 	const sf::Font& GetFont();
 	sf::Music& GetMusic();

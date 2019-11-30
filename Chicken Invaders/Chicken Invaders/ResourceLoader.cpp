@@ -1,15 +1,21 @@
 #include "ResourceLoader.h"
 
-bool ResourceLoader::Init()
+bool ResourceLoader::Init1()
+{
+	if (m_textFont.loadFromFile("Fonts/Montserrat-Regular.ttf") == false)
+	{
+		printf("Error: couldn't load font.\n");
+		return false;
+	}
+
+	return true;
+}
+
+bool ResourceLoader::Init2()
 {
 	if (m_music_background.openFromFile("Music/c.ogg") == false)
 	{
 		printf("Error: couldn't load music.\n");
-		return false;
-	}
-	if (m_textFont.loadFromFile("Fonts/Montserrat-Regular.ttf") == false)
-	{
-		printf("Error: couldn't load font.\n");
 		return false;
 	}
 
@@ -18,18 +24,18 @@ bool ResourceLoader::Init()
 		printf("Error: couldn't load background.\n");
 		return false;
 	}
-	/*if (m_earth.loadFromFile("Sprites/Extras/earth.png") == false)
+	if (m_earth.loadFromFile("Sprites/Extras/earth.png") == false)
 	{
 		printf("Error: couldn't load earth image.\n");
 		return false;
-	}*/
+	}
 
 	if (m_ship.loadFromFile("Sprites/ship.png") == false)
 	{
 		printf("Error: couldn't load ship.\n");
 		return false;
 	}
-	/*if (m_asteroidFlame.loadFromFile("Sprites/Enemy/asteroidFlame.png") == false)
+	if (m_asteroidFlame.loadFromFile("Sprites/Enemy/asteroidFlame.png") == false)
 	{
 		printf("Error: couldn't load flame asteroid.\n");
 		return false;
@@ -43,7 +49,7 @@ bool ResourceLoader::Init()
 	{
 		printf("Error: couldn't load chicken.\n");
 		return false;
-	}*/
+	}
 	//m_boss;
 
 	if (m_gift.loadFromFile("Sprites/Extras/gift.png") == false)
@@ -51,11 +57,11 @@ bool ResourceLoader::Init()
 		printf("Error: couldn't load gift.\n");
 		return false;
 	}
-	/*if (m_meat.loadFromFile("Sprites/Extras/meat.png") == false)
+	if (m_meat.loadFromFile("Sprites/Extras/meat.png") == false)
 	{
 		printf("Error: couldn't load meat.\n");
 		return false;
-	}*/
+	}
 
 	if (m_explosion.loadFromFile("Sprites/Extras/explosion.png") == false)
 	{
@@ -73,7 +79,7 @@ bool ResourceLoader::Init()
 		printf("Error: couldn't load egg.\n");
 		return false;
 	}
-	/*if (m_rocket.loadFromFile("Sprites/Weapons/rocket.png") == false)
+	if (m_rocket.loadFromFile("Sprites/Weapons/rocket.png") == false)
 	{
 		printf("Error: couldn't load rocket.\n");
 		return false;
@@ -130,7 +136,7 @@ bool ResourceLoader::Init()
 	{
 		printf("Error: couldn't load title screen's background.\n");
 		return false;
-	}*/
+	}
 
 	return true;
 }
