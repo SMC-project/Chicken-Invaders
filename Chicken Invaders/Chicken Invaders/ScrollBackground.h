@@ -5,10 +5,9 @@ class ScrollBackground
 private:
 	sf::Sprite m_backgroundSprite;
 	sf::Sprite m_backgroundSprite1;
-	sf::Texture m_backgroundTexture;
 	float m_pictureHeigh;
 public:
-	ScrollBackground(const std::string& sprite_name);
+	ScrollBackground(const sf::Texture& texture);
 	void drawBackground(sf::RenderWindow& gameWindow);
 	void AnimateBackground();
 };

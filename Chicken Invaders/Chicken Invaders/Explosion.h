@@ -15,8 +15,8 @@ private:
 public:
 	void explosion();
 	//these are the functions that are setting the explosion when an enemy dies
-	void setSprite_explosion(Texture& explosion, Explosion& chicken_explode);
-	void draw_explosion(RenderWindow& map, Explosion& explode);
-	void explosion_setPosition(Explosion& object, float x_POS, float y_POS);
+	void setSprite_explosion(const Texture& texture);
+	void draw_explosion(RenderWindow& map);
+	void explosion_setPosition(float x_POS, float y_POS);
 };
 

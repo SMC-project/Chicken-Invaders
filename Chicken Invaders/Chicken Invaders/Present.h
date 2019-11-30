@@ -17,9 +17,9 @@ private:
 public:
 	void dropPresent();
 	//functions of presents
-	void setSpritePresent(Texture& present, Present& dropPresent);
-	void drawPresent(RenderWindow& map, Present& dropPresent);
-	void setPositionPresent(Present& newObject, float posX, float posY);
+	void setSpritePresent(const Texture& texture);
+	void drawPresent(RenderWindow& map);
+	void setPositionPresent(float posX, float posY);
 	bool fallDownPresent(int windowHeight);
 
 };

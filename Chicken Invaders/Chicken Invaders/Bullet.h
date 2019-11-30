@@ -11,7 +11,6 @@ private:
 	std::vector <std::tuple<int, int, bool>> m_bullets; // Salveaza pozitia navei si ce gloante o sa lanseze in funtie de level
 	std::vector<sf::Sprite> m_bulletSprites; //Imaginea gloantelor
 	const int m_bulletSpeed=-17; // Viteza de deplasare a gloantelor
-	sf::Texture m_bulletTexture;
 
 protected:
 	//Functie ce se apeleaza in Present_Collected
@@ -22,7 +21,7 @@ protected:
 	void BulletsPosition_Update(const int speed);
 public:
 	//Constructorul primeste varful navei;
-	Bullet(int shipCenterPosition_x, int shipCenterPosition_y);
+	Bullet(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Texture& texture);
 	//Move constructor necesar pentru vectorul de gloante din scena
 	Bullet(Bullet&& other) noexcept;
 	//Apelezi in momentul in care nava se intersecteaza cu un Present_Collected pentru a afisa noi gloante;

@@ -8,22 +8,21 @@ void Present::dropPresent()
 	setDropPresent.setTextureRect(IntRect(int(framePresent) * 256, 0, 256, 256));
 }
 
-void Present::setSpritePresent(Texture& present, Present& dropPresent)
+void Present::setSpritePresent(const Texture& texture)
 {
-	present.loadFromFile("Sprites/Extras/gift.png");
-	dropPresent.setDropPresent.setTexture(present);
-	dropPresent.setDropPresent.setScale(.15, .15);
+	setDropPresent.setTexture(texture);
+	setDropPresent.setScale(.15, .15);
 }
 
-void Present::drawPresent(RenderWindow& map, Present& dropPresent)
+void Present::drawPresent(RenderWindow& map)
 {
-	dropPresent.dropPresent();
-	map.draw(dropPresent.setDropPresent);
+	dropPresent();
+	map.draw(setDropPresent);
 }
 
-void Present::setPositionPresent(Present& newObject, float posX, float posY)
+void Present::setPositionPresent(float posX, float posY)
 {
-	newObject.setDropPresent.setPosition(posX, posY);
+	setDropPresent.setPosition(posX, posY);
 }
 
 bool Present::fallDownPresent(int windowHeight)

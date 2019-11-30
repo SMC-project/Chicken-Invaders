@@ -5,7 +5,7 @@ class Egg
 {
 public:
 	//Default constructor of the egg, it load a testure, sets the sprite's texture, scale, position and calculates the size
-	Egg(const std::string& path, sf::Vector2f initialPos);
+	Egg(sf::Vector2f initialPos, const sf::Texture& texture);
 	//Move constructor; needed for inserting (temporary) eggs into the eggs vector
 	Egg(Egg&& other) noexcept;
 	bool FallDown(int screenHeight);	//Move the egg downwards and return true if it exits the screen
@@ -18,7 +18,6 @@ public:
 	Egg& operator=(const Egg& other);
 
 private:
-	sf::Texture m_textureEgg;
 	sf::Sprite m_spriteEgg;
 
 	sf::Vector2f m_eggSize;

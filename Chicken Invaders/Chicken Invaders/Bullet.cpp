@@ -79,11 +79,10 @@ void Bullet::LevelPower(Level currentLevel)
 	}
 
 }
-Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y)
+Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Texture& texture)
 {
-	m_bulletTexture.loadFromFile("Sprites/Weapons/bullet.png");
 	sf::Sprite auxSprite;
-	auxSprite.setTexture(m_bulletTexture);
+	auxSprite.setTexture(texture);
 	auxSprite.setScale(0.12, 0.12);
 	std::pair<int, int>bulletposition;
 	for (int i = 0; i < 7; i++)
@@ -117,7 +116,6 @@ Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y)
 
 Bullet::Bullet(Bullet&& other) noexcept
 {
-	m_bulletTexture.swap(other.m_bulletTexture);
 	sf::Sprite auxSprite;
 	for (int i = 0; i < 7; i++)
 	{
@@ -125,7 +123,7 @@ Bullet::Bullet(Bullet&& other) noexcept
 	}
 	for (int i = 0; i < m_bulletSprites.size(); i++)
 	{
-		m_bulletSprites[i].setTexture(m_bulletTexture);
+		m_bulletSprites[i].setTexture(*other.m_bulletSprites[i].getTexture());
 		m_bulletSprites[i].setScale(other.m_bulletSprites[i].getScale());
 		m_bulletSprites[i].setPosition(other.m_bulletSprites[i].getPosition());
 		m_bulletSprites[i].setRotation(other.m_bulletSprites[i].getRotation());
@@ -133,7 +131,20 @@ Bullet::Bullet(Bullet&& other) noexcept
 	}
 	m_bullets = other.m_bullets;
 	m_bulletLevel = other.m_bulletLevel;
+}
 
+Bullet& Bullet::operator=(const Bullet& other)
+{
+	for (int i = 0; i < m_bulletSprites.size(); i++)
+	{
+		m_bulletSprites[i].setTexture(*other.m_bulletSprites[i].getTexture());
+		m_bulletSprites[i].setScale(other.m_bulletSprites[i].getScale());
+		m_bulletSprites[i].setPosition(other.m_bulletSprites[i].getPosition());
+		m_bulletSprites[i].setRotation(other.m_bulletSprites[i].getRotation());
+	}
+	m_bullets = other.m_bullets;
+	m_bulletLevel = other.m_bulletLevel;
+	return *this;
 }
 
 void Bullet::Present_Collected()
@@ -146,7 +157,6 @@ void Bullet::Present_Collected()
 		m_bulletLevel = static_cast<Level>(currentLevel);
 		LevelPower(m_bulletLevel);
 	}
-
 }
 
 void Bullet::BulletsPosition_Update(const int speed)
@@ -198,23 +208,4 @@ void Bullet::DrawBullet(sf::RenderWindow& gameWindow)
 			gameWindow.draw(m_bulletSprites[i]);
 		}
 	}
-}
-
-
-
-Bullet& Bullet::operator=(const Bullet& other)
-{
-	sf::Texture aux = other.m_bulletTexture;
-	m_bulletTexture.swap(aux);
-	
-	for (int i = 0; i < m_bulletSprites.size(); i++)
-	{
-		m_bulletSprites[i].setTexture(m_bulletTexture);
-		m_bulletSprites[i].setScale(other.m_bulletSprites[i].getScale());
-		m_bulletSprites[i].setPosition(other.m_bulletSprites[i].getPosition());
-		m_bulletSprites[i].setRotation(other.m_bulletSprites[i].getRotation());	
-	}
-	m_bullets = other.m_bullets;
-	m_bulletLevel = other.m_bulletLevel;
-	return *this;
 }

@@ -27,6 +27,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Present.cpp" />
+    <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ScrollBackground.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Present.h" />
+    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ScrollBackground.h" />
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="Wave.h" />

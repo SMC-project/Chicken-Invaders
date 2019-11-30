@@ -1,13 +1,11 @@
 #include "ScrollBackground.h"
-ScrollBackground::ScrollBackground(const std::string& spriteName)
-
+ScrollBackground::ScrollBackground(const sf::Texture& texture)
 {
-	m_backgroundTexture.loadFromFile(spriteName);
-	m_backgroundSprite.setTexture(m_backgroundTexture);	
+	m_backgroundSprite.setTexture(texture);	
 	m_backgroundSprite.setScale(2, 2);
-	m_backgroundSprite1.setTexture(m_backgroundTexture);
+	m_backgroundSprite1.setTexture(texture);
 	m_backgroundSprite1.setScale(2, 2);
-	m_pictureHeigh = m_backgroundTexture.getSize().y * m_backgroundSprite.getScale().y;
+	m_pictureHeigh = texture.getSize().y * m_backgroundSprite.getScale().y;
 	m_backgroundSprite1.setPosition(0, -m_pictureHeigh);
 	m_backgroundSprite.setPosition(0, -(m_pictureHeigh - 1080));
 

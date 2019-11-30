@@ -1,10 +1,9 @@
 #include "Player.h"
 
-Player::Player(const std::string& spritePath, sf::Vector2f initialPos)
+Player::Player(sf::Vector2f initialPos, const sf::Texture& texture)
 {
 	//Load the texture and set the sprite
-	m_textureShip.loadFromFile(spritePath);
-	m_spriteShip.setTexture(m_textureShip);
+	m_spriteShip.setTexture(texture);
 
 	m_spriteShip.setTextureRect(sf::IntRect(0, 0, 256, 256));
 	//Resize the sprite so that it doesn't cover too much space
@@ -94,12 +93,11 @@ void Player::SetMovement(bool moveRight, float factor)
 }
 
 //Load lives sprites, scale the accordingly and set their position
-void Player::LoadLiveSprites(const std::string& livesSpritePath)
+void Player::LoadLiveSprites(const sf::Texture& texture)
 {
 	for (int index = 0; index < 3; index++)
 	{
-		m_textureLives[index].loadFromFile(livesSpritePath);
-		m_spriteLives[index].setTexture(m_textureLives[0]);
+		m_spriteLives[index].setTexture(texture);
 
 		m_spriteLives[index].setScale(0.05f, 0.05f);
 		m_spriteLives[index].setPosition(15 + index * m_spriteLives[index].getTexture()->getSize().x * m_spriteLives[index].getScale().x, 15);
@@ -141,10 +139,9 @@ void Player::Die()
 }
 
 //Load the font for the text and set up the text's position, size, initial value.
-void Player::SetUpScore(const std::string& fontPath)
+void Player::SetUpScore(const sf::Font& font)
 {
-	m_textFont.loadFromFile(fontPath);
-	m_scoreText.setFont(m_textFont);
+	m_scoreText.setFont(font);
 	m_scoreText.setPosition(m_spriteLives[2].getPosition().x + 100, 20);
 	m_scoreText.setString(std::to_string(m_score));
 }

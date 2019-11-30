@@ -1,13 +1,12 @@
 #include "Egg.h"
 
 //Default constructor of the egg, it load a testure, sets the sprite's texture, scale, position and calculates the size
-Egg::Egg(const std::string& path, sf::Vector2f initialPos)
+Egg::Egg(sf::Vector2f initialPos, const sf::Texture& texture)
 {
-	m_textureEgg.loadFromFile(path);
-	m_spriteEgg.setTexture(m_textureEgg);
+	m_spriteEgg.setTexture(texture);
 
 	m_spriteEgg.setScale(0.1f, 0.1f);
-	m_eggSize = sf::Vector2f(m_textureEgg.getSize().x * m_spriteEgg.getScale().x, m_textureEgg.getSize().y * m_spriteEgg.getScale().y);
+	m_eggSize = sf::Vector2f(texture.getSize().x * m_spriteEgg.getScale().x, texture.getSize().y * m_spriteEgg.getScale().y);
 
 	initialPos.x -= m_eggSize.x / 2;
 	initialPos.y -= m_eggSize.y / 2;
@@ -17,8 +16,7 @@ Egg::Egg(const std::string& path, sf::Vector2f initialPos)
 //Move constructor; needed for inserting (temporary) eggs into the eggs vector
 Egg::Egg(Egg&& other) noexcept
 {
-	m_textureEgg.swap(other.m_textureEgg);
-	m_spriteEgg.setTexture(m_textureEgg);
+	m_spriteEgg.setTexture(*other.m_spriteEgg.getTexture());
 
 	m_spriteEgg.setScale(other.m_spriteEgg.getScale());
 	m_eggSize = other.m_eggSize;
@@ -28,9 +26,7 @@ Egg::Egg(Egg&& other) noexcept
 //Operator= needed for move constructor
 Egg& Egg::operator=(const Egg& other)
 {
-	sf::Texture aux = other.m_textureEgg;
-	m_textureEgg.swap(aux);
-	m_spriteEgg.setTexture(m_textureEgg);
+	m_spriteEgg.setTexture(*other.m_spriteEgg.getTexture());
 
 	m_spriteEgg.setScale(other.m_spriteEgg.getScale());
 	m_eggSize = other.m_eggSize;
