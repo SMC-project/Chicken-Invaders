@@ -21,8 +21,8 @@ using namespace sf;
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& selected, Player& player, ResourceLoader& resourceLoader, std::vector<Egg>& eggs, int& Contor, std::vector<Bullet>& GameBullets);
-void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, Present& present, std::vector<Asteroid>& asteroids);
-void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids);
+void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, Present& present, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets);
+void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets);
 void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game);
 bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens);
 
@@ -81,8 +81,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	{
 		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, selected, player, resourceLoader, eggs, Contor, GameBullets);
 
-		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, player, eggs, chickens, present, asteroids);
-		CheckCollisions(player, Contor, eggs, asteroids);
+		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, player, eggs, chickens, present, asteroids,GameBullets);
+		CheckCollisions(player, Contor, eggs, asteroids,GameBullets);
 
 		DrawEverything(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, titleScreen, gameBackground, player, explode, present, chickens, asteroids, GameBullets, eggs, selected, start_game);
 	}
@@ -176,7 +176,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 			//This is only for testing purposes, delete it after implementing wave transition
 			if (eventHandler.key.code == Keyboard::C)
 			{
-				if(wave_number == 1)
+				if (wave_number == 1)
 					wave_number = 3;
 			}
 			//The game starts when you are in title screen and press space
@@ -211,7 +211,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 			}
 			if (eventHandler.key.code == Keyboard::Enter)
 			{
-				if(selected == false)
+				if (selected == false)
 					gameWindow.close();
 			}
 		}
@@ -221,27 +221,34 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				player.SetMovement(false, 0);
 			if (eventHandler.key.code == Keyboard::Right)
 				player.SetMovement(true, 0);
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Space))
-		{
-			Bullet x(player.GetPosition().x, player.GetPosition().y, resourceLoader.GetTexture(ResourceLoader::TextureType::Bullet));
-			for (int i = 0; i < Contor; i++)
+			if (eventHandler.key.code == Keyboard::Space)
 			{
-				x.Present_Collected();
+				Bullet x(player.GetPosition().x, player.GetPosition().y, resourceLoader.GetTexture(ResourceLoader::TextureType::Bullet));
+				for (int i = 0; i < Contor; i++)
+				{
+					x.Present_Collected();
+				}
+				GameBullets.push_back(std::move(x));
 			}
-			GameBullets.push_back(std::move(x));
-		}
+		} 
+		
 	}
 }
 
-void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, Present& present, std::vector<Asteroid>& asteroids)
+void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, Present& present, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets)
 {
 	player.MoveShip(WINDOW_WIDTH);
 	//Move each egg from the eggs vector
 	for (int index = 0; index < eggs.size(); index++)
 		if (eggs[index].FallDown(WINDOW_HEIGHT))
 			eggs.erase(eggs.begin() + index);
-
+	//BulletMovement
+	for (int i = 0; i < GameBullets.size(); i++)
+	{
+		GameBullets[i].BulletsPosition_Update();
+		if (GameBullets[i].CheckIfBulletIsOnTheScreen(WINDOW_HEIGHT) == true)
+			GameBullets.erase(GameBullets.begin() + i);
+	}
 	if (wave_number == 1)
 	{
 		for (int index = 0; index < chickens.size(); index++)
@@ -259,7 +266,7 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& play
 	present.fallDownPresent(WINDOW_HEIGHT);
 }
 
-void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids)
+void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets)
 {
 	//Check if any of the eggs collides with the ship
 	for (int index = 0; index < eggs.size(); index++)
@@ -268,7 +275,7 @@ void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::v
 			//If so erase the egg and kill the player
 			eggs.erase(eggs.begin() + index);
 			player.Die();
-			Contor = 0;
+			Contor--;
 		}
 
 	for (int index = 0; index < asteroids.size(); index++)
@@ -277,8 +284,17 @@ void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::v
 			//If so erase the asteroid and kill the player
 			asteroids.erase(asteroids.begin() + index);
 			player.Die();
-			Contor = 0;
+			Contor--;
 		}
+	/*for(int index=0;index<asteroids.size();index++)
+		for (int j = 0; j < GameBullets.size(); j++)
+			for(int z=0;z<7;z++)
+				if (GameBullets[j].CheckCollision(asteroids[index].GetPosition(), asteroids[index].GetSize(), z))
+				{
+					asteroids.erase(asteroids.begin() + index); 
+				}*/
+
+
 }
 
 void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game)
@@ -324,15 +340,11 @@ void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGH
 		for (int index = 0; index < asteroids.size(); index++)
 			asteroids[index].draw_asteroid(gameWindow);
 	}
-
-	//Is both movement and draw
+	
+	//Draw all bullets
 	for (int i = 0; i < GameBullets.size(); i++)
-	{
-		GameBullets[i].Shot(gameWindow);
-
-		if (GameBullets[i].CheckIfBulletIsOnTheScreen(WINDOW_HEIGHT) == true)
-			GameBullets.erase(GameBullets.begin() + i);
-	}
+		GameBullets[i].DrawBullet(gameWindow);
+		
 	//Draw all the eggs
 	for (int index = 0; index < eggs.size(); index++)
 		eggs[index].DrawEgg(gameWindow);

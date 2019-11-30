@@ -79,8 +79,9 @@ void Bullet::LevelPower(Level currentLevel)
 	}
 
 }
+
 Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Texture& texture)
-{
+{   
 	sf::Sprite auxSprite;
 	auxSprite.setTexture(texture);
 	auxSprite.setScale(0.12, 0.12);
@@ -112,6 +113,7 @@ Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Tex
 	m_bulletSprites[6].setRotation(+30);
 	m_bulletSprites[1].setRotation(-20);
 	m_bulletSprites[5].setRotation(+20);
+	m_bulletSize = sf::Vector2f(texture.getSize().x * m_bulletSprites[0].getScale().x, texture.getSize().y * m_bulletSprites[0].getScale().y);
 }
 
 Bullet::Bullet(Bullet&& other) noexcept
@@ -147,6 +149,28 @@ Bullet& Bullet::operator=(const Bullet& other)
 	return *this;
 }
 
+std::vector<std::tuple<int, int, bool>> Bullet::GetBulletsPositionAndState()
+{
+	for (int i = 0; i < m_bullets.size(); i++)
+	{
+		std::get<0>(m_bullets[i]) = m_bulletSprites[i].getPosition().x;
+		std::get<0>(m_bullets[i]) = m_bulletSprites[i].getPosition().y;
+	}
+	return m_bullets;
+}
+
+bool Bullet::CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size, int index)
+{
+	if (std::get<2>(m_bullets[index]) == true)
+	{
+		if (m_bulletSprites[index].getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_bulletSprites[index].getPosition().x + m_bulletSize.x))
+			return false;
+		if (m_bulletSprites[index].getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_bulletSprites[index].getPosition().y + m_bulletSize.y))
+			return false;
+	}
+	return true;
+}
+
 void Bullet::Present_Collected()
 {
 	m_bulletLevel;
@@ -159,19 +183,19 @@ void Bullet::Present_Collected()
 	}
 }
 
-void Bullet::BulletsPosition_Update(const int speed)
-{
+void Bullet::BulletsPosition_Update()
+{   
 	for (int i = 2; i < m_bullets.size()-2; i++)	
 		if (std::get<2>(m_bullets[i]) == true)
-					m_bulletSprites[i].move(0, speed);
+					m_bulletSprites[i].move(0, m_bulletSpeed);
 	if (std::get<2>(m_bullets[0]) == true)
-		m_bulletSprites[0].move(-3, speed);
+		m_bulletSprites[0].move(-3, m_bulletSpeed);
 	if (std::get<2>(m_bullets[1]) == true)
-		m_bulletSprites[1].move(-2, speed);
+		m_bulletSprites[1].move(-2, m_bulletSpeed);
 	if (std::get<2>(m_bullets[5]) == true)
-		m_bulletSprites[5].move(2, speed);
+		m_bulletSprites[5].move(2, m_bulletSpeed);
 	if (std::get<2>(m_bullets[6]) == true)
-		m_bulletSprites[6].move(3, speed);
+		m_bulletSprites[6].move(3, m_bulletSpeed);
 
 
 }
@@ -196,7 +220,12 @@ void Bullet::ResetBulletLevel()
 void Bullet::Shot(sf::RenderWindow& gameWindow)
 {
 	DrawBullet(gameWindow);
-	BulletsPosition_Update(m_bulletSpeed);
+	BulletsPosition_Update();
+}
+
+sf::Vector2f Bullet::GetSize()
+{
+	return m_bulletSize;
 }
 
 void Bullet::DrawBullet(sf::RenderWindow& gameWindow)

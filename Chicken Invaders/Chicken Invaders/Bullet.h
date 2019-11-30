@@ -11,15 +11,18 @@ private:
 	std::vector <std::tuple<int, int, bool>> m_bullets; // Salveaza pozitia navei si ce gloante o sa lanseze in funtie de level
 	std::vector<sf::Sprite> m_bulletSprites; //Imaginea gloantelor
 	const int m_bulletSpeed=-17; // Viteza de deplasare a gloantelor
-
+	sf::Vector2f m_bulletSize;
 protected:
 	//Functie ce se apeleaza in Present_Collected
 	void LevelPower(Level currentLevel);
+	
+public:
+	//Returneaza Dimensiunea Glontului
+	sf::Vector2f GetSize();
 	//Desenezi Gloantele pe mapa
 	void DrawBullet(sf::RenderWindow& gameWindow);
 	//Functie care schimba pozitia gloantelor;
-	void BulletsPosition_Update(const int speed);
-public:
+	void BulletsPosition_Update();
 	//Constructorul primeste varful navei;
 	Bullet(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Texture& texture);
 	//Move constructor necesar pentru vectorul de gloante din scena
@@ -34,6 +37,8 @@ public:
 	void Shot(sf::RenderWindow& gameWindow);
 	//Operator de egal necesar pentru move constructor
 	Bullet& operator=(const Bullet& other);
-	
+	//Returneaza pozitia si starea gloantelor. Starea gloantelor se refera daca acestea sunt active sau nu pe mapa
+	std::vector<std::tuple<int, int, bool>> GetBulletsPositionAndState();
+	bool CheckCollision(sf::Vector2f upperLeft,sf::Vector2f size, int index);
 };
 
