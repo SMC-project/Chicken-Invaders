@@ -96,7 +96,9 @@ Bullet::Bullet(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Tex
 		m_bullets.push_back(std::make_tuple(0, 0, false));
 	}
 	m_bulletLevel = Level::Level_0;
-
+	// Setam doar glontul din centru ca fiind activ
+	for(int i=0;i<7;i++)
+		std::get<2>(m_bullets[i]) = false;
 	std::get<2>(m_bullets[3]) = true;
 	//Setam pozitia fiecarui glont;
 	for (int i = 0; i < 7; i++)
@@ -160,14 +162,18 @@ std::vector<std::tuple<int, int, bool>> Bullet::GetBulletsPositionAndState()
 }
 
 bool Bullet::CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size, int index)
-{
-	if (std::get<2>(m_bullets[index]) == true)
+{    
+	if (std::get<2>(m_bullets[index]) == false)
+		return false;
+	if (m_bulletSprites[index].getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_bulletSprites[index].getPosition().x + m_bulletSize.x))
 	{
-		if (m_bulletSprites[index].getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_bulletSprites[index].getPosition().x + m_bulletSize.x))
-			return false;
-		if (m_bulletSprites[index].getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_bulletSprites[index].getPosition().y + m_bulletSize.y))
-			return false;
+		return false;
 	}
+	if (m_bulletSprites[index].getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_bulletSprites[index].getPosition().y + m_bulletSize.y))
+	{
+		return false;
+	}
+	std::get<2>(m_bullets[index]) = false;
 	return true;
 }
 
@@ -205,6 +211,7 @@ bool Bullet::CheckIfBulletIsOnTheScreen(const int screenHeight)
 	for (int i = 0; i < m_bullets.size(); i++)
 		if (std::get<2>(m_bullets[i]) == true && m_bulletSprites[i].getPosition().y > screenHeight)
 			return true;
+		
 	return false;
 }
 

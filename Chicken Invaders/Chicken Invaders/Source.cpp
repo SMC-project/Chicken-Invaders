@@ -308,13 +308,16 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 				Contor--;
 			}
 		}
-	/*for(int index=0;index<asteroids.size();index++)
+	for(int index=0;index<asteroids.size();index++)
 		for (int j = 0; j < GameBullets.size(); j++)
 			for(int z=0;z<7;z++)
 				if (GameBullets[j].CheckCollision(asteroids[index].GetPosition(), asteroids[index].GetSize(), z))
 				{
-					asteroids.erase(asteroids.begin() + index); 
-				}*/
+					asteroids.erase(asteroids.begin() + index);
+					z = 7;
+					j = GameBullets.size();
+				}
+
 
 
 }
