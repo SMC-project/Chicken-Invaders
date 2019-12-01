@@ -29,9 +29,38 @@ void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture)
 }
 
 //Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
-void Player::DrawShip(sf::RenderWindow& gameWindow)
+void Player::DrawShip(sf::RenderWindow& gameWindow, float deltaTimeSeconds)
 {
-	gameWindow.draw(m_spriteShip);
+	//If we are immortal then we want to make a blinking animation
+	if (m_isImmortal == true)
+	{
+		//If we just died and became immortal then retain how long we will be immortal for
+		if (m_currentImmortalTime == 0)
+			m_currentImmortalTime = m_maxImmortalTime;
+
+		//Decrement the deltaTime to know how much time has passed
+		m_currentImmortalTime -= deltaTimeSeconds;
+
+		//If the current immortal time is less then 0 then we will stop being immortal
+		if (m_currentImmortalTime < 0)
+		{
+			m_currentImmortalTime = 0;
+			m_isImmortal = false;
+		}
+
+		//Make the blinking animation only at certain times
+		if ((m_currentImmortalTime >= 1.9f && m_currentImmortalTime <= 2.1f) ||
+			(m_currentImmortalTime >= 1.4f && m_currentImmortalTime <= 1.6f) ||
+			(m_currentImmortalTime >= 0.9f && m_currentImmortalTime <= 1.1f) ||
+			(m_currentImmortalTime >= 0.4f && m_currentImmortalTime <= 0.6f))
+		{
+			gameWindow.draw(m_spriteShip);
+		}
+	}
+	else
+	{
+		gameWindow.draw(m_spriteShip);
+	}
 }
 
 //Move the ship, if you don't understand the code look at 'm_movement' description
@@ -128,6 +157,7 @@ bool Player::CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size)
 //Decrement lives and reset position; in the future it will have a GameOver functionality
 void Player::Die()
 {
+	m_isImmortal = true;
 	m_lives--;
 	m_spriteShip.setPosition(m_initialPos);
 
@@ -136,6 +166,10 @@ void Player::Die()
 		m_lives = 3;
 		ResetScore();
 	}
+}
+bool Player::IsPlayerDead() 
+{ 
+	return m_isImmortal; 
 }
 
 //Load the font for the text and set up the text's position, size, initial value.

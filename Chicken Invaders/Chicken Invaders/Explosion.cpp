@@ -1,10 +1,12 @@
 #include "Explosion.h"
 
-void Explosion::explosion()
+bool Explosion::explosion()
 {
 	frame_explosion += animSpeed_explosion;
-	if (frame_explosion > frameCount_explosion) frame_explosion = 0;
+	if (frame_explosion > frameCount_explosion)
+		return false;
 	sprite_explosion.setTextureRect(IntRect(int(frame_explosion) * 256, 0, 256, 256));
+	return true;
 }
 
 void Explosion::setSprite_explosion(const Texture& texture)
@@ -13,10 +15,12 @@ void Explosion::setSprite_explosion(const Texture& texture)
 	sprite_explosion.setScale(.5, .5);
 }
 
-void Explosion::draw_explosion(RenderWindow& map)
+bool Explosion::draw_explosion(RenderWindow& map)
 {
-	explosion();
+	if (explosion() == false)
+		return false;
 	map.draw(sprite_explosion);
+	return true;
 }
 
 void Explosion::explosion_setPosition(float x_POS, float y_POS)

@@ -22,9 +22,9 @@ using namespace sf;
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& selected, Player& player, ResourceLoader& resourceLoader, std::vector<Egg>& eggs, int& Contor, std::vector<Bullet>& GameBullets);
 void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, Present& present, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets);
-void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets);
-void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game);
-bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens);
+void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions);
+void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game, const Time& deltaTime, std::vector<Explosion>& explosions);
+bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Present& present, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens);
 
 #pragma endregion
 
@@ -46,6 +46,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 #pragma region Variables
 
 	Clock clock;
+	Time lastFrameTime;
+	Time deltaTime;
 	ResourceLoader resourceLoader;
 	sf::Text loadingText;
 
@@ -53,7 +55,6 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Wave Wave3;
 	int wave_number = 0;
 
-	Explosion explode;
 	Present present;
 
 	bool selected = true;
@@ -70,25 +71,31 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	std::vector<Asteroid> asteroids;
 	//Vector of chickens
 	std::vector<Chicken> chickens;
+	std::vector<Explosion> explosions;
 
 #pragma endregion
 
-	if (Init(WINDOW_WIDTH, WINDOW_HEIGHT, gameWindow, clock, resourceLoader, loadingText, titleScreen, gameBackground, player, explode, present, asteroids, chickens) == false)
+	if (Init(WINDOW_WIDTH, WINDOW_HEIGHT, gameWindow, clock, resourceLoader, loadingText, titleScreen, gameBackground, player, present, asteroids, chickens) == false)
 		return;
+
+	lastFrameTime = clock.getElapsedTime();
 
 	//Game widow
 	while (gameWindow.isOpen())
 	{
+		deltaTime = clock.getElapsedTime() - lastFrameTime;
+		lastFrameTime = clock.getElapsedTime();
+
 		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, selected, player, resourceLoader, eggs, Contor, GameBullets);
 
 		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, player, eggs, chickens, present, asteroids,GameBullets);
-		CheckCollisions(player, Contor, eggs, asteroids,GameBullets);
+		CheckCollisions(resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions);
 
-		DrawEverything(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, titleScreen, gameBackground, player, explode, present, chickens, asteroids, GameBullets, eggs, selected, start_game);
+		DrawEverything(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, titleScreen, gameBackground, player, present, chickens, asteroids, GameBullets, eggs, selected, start_game, deltaTime, explosions);
 	}
 }
 
-bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens)
+bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Present& present, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens)
 {
 	Time time = clock.getElapsedTime();
 	std::cout << "Start: " << time.asSeconds() << "\n";
@@ -121,7 +128,6 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 
 	titleScreen.IntroMain_SetTextures(WINDOW_WIDTH, WINDOW_HEIGHT, resourceLoader);
 
-	explode.setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
 	present.setSpritePresent(resourceLoader.GetTexture(ResourceLoader::TextureType::Gift));
 
 	player.LoadLiveSprites(resourceLoader.GetTexture(ResourceLoader::TextureType::UI_heart));
@@ -266,25 +272,41 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Player& play
 	present.fallDownPresent(WINDOW_HEIGHT);
 }
 
-void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets)
+void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions)
 {
 	//Check if any of the eggs collides with the ship
 	for (int index = 0; index < eggs.size(); index++)
 		if (player.CheckCollision(eggs[index].GetPosition(), eggs[index].GetSize()))
 		{
-			//If so erase the egg and kill the player
-			eggs.erase(eggs.begin() + index);
-			player.Die();
-			Contor--;
+			if (player.IsPlayerDead() == false)
+			{
+				//If so erase the egg and kill the player
+				eggs.erase(eggs.begin() + index);
+
+				explosions.push_back(Explosion());
+				explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
+				explosions[explosions.size() - 1].explosion_setPosition(player.GetPosition().x, player.GetPosition().y);
+
+				player.Die();
+				Contor--;
+			}
 		}
 
 	for (int index = 0; index < asteroids.size(); index++)
 		if (player.CheckCollision(asteroids[index].GetPosition(), asteroids[index].GetSize()))
 		{
-			//If so erase the asteroid and kill the player
-			asteroids.erase(asteroids.begin() + index);
-			player.Die();
-			Contor--;
+			if (player.IsPlayerDead() == false)
+			{
+				//If so erase the asteroid and kill the player
+				asteroids.erase(asteroids.begin() + index);
+
+				explosions.push_back(Explosion());
+				explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
+				explosions[explosions.size() - 1].explosion_setPosition(player.GetPosition().x, player.GetPosition().y);
+
+				player.Die();
+				Contor--;
+			}
 		}
 	/*for(int index=0;index<asteroids.size();index++)
 		for (int j = 0; j < GameBullets.size(); j++)
@@ -297,7 +319,7 @@ void CheckCollisions(Player& player, int& Contor, std::vector<Egg>& eggs, std::v
 
 }
 
-void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Explosion& explode, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game)
+void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game, const Time& deltaTime, std::vector<Explosion>& explosions)
 {
 	gameWindow.clear();
 
@@ -310,13 +332,10 @@ void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGH
 		gameBackground.AnimateBackground();
 		gameBackground.drawBackground(gameWindow);
 
-		explode.explosion_setPosition(100, 100);
-		explode.draw_explosion(gameWindow);
-
 		present.drawPresent(gameWindow);
 
 		player.Animate();
-		player.DrawShip(gameWindow);
+		player.DrawShip(gameWindow, deltaTime.asSeconds());
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
 
@@ -332,7 +351,7 @@ void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGH
 		gameBackground.drawBackground(gameWindow);
 
 		player.Animate();
-		player.DrawShip(gameWindow);
+		player.DrawShip(gameWindow, deltaTime.asSeconds());
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
 
@@ -348,6 +367,12 @@ void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGH
 	//Draw all the eggs
 	for (int index = 0; index < eggs.size(); index++)
 		eggs[index].DrawEgg(gameWindow);
+
+	for (int index = 0; index < explosions.size(); index++)
+	{
+		if (explosions[index].draw_explosion(gameWindow) == false)
+			explosions.erase(explosions.begin() + index);
+	}
 
 	if (selected)
 	{

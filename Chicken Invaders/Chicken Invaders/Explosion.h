@@ -13,10 +13,10 @@ private:
 	float animSpeed_explosion = 1;
 
 public:
-	void explosion();
+	bool explosion();
 	//these are the functions that are setting the explosion when an enemy dies
 	void setSprite_explosion(const Texture& texture);
-	void draw_explosion(RenderWindow& map);
+	bool draw_explosion(RenderWindow& map);
 	void explosion_setPosition(float x_POS, float y_POS);
 };
 

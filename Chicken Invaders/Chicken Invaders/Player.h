@@ -8,7 +8,7 @@ public:
 	void Init(sf::Vector2f initialPos, const sf::Texture& texture);
 
 	//Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
-	void DrawShip(sf::RenderWindow& window);
+	void DrawShip(sf::RenderWindow& gameWindow, float deltaTimeSeconds);
 	//Move the ship, the parameter is used for boundry check so that it doesn't go off-screen
 	void MoveShip(int WINDOW_WIDTH);
 	//Move right is used to know which value to set in the movement vector and the factor for how much to move (max value of 1)
@@ -34,6 +34,7 @@ public:
 	bool CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size);
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
+	bool IsPlayerDead();
 
 	//Will change the rect of the spritesheet to simulate an animation
 	//It knows which rect to pick so that it renders the expected animation
@@ -60,6 +61,9 @@ private:
 	*/
 	sf::Vector2f m_movement;
 
+	float m_currentImmortalTime = 0.0f;
+	float m_maxImmortalTime = 2.5f;
+	bool m_isImmortal = false;
 	int m_lives = 3;				//Number a lives the player has; it is decremented when he dies
 	sf::Sprite m_spriteLives[3];	//Sprites for the UI lives components
 
