@@ -15,7 +15,7 @@ public:
 	Missile(int shipCenterPosition_x, int shipCenterPosition_y, const sf::Texture &texture);
 	void DrawMissile(sf::RenderWindow &GameWindow);
 	void UpdatePosition();
-	void DrawAvailableMissile_OnTheScreen(int ShipFood);
+	void DrawAvailableMissile_OnTheScreen(sf::RenderWindow& GameWindow,int ShipFood);
 	Missile &operator=(const Missile& other);
 	Missile(Missile&& other) noexcept;
 };

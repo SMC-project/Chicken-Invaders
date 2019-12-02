@@ -313,8 +313,11 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 	for(int index=0;index<asteroids.size();index++)
 		for (int j = 0; j < GameBullets.size(); j++)
 			for(int z=0;z<7;z++)
-				if (GameBullets[j].CheckCollision(asteroids[index].GetPosition(), asteroids[index].GetSize(), z))
-				{
+				if (GameBullets[j].CheckCollision(asteroids[index].GetPosition()+Vector2f(0,130), asteroids[index].GetSize()-Vector2f(0,130), z))  
+				{    
+					explosions.push_back(Explosion());
+					explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
+					explosions[explosions.size() - 1].explosion_setPosition(asteroids[index].GetPosition().x-20, asteroids[index].GetPosition().y+130);
 					asteroids.erase(asteroids.begin() + index);
 					z = 7;
 					j = GameBullets.size();
@@ -345,7 +348,8 @@ bool& selected, bool& start_game, const Time& deltaTime, std::vector<Explosion>&
 		player.DrawShip(gameWindow, deltaTime.asSeconds());
 		player.DrawLives(gameWindow);
 		player.DrawScore(gameWindow);
-
+		//Test Draw available rockets
+		Rocket.DrawAvailableMissile_OnTheScreen(gameWindow, 75);
 		//DRAW CHICKENS
 		for (int index = 0; index < chickens.size(); index++)
 		{
@@ -368,7 +372,7 @@ bool& selected, bool& start_game, const Time& deltaTime, std::vector<Explosion>&
 	}
 	
 	//Test
-	Rocket.DrawMissile(gameWindow);
+	//Rocket.DrawMissile(gameWindow);
 	//Draw all bullets
 	for (int i = 0; i < GameBullets.size(); i++)
 		GameBullets[i].DrawBullet(gameWindow);
