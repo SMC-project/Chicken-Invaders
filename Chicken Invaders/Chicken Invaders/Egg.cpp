@@ -8,6 +8,8 @@ Egg::Egg(sf::Vector2f initialPos, const sf::Texture& texture)
 	m_spriteEgg.setScale(0.1f, 0.1f);
 	m_eggSize = sf::Vector2f(texture.getSize().x * m_spriteEgg.getScale().x, texture.getSize().y * m_spriteEgg.getScale().y);
 
+	m_speed = rand() % 10 + 5;
+
 	initialPos.x -= m_eggSize.x / 2;
 	initialPos.y -= m_eggSize.y / 2;
 	m_spriteEgg.setPosition(initialPos.x, initialPos.y);

@@ -28,6 +28,26 @@ void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture)
 	m_movement.y = 0;
 }
 
+void Player::AddMeat()
+{
+	m_currentMeat++;
+	m_nrMissiles = m_currentMeat / m_meatNeededForRocket;
+}
+
+void Player::DrawAvailableMissile_OnTheScreen(sf::RenderWindow& GameWindow, const sf::Texture& texture)
+{
+	sf::Sprite RocketCanv;
+	sf::Texture RocketTextCanv;
+	RocketCanv.setTexture(texture);
+	RocketCanv.setScale(0.25, 0.25);
+	RocketCanv.setPosition(-20, 1010);
+	for (int i = 0; i < m_nrMissiles; i++)
+	{
+		RocketCanv.move(25, 0);
+		GameWindow.draw(RocketCanv);
+	}
+}
+
 //Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
 void Player::DrawShip(sf::RenderWindow& gameWindow, float deltaTimeSeconds)
 {
@@ -220,3 +240,4 @@ void Player::Animate()
 }
 
 sf::Vector2f Player::GetPosition() { return m_spriteShip.getPosition(); }
+int Player::GetNrMissiles() { return m_nrMissiles; }

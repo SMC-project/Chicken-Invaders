@@ -21,5 +21,5 @@ private:
 	sf::Sprite m_spriteEgg;
 
 	sf::Vector2f m_eggSize;
-	float m_speed = 10;	//The speed with which it falls
+	float m_speed;	//The speed with which it falls
 };

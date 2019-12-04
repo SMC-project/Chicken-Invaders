@@ -21,8 +21,6 @@ Asteroid::Asteroid(Asteroid&& other) noexcept
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	m_sprite_asteroid.setRotation(-45);
-
 }
 
 Asteroid& Asteroid::operator=(const Asteroid& other)
@@ -32,8 +30,6 @@ Asteroid& Asteroid::operator=(const Asteroid& other)
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	m_sprite_asteroid.setRotation(-45);
-
 	return *this;
 }
 
