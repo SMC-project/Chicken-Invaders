@@ -40,12 +40,21 @@ public:
 	//It knows which rect to pick so that it renders the expected animation
 	void Animate();
 
+	void DrawAvailableMissile_OnTheScreen(sf::RenderWindow& GameWindow, const sf::Texture& texture);
+	void AddMeat();
+
+
 	sf::Vector2f GetPosition();
+	int GetNrMissiles();
 
 private:
 	sf::Vector2f m_initialPos;	//We store the initial position in order to reset the player when he dies
 	sf::Vector2f m_shipSize;		//Retain the pixels covered by the sprite; used for collision check
 	sf::Sprite m_spriteShip;			//The sprite of the ship
+
+	int m_meatNeededForRocket = 25;
+	int m_currentMeat = 0;
+	int m_nrMissiles = 0;
 
 	float m_speed = 20;					//Speed used for ship movement
 	float m_boundryOffset = 50;			//Used to have some space between the border of the screen and the ship when moving

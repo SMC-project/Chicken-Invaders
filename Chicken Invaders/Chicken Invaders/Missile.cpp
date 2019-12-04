@@ -21,22 +21,6 @@ void Missile::DrawMissile(sf::RenderWindow& GameWindow)
 	GameWindow.draw(m_missileSprite);
 }
 
-void Missile::DrawAvailableMissile_OnTheScreen(sf::RenderWindow& GameWindow, int ShipFood)
-{
-	sf::Sprite RocketCanv;
-	sf::Texture RocketTextCanv;
-	RocketTextCanv.loadFromFile("Sprites/Extras/RocketCanvas.png");
-	RocketCanv.setTexture(RocketTextCanv);
-	RocketCanv.setScale(1, 1);
-	RocketCanv.setPosition(-10, 1030);
-	int Nr = ShipFood / m_foodNeeded;
-	for (int i = 0; i < Nr; i++)
-	{
-		RocketCanv.move(20, 0);
-		GameWindow.draw(RocketCanv);
-	}
-}
-
 Missile& Missile::operator=(const Missile& other)
 {
 	m_missileSprite = other.m_missileSprite;

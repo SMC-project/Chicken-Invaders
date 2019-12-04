@@ -24,6 +24,7 @@
     <ClCompile Include="Chicken.cpp" />
     <ClCompile Include="Egg.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Meat.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Present.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Chicken.h" />
     <ClInclude Include="Egg.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Meat.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Present.h" />
