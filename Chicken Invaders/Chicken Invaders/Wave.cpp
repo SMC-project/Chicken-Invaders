@@ -1,68 +1,18 @@
 #include "Wave.h"
-//
-//void Wave::fisrtWavePosition(Chicken chicken[5][8],const int WINDOW_WIDTH,const int WINDOW_HEIGHT)
-//{
-//
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//			chicken[i][j].sprite_chicken.setPosition(140*j + WINDOW_WIDTH/4, 120*i + WINDOW_HEIGHT/9);
-//	
-//}
-//
-//void Wave::drawWave(RenderWindow& map,Chicken chicken[5][8])
-//{
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//			map.draw(chicken[i][j].sprite_chicken);
-//}
-//
-//void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
-//{
-//	enemy.loadFromFile("Sprites/Enemy/chicken.png");
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//		{
-//			chicken[i][j].sprite_chicken.setTexture(enemy);
-//			chicken[i][j].sprite_chicken.setScale(0.3,0.3);
-//		}
-//}
-//
-//void Wave::movementFirstWave(Chicken chicken[5][8])
-//{
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//		{
-//
-//			float current_x = chicken[i][j].sprite_chicken.getPosition().x;
-//			float current_y = chicken[i][j].sprite_chicken.getPosition().y;
-//			if (!left_or_right_movement)
-//			{
-//				if (current_x >= 1700) 
-//				{
-//					current_x -= 5;
-//					left_or_right_movement = !left_or_right_movement;
-//				}
-//				else
-//					current_x += 5;
-//			}
-//			else
-//			{
-//				if (current_x <= 20) 
-//				{
-//					current_x += 5;
-//					left_or_right_movement = !left_or_right_movement;
-//					
-//					
-//				}
-//				else
-//					current_x -= 5;
-//			}
-//			for (int i = 0; i < 5; i++)
-//				for (int j = 0; j < 8; j++)
-//					chicken[i][j].Animation();
-//			chicken[i][j].sprite_chicken.setPosition(current_x, current_y);
-//			//std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
-//		}
-//
-//}
 
+void Wave::Init_asteroids(std::vector<Asteroid>& asteroids, ResourceLoader resource)
+{
+	float random_number;
+	for (int index = 0; index < 15; index++)
+	{
+		random_number = rand() % 900 + rand() % 100;
+		random_number = -random_number;
+		float current_x = random_number;
+
+		random_number = rand() % 900 + rand() % 100;
+		random_number = -random_number;
+		float current_y = random_number;
+
+		asteroids.push_back(std::move(Asteroid(sf::Vector2f(current_x, current_y), resource.GetTexture(ResourceLoader::TextureType::Asteroid))));
+	}
+}
