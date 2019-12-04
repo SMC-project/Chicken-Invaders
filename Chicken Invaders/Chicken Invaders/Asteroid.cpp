@@ -11,6 +11,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture)
 	initialPos.x -= m_asteroidSize.x / 2;
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
+	hits_remaining = 1;
 }
 
 Asteroid::Asteroid(Asteroid&& other) noexcept
@@ -64,6 +65,16 @@ bool Asteroid::Falldown(int screenHeight)
 	if (m_sprite_asteroid.getPosition().y > screenHeight)
 		return true;
 	return false;
+}
+
+void Asteroid::SetHits_Remaining(int number)
+{
+	hits_remaining = number;
+}
+
+int Asteroid::GetHits_Remaining()
+{
+	return hits_remaining;
 }
 
 Vector2f Asteroid::GetPosition() { return m_sprite_asteroid.getPosition(); }

@@ -7,7 +7,7 @@ using namespace sf;
 class Asteroid
 {
 private:
-	
+	int hits_remaining;
 	float frame_asteroid1 = 0;
 	int framecount_asteroid1 = 29;
 	float animSpeed_Asteroid1 = .2;
@@ -26,6 +26,8 @@ public:
 	void asteroid_setPosition(float x_POS, float y_POS);
 	bool Falldown(int screenHeight);
 
+	void SetHits_Remaining(int number);
+	int GetHits_Remaining();
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetSize();
 };
