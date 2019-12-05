@@ -96,6 +96,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, selected, player, resourceLoader, eggs, Contor, GameBullets, meat);
 
 		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, gameBackground, player, eggs, chickens, present, asteroids,GameBullets);
+		wave1.firstWaveMovement(chickens, gameWindow);
 		CheckCollisions(resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions);
 
 		DrawEverything(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, resourceLoader, titleScreen, gameBackground, player, present, chickens, asteroids, GameBullets, eggs, selected, start_game, deltaTime, explosions, meat);
@@ -262,6 +263,7 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, ScrollBackgr
 {
 	gameBackground.AnimateBackground();
 	player.MoveShip(WINDOW_WIDTH);
+	Wave wave1;
 	//Move each egg from the eggs vector
 	for (int index = 0; index < eggs.size(); index++)
 		if (eggs[index].FallDown(WINDOW_HEIGHT))

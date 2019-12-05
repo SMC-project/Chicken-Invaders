@@ -95,3 +95,26 @@ void Wave::setPositionWaveOne(std::vector<Chicken>& chickens, int Window_width, 
 	}
 
 }
+
+void Wave::firstWaveMovement(std::vector<Chicken> &chickens, RenderWindow& map)
+{
+	for (int index = 0; index < chickens.size(); index++)
+	{
+		if (!m_leftOrRightMovement)
+			if (chickens[index].getPosition().x >= 1700)
+			{
+				m_leftOrRightMovement = !m_leftOrRightMovement;
+			}
+			else
+				chickens[index].moveChicken(5, 0);
+		else if (m_leftOrRightMovement)
+		{
+			if (chickens[index].getPosition().x <= 20)
+			{
+				m_leftOrRightMovement = !m_leftOrRightMovement;
+			}
+			else
+				chickens[index].moveChicken(-5, 0);
+		}
+	}
+}
