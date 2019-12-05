@@ -1,4 +1,5 @@
 #include "ResourceLoader.h"
+#include <thread>
 
 bool ResourceLoader::Init1()
 {
@@ -11,134 +12,223 @@ bool ResourceLoader::Init1()
 	return true;
 }
 
+
+
 bool ResourceLoader::Init2()
 {
-	if (m_music_background.openFromFile("Music/c.ogg") == false)
-	{
-		printf("Error: couldn't load music.\n");
-		return false;
-	}
+	bool perfectLoad = true;
 
-	if (m_background.loadFromFile("Sprites/Extras/gbackground.png") == false)
-	{
-		printf("Error: couldn't load background.\n");
-		return false;
-	}
-	if (m_earth.loadFromFile("Sprites/Extras/earth.png") == false)
-	{
-		printf("Error: couldn't load earth image.\n");
-		return false;
-	}
+	std::thread musicThread([this, &perfectLoad]() {
+		if (m_music_background.openFromFile("Music/c.ogg") == false)
+		{
+			printf("Error: couldn't load music.\n");
+			perfectLoad = false;
+		}
+		});
 
-	if (m_ship.loadFromFile("Sprites/ship.png") == false)
-	{
-		printf("Error: couldn't load ship.\n");
-		return false;
-	}
-	if (m_asteroidFlame.loadFromFile("Sprites/Enemy/asteroidFlame.png") == false)
-	{
-		printf("Error: couldn't load flame asteroid.\n");
-		return false;
-	}
-	if (m_asteroid.loadFromFile("Sprites/Enemy/asteroidNormal.png") == false)
-	{
-		printf("Error: couldn't load normal asteroid.\n");
-		return false;
-	}
-	if (m_chicken.loadFromFile("Sprites/Enemy/chicken.png") == false)
-	{
-		printf("Error: couldn't load chicken.\n");
-		return false;
-	}
+	std::thread backgroundThread([this, &perfectLoad]() {
+		if (m_background.loadFromFile("Sprites/Extras/gbackground.png") == false)
+		{
+			printf("Error: couldn't load background.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread earthThread([this, &perfectLoad]() {
+		if (m_earth.loadFromFile("Sprites/Extras/earth.png") == false)
+		{
+			printf("Error: couldn't load earth image.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread shipThread([this, &perfectLoad]() {
+		if (m_ship.loadFromFile("Sprites/ship.png") == false)
+		{
+			printf("Error: couldn't load ship.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread asteroidFlameThread([this, &perfectLoad]() {
+		if (m_asteroidFlame.loadFromFile("Sprites/Enemy/asteroidFlame.png") == false)
+		{
+			printf("Error: couldn't load flame asteroid.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread asteroidThread([this, &perfectLoad]() {
+		if (m_asteroid.loadFromFile("Sprites/Enemy/asteroidNormal.png") == false)
+		{
+			printf("Error: couldn't load normal asteroid.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread chickenThread([this, &perfectLoad]() {
+		if (m_chicken.loadFromFile("Sprites/Enemy/chicken.png") == false)
+		{
+			printf("Error: couldn't load chicken.\n");
+			perfectLoad = false;
+		}
+		});
+
 	//m_boss;
 
-	if (m_gift.loadFromFile("Sprites/Extras/gift.png") == false)
-	{
-		printf("Error: couldn't load gift.\n");
-		return false;
-	}
-	if (m_meat.loadFromFile("Sprites/Extras/meat.png") == false)
-	{
-		printf("Error: couldn't load meat.\n");
-		return false;
-	}
+	std::thread giftThread([this, &perfectLoad]() {
+		if (m_gift.loadFromFile("Sprites/Extras/gift.png") == false)
+		{
+			printf("Error: couldn't load gift.\n");
+			perfectLoad = false;
+		}
+		});
 
-	if (m_explosion.loadFromFile("Sprites/Extras/explosion.png") == false)
-	{
-		printf("Error: couldn't load explosion.\n");
-		return false;
-	}
+	std::thread meatThread([this, &perfectLoad]() {
+		if (m_meat.loadFromFile("Sprites/Extras/meat.png") == false)
+		{
+			printf("Error: couldn't load meat.\n");
+			perfectLoad = false;
+		}
+		});
 
-	if (m_bullet.loadFromFile("Sprites/Weapons/bullet.png") == false)
-	{
-		printf("Error: couldn't load bullet.\n");
-		return false;
-	}
-	if (m_egg.loadFromFile("Sprites/Weapons/egg.png") == false)
-	{
-		printf("Error: couldn't load egg.\n");
-		return false;
-	}
-	if (m_rocket.loadFromFile("Sprites/Weapons/rocket.png") == false)
-	{
-		printf("Error: couldn't load rocket.\n");
-		return false;
-	}
+	std::thread explosionThread([this, &perfectLoad]() {
+		if (m_explosion.loadFromFile("Sprites/Extras/explosion.png") == false)
+		{
+			printf("Error: couldn't load explosion.\n");
+			perfectLoad = false;
+		}
+		});
 
-	if (m_uiHeart.loadFromFile("Sprites/Extras/heart.png") == false)
-	{
-		printf("Error: couldn't load heart.\n");
-		return false;
-	}
-	if (m_uiRocket.loadFromFile("Sprites/Weapons/rocketUI.png") == false)
-	{
-		printf("Error: couldn't load ui rocket.\n");
-		return false;
-	}
+	std::thread bulletThread([this, &perfectLoad]() {
+		if (m_bullet.loadFromFile("Sprites/Weapons/bullet.png") == false)
+		{
+			printf("Error: couldn't load bullet.\n");
+			perfectLoad = false;
+		}
+		});
 
-	if (m_uiButton_play.loadFromFile("Sprites/user_interface/play_button.png") == false)
-	{
-		printf("Error: couldn't load play button.\n");
-		return false;
-	}
-	if (m_uiButton_exit.loadFromFile("Sprites/user_interface/exit_button.png") == false)
-	{
-		printf("Error: couldn't load exit button.\n");
-		return false;
-	}
-	if (m_uiButton_exitHover.loadFromFile("Sprites/user_interface/exit_hover.png") == false)
-	{
-		printf("Error: couldn't load exit hover button.\n");
-		return false;
-	}
-	if (m_uiButton_leaderboard.loadFromFile("Sprites/user_interface/leaderboard_button.png") == false)
-	{
-		printf("Error: couldn't load leaderboard button.\n");
-		return false;
-	}
-	if (m_uiButton_leaderboardHover.loadFromFile("Sprites/user_interface/leaderboard_hover.png") == false)
-	{
-		printf("Error: couldn't load leaderboard hover button.\n");
-		return false;
-	}
-	if (m_uiSide.loadFromFile("Sprites/user_interface/side_texture.png") == false)
-	{
-		printf("Error: couldn't load side texture.\n");
-		return false;
-	}
-	if (m_uiTip.loadFromFile("Sprites/user_interface/tip.png") == false)
-	{
-		printf("Error: couldn't load tip.\n");
-		return false;
-	}
+	std::thread eggThread([this, &perfectLoad]() {
+		if (m_egg.loadFromFile("Sprites/Weapons/egg.png") == false)
+		{
+			printf("Error: couldn't load egg.\n");
+			perfectLoad = false;
+		}
+		});
 
-	if (m_ui_background.loadFromFile("Sprites/user_interface/main_background.png") == false)
-	{
-		printf("Error: couldn't load title screen's background.\n");
-		return false;
-	}
+	std::thread rocketThread([this, &perfectLoad]() {
+		if (m_rocket.loadFromFile("Sprites/Weapons/rocket.png") == false)
+		{
+			printf("Error: couldn't load rocket.\n");
+			perfectLoad = false;
+		}
+		});
 
-	return true;
+	std::thread heartThread([this, &perfectLoad]() {
+		if (m_uiHeart.loadFromFile("Sprites/Extras/heart.png") == false)
+		{
+			printf("Error: couldn't load heart.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread rocketUIThread([this, &perfectLoad]() {
+		if (m_uiRocket.loadFromFile("Sprites/Weapons/rocketUI.png") == false)
+		{
+			printf("Error: couldn't load ui rocket.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread playButtonThread([this, &perfectLoad]() {
+		if (m_uiButton_play.loadFromFile("Sprites/user_interface/play_button.png") == false)
+		{
+			printf("Error: couldn't load play button.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread exitButtonThread([this, &perfectLoad]() {
+		if (m_uiButton_exit.loadFromFile("Sprites/user_interface/exit_button.png") == false)
+		{
+			printf("Error: couldn't load exit button.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread exitHoverThread([this, &perfectLoad]() {
+		if (m_uiButton_exitHover.loadFromFile("Sprites/user_interface/exit_hover.png") == false)
+		{
+			printf("Error: couldn't load exit hover button.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread leaderboardButtonThread([this, &perfectLoad]() {
+		if (m_uiButton_leaderboard.loadFromFile("Sprites/user_interface/leaderboard_button.png") == false)
+		{
+			printf("Error: couldn't load leaderboard button.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread leaderboardHoverButtonThread([this, &perfectLoad]() {
+		if (m_uiButton_leaderboardHover.loadFromFile("Sprites/user_interface/leaderboard_hover.png") == false)
+		{
+			printf("Error: couldn't load leaderboard hover button.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread sideTextureThread([this, &perfectLoad]() {
+		if (m_uiSide.loadFromFile("Sprites/user_interface/side_texture.png") == false)
+		{
+			printf("Error: couldn't load side texture.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread tipThread([this, &perfectLoad]() {
+		if (m_uiTip.loadFromFile("Sprites/user_interface/tip.png") == false)
+		{
+			printf("Error: couldn't load tip.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread mainMenuBackgroundThread([this, &perfectLoad]() {
+		if (m_ui_background.loadFromFile("Sprites/user_interface/main_background.png") == false)
+		{
+			printf("Error: couldn't load title screen's background.\n");
+			perfectLoad = false;
+		}
+		});
+
+	musicThread.join();
+	backgroundThread.join();
+	earthThread.join();
+	shipThread.join();
+	asteroidFlameThread.join();
+	asteroidThread.join();
+	chickenThread.join();
+	giftThread.join();
+	meatThread.join();
+	explosionThread.join();
+	bulletThread.join();
+	eggThread.join();
+	rocketThread.join();
+	heartThread.join();
+	rocketUIThread.join();
+	playButtonThread.join();
+	exitButtonThread.join();
+	exitHoverThread.join();
+	leaderboardButtonThread.join();
+	leaderboardHoverButtonThread.join();
+	sideTextureThread.join();
+	tipThread.join();
+	mainMenuBackgroundThread.join();
+
+	return perfectLoad;
 }
 
 const sf::Texture& ResourceLoader::GetTexture(const TextureType& type)
