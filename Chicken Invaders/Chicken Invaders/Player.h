@@ -5,7 +5,7 @@ class Player
 {
 public:
 	//Load the sprite of the player, set and retain it's initial pos in the center of the screen, calculate pixelSize
-	void Init(sf::Vector2f initialPos, const sf::Texture& texture);
+	void Init(sf::Vector2f initialPos, const sf::Texture& texture, const sf::Texture& uiMissileTexture);
 
 	//Draw the sprite to the window, it may be more complex in the future (with animations) so I made it a method.
 	void DrawShip(sf::RenderWindow& gameWindow, float deltaTimeSeconds);
@@ -31,7 +31,7 @@ public:
 
 	//Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
 	//Returns true if we collided with something
-	bool CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size);
+	bool CheckCollision(const sf::Sprite& other);
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
 	bool IsPlayerDead();
@@ -40,12 +40,12 @@ public:
 	//It knows which rect to pick so that it renders the expected animation
 	void Animate();
 
-	void DrawAvailableMissile_OnTheScreen(sf::RenderWindow& GameWindow, const sf::Texture& texture);
+	void DrawUIMissile(sf::RenderWindow& GameWindow, const sf::Texture& texture);
 	void AddMeat();
-
 
 	sf::Vector2f GetPosition();
 	int GetNrMissiles();
+	void ShootMissile();
 
 private:
 	sf::Vector2f m_initialPos;	//We store the initial position in order to reset the player when he dies
@@ -83,5 +83,7 @@ private:
 	//Score variables, I may put them the game manager later
 	long long m_score = 0;
 	sf::Text m_scoreText;
+
+	sf::Sprite m_ui_rocket;
 };
 

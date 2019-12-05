@@ -1,6 +1,7 @@
 #include "Player.h"
+#include "RectangularBoundaryCollision.hpp"
 
-void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture)
+void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture, const sf::Texture& uiMissileTexture)
 {
 	//Load the texture and set the sprite
 	m_spriteShip.setTexture(texture);
@@ -26,6 +27,9 @@ void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture)
 	//Set default values
 	m_movement.x = 0;
 	m_movement.y = 0;
+
+	m_ui_rocket.setTexture(uiMissileTexture);
+	m_ui_rocket.setScale(0.25, 0.25);
 }
 
 void Player::AddMeat()
@@ -34,17 +38,13 @@ void Player::AddMeat()
 	m_nrMissiles = m_currentMeat / m_meatNeededForRocket;
 }
 
-void Player::DrawAvailableMissile_OnTheScreen(sf::RenderWindow& GameWindow, const sf::Texture& texture)
+void Player::DrawUIMissile(sf::RenderWindow& gameWindow, const sf::Texture& texture)
 {
-	sf::Sprite RocketCanv;
-	sf::Texture RocketTextCanv;
-	RocketCanv.setTexture(texture);
-	RocketCanv.setScale(0.25, 0.25);
-	RocketCanv.setPosition(-20, 1010);
+	m_ui_rocket.setPosition(-20, 1010);
 	for (int i = 0; i < m_nrMissiles; i++)
 	{
-		RocketCanv.move(25, 0);
-		GameWindow.draw(RocketCanv);
+		m_ui_rocket.move(25, 0);
+		gameWindow.draw(m_ui_rocket);
 	}
 }
 
@@ -160,18 +160,22 @@ void Player::DrawLives(sf::RenderWindow& gameWindow)
 }
 
 //Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
-bool Player::CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size)
+bool Player::CheckCollision(const sf::Sprite& other)
 {
-	//Check if the collision object is too far on the right or on the left of our sprite, if so we can't collide
-	if (m_spriteShip.getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_spriteShip.getPosition().x + m_shipSize.x))
-		return false;
+	if (collision::areColliding(m_spriteShip, other))
+		return true;
+	return false;
 
-	//Check if the collision object is higher or lower than our sprite, if so we can't collide
-	if (m_spriteShip.getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_spriteShip.getPosition().y + m_shipSize.y))
-		return false;
+	////Check if the collision object is too far on the right or on the left of our sprite, if so we can't collide
+	//if (m_spriteShip.getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_spriteShip.getPosition().x + m_shipSize.x))
+	//	return false;
 
-	//If it is not outside our sprite then we are overlapping with it
-	return true;
+	////Check if the collision object is higher or lower than our sprite, if so we can't collide
+	//if (m_spriteShip.getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_spriteShip.getPosition().y + m_shipSize.y))
+	//	return false;
+
+	////If it is not outside our sprite then we are overlapping with it
+	//return true;
 }
 
 //Decrement lives and reset position; in the future it will have a GameOver functionality
@@ -241,3 +245,4 @@ void Player::Animate()
 
 sf::Vector2f Player::GetPosition() { return m_spriteShip.getPosition(); }
 int Player::GetNrMissiles() { return m_nrMissiles; }
+void Player::ShootMissile() { m_nrMissiles--; }

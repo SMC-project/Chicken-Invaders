@@ -13,90 +13,117 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Weapons">
+      <UniqueIdentifier>{236aae1a-4fc3-434c-b52a-18fb0f4b515e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drops">
+      <UniqueIdentifier>{edc12bb4-eff4-48ea-b5b6-4efac480ed07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Enemies">
+      <UniqueIdentifier>{7e71856b-4fbb-4edc-828d-0de111e4b7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universal">
+      <UniqueIdentifier>{95d0b26a-1749-41e6-9284-c4e59c0007ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Drops">
+      <UniqueIdentifier>{95d125a6-02f0-4d50-ae72-11cc4799fd22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemies">
+      <UniqueIdentifier>{77e18c18-c1bd-4c48-ace2-0424a6eda861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universal">
+      <UniqueIdentifier>{9150a121-3077-4bd2-865b-688152315c91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Weapons">
+      <UniqueIdentifier>{a9ade7e6-e58f-4b5d-876c-423e04867dd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Chicken.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Wave.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScrollBackground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Asteroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Present.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Asteroid.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Chicken.cpp">
+      <Filter>Source Files\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Egg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Missile.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="Meat.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Present.cpp">
+      <Filter>Source Files\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoader.cpp">
+      <Filter>Source Files\Universal</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollBackground.cpp">
+      <Filter>Source Files\Universal</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreen.cpp">
+      <Filter>Source Files\Universal</Filter>
+    </ClCompile>
+    <ClCompile Include="Wave.cpp">
+      <Filter>Source Files\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Chicken.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wave.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScrollBackground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Asteroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Present.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\Weapons</Filter>
     </ClInclude>
     <ClInclude Include="Egg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Weapons</Filter>
     </ClInclude>
     <ClInclude Include="Missile.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Weapons</Filter>
     </ClInclude>
     <ClInclude Include="Meat.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="Present.h">
+      <Filter>Header Files\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="Asteroid.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Chicken.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangularBoundaryCollision.hpp">
+      <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollBackground.h">
+      <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreen.h">
+      <Filter>Header Files\Universal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

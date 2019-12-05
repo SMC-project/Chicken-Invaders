@@ -1,5 +1,4 @@
 #include "ScrollBackground.h"
-#include <iostream>
 
 void ScrollBackground::Init(const sf::Texture& texture)
 {

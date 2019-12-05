@@ -12,6 +12,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture)
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
 	hits_remaining = 1;
+	m_sprite_asteroid.setRotation(-45);
 }
 
 Asteroid::Asteroid(Asteroid&& other) noexcept
@@ -21,6 +22,7 @@ Asteroid::Asteroid(Asteroid&& other) noexcept
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
+	m_sprite_asteroid.setRotation(-45);
 }
 
 Asteroid& Asteroid::operator=(const Asteroid& other)
@@ -30,6 +32,7 @@ Asteroid& Asteroid::operator=(const Asteroid& other)
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
+	m_sprite_asteroid.setRotation(-45);
 	return *this;
 }
 
@@ -75,3 +78,5 @@ int Asteroid::GetHits_Remaining()
 
 Vector2f Asteroid::GetPosition() { return m_sprite_asteroid.getPosition(); }
 Vector2f Asteroid::GetSize() { return m_asteroidSize; }
+
+const sf::Sprite& Asteroid::GetSprite() { return m_sprite_asteroid; }

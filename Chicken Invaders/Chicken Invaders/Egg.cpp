@@ -23,6 +23,7 @@ Egg::Egg(Egg&& other) noexcept
 	m_spriteEgg.setScale(other.m_spriteEgg.getScale());
 	m_eggSize = other.m_eggSize;
 	m_spriteEgg.setPosition(other.m_spriteEgg.getPosition());
+	m_speed = other.m_speed;
 }
 
 //Operator= needed for move constructor
@@ -33,17 +34,18 @@ Egg& Egg::operator=(const Egg& other)
 	m_spriteEgg.setScale(other.m_spriteEgg.getScale());
 	m_eggSize = other.m_eggSize;
 	m_spriteEgg.setPosition(other.m_spriteEgg.getPosition());
+	m_speed = other.m_speed;
 	return *this;
 }
 
-//Move the egg downwards and return true if it exits the screen
+//Move the egg downwards and return false if it exits the screen
 bool Egg::FallDown(int screenHeight)
 {
 	m_spriteEgg.move(0, m_speed);
 
 	if (m_spriteEgg.getPosition().y > screenHeight)
-		return true;
-	return false;
+		return false;
+	return true;
 }
 
 void Egg::DrawEgg(sf::RenderWindow& window)
@@ -53,3 +55,8 @@ void Egg::DrawEgg(sf::RenderWindow& window)
 
 sf::Vector2f Egg::GetPosition() { return m_spriteEgg.getPosition(); }
 sf::Vector2f Egg::GetSize() { return m_eggSize; }
+
+const sf::Sprite& Egg::GetSprite()
+{
+	return m_spriteEgg;
+}

@@ -17,6 +17,8 @@ public:
 	//Operator= needed for move constructor
 	Egg& operator=(const Egg& other);
 
+	const sf::Sprite& GetSprite();
+
 private:
 	sf::Sprite m_spriteEgg;
 
