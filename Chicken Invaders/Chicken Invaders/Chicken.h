@@ -10,8 +10,8 @@ class Chicken
 {
 private:
 	float frameChicken = 0;
-	int frameCountchicken = 45;
-	float animeSpeedChicken = 0.03;
+	int frameCountchicken = 44;
+	float animeSpeedChicken = 1.5;
 	Sprite m_chickenSprite;
 	Vector2f m_chickenSize;
 
@@ -24,7 +24,7 @@ public:
 	//Functions of chicken
 	void drawChicken(RenderWindow& map);
 	void setPositionChicken(float posX, float posY);
-	void chickenMovement(int screenWidth);
+	void moveChicken(float posX, float posY);
 	//Getters
 	sf::Vector2f getPosition();
 	sf::Vector2f getSize();
