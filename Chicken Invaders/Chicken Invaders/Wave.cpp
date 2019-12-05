@@ -66,3 +66,32 @@
 //
 //}
 
+Wave::Wave()
+{
+}
+
+void Wave::firstWave(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int WINDOW_WIDTH, int WINDOW_HEIGHT)
+{
+	for (int index = 0; index < 40; index++)
+	{
+		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9),
+			resurceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+	}
+}
+
+void Wave::setPositionWaveOne(std::vector<Chicken>& chickens, int Window_width, int Window_height)
+{
+	int firstCoord = 0;
+	int secondCoord = 0;
+	for (int index=0; index < chickens.size(); index++)
+	{
+		if (secondCoord == 8)
+		{
+			firstCoord++;
+			secondCoord = 0;
+		}
+		secondCoord++;
+		chickens[index].setPositionChicken(140 * secondCoord + Window_width / 4, 120 * firstCoord + Window_height/9);
+	}
+
+}

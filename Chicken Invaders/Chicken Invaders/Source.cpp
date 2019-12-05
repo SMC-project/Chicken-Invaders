@@ -50,6 +50,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	Clock clock;
 	Time lastFrameTime;
 	Time deltaTime;
+	Wave wave1;
 	ResourceLoader resourceLoader;
 	sf::Text loadingText;
 
@@ -105,7 +106,7 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 {
 	Time time = clock.getElapsedTime();
 	std::cout << "Start: " << time.asSeconds() << "\n";
-
+	Wave wave1;
 	if (resourceLoader.Init1() == false)
 		return false;
 
@@ -153,13 +154,16 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 
 		asteroids.push_back(std::move(Asteroid(sf::Vector2f(current_x, current_y), resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid))));
 	}
-
+	//chicken vector 
 	for (int index = 0; index < 40; index++)
-	{
-		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
-	}
+		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT/9),
+			resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+
+	wave1.setPositionWaveOne(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
+	
 
 	gameWindow.clear();
+
 	time = clock.getElapsedTime();
 	std::cout << "Starting game: " << time.asSeconds() << "\n";
 
@@ -271,8 +275,9 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, ScrollBackgr
 	}
 	if (wave_number == 1)
 	{
-		for (int index = 0; index < chickens.size(); index++)
-			chickens[index].chickenMovement(WINDOW_WIDTH);
+		/*for (int index = 0; index < chickens.size(); index++)
+		chickens[index].chickenMovement(WINDOW_WIDTH);*/
+			
 	}
 	if (wave_number == 3)
 	{
@@ -338,7 +343,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, ResourceLoader& resourceLoader, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Present& present, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game, const Time& deltaTime, std::vector<Explosion>& explosions, std::vector<Meat>& meat)
 {
 	gameWindow.clear();
-
+	Wave wave1;
 	if (wave_number == 0)
 	{
 		titleScreen.IntroMain_Display(gameWindow, titleScreen);
@@ -377,10 +382,9 @@ void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGH
 		if (wave_number == 1)
 		{
 			//DRAW CHICKENS
-			for (int index = 0; index < chickens.size(); index++)
-			{
-				chickens[index].drawChicken(gameWindow);
-			}
+		
+			for (int i = 0; i < chickens.size(); i++)
+				chickens[i].drawChicken(gameWindow);
 		}
 		else if (wave_number == 3)
 		{

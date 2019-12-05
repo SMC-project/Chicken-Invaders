@@ -51,17 +51,12 @@ void Chicken::setPositionChicken(float posX, float posY)
 	m_chickenSprite.setPosition(posX, posY);
 }
 
-void Chicken::chickenMovement(int screenWidth)
+void Chicken::moveChicken(float posX, float posY)
 {
-	if (m_chickenSprite.getPosition().x >= screenWidth - m_chickenSize.x - 25)
-	{
-		m_chickenSprite.move(-10, 0);
-	}
-	else if (m_chickenSprite.getPosition().x <= 25)
-	{
-		m_chickenSprite.move(10, 0);
-	}
+	m_chickenSprite.move(posX, posY);
 }
+
+
 
 sf::Vector2f Chicken::getPosition()
 {
