@@ -67,3 +67,7 @@ sf::Vector2f Chicken::getSize()
 {
 	return m_chickenSize;
 }
+
+const sf::Sprite& Chicken::GetSprite() { return m_chickenSprite; }
+
+sf::Vector2f Chicken::GetPosition(){return m_chickenSprite.getPosition();}

@@ -1,6 +1,5 @@
 #include "Bullet.h"
 #include<Windows.h>
-
 void Bullet::LevelPower(Level currentLevel)
 {   
 	switch (currentLevel)
@@ -161,20 +160,36 @@ std::vector<std::tuple<int, int, bool>> Bullet::GetBulletsPositionAndState()
 	return m_bullets;
 }
 
-bool Bullet::CheckCollision(sf::Vector2f upperLeft, sf::Vector2f size, int index)
-{    
-	if (std::get<2>(m_bullets[index]) == false)
-		return false;
-	if (m_bulletSprites[index].getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_bulletSprites[index].getPosition().x + m_bulletSize.x))
-	{
-		return false;
-	}
-	if (m_bulletSprites[index].getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_bulletSprites[index].getPosition().y + m_bulletSize.y))
-	{
-		return false;
-	}
-	std::get<2>(m_bullets[index]) = false;
-	return true;
+//bool Bullet::CheckCollision(const sf::Sprite& other, int index)
+//{    
+//	if (std::get<2>(m_bullets[index]) == false)
+//		return false;
+//	/*if (m_bulletSprites[index].getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_bulletSprites[index].getPosition().x + m_bulletSize.x))
+//	{
+//		return false;
+//	}
+//	if (m_bulletSprites[index].getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_bulletSprites[index].getPosition().y + m_bulletSize.y))
+//	{
+//		return false;
+//	}*/
+//	if (collision::areColliding(m_bulletSprites[index], other))
+//	{
+//		std::get<2>(m_bullets[index]) = false;
+//		return true;
+//	}
+//	return false;
+//}
+
+const sf::Sprite& Bullet::GetSprite(int index) {return  m_bulletSprites[index];}
+
+void Bullet::SetStateFalse(int Index)
+{
+	std::get<2>(m_bullets[Index]) = false;
+}
+
+bool Bullet::GetState(int Index)
+{
+	return std::get<2>(m_bullets[Index]);
 }
 
 void Bullet::Present_Collected()

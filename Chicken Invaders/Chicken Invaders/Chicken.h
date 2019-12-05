@@ -28,5 +28,7 @@ public:
 	//Getters
 	sf::Vector2f getPosition();
 	sf::Vector2f getSize();
+	const sf::Sprite& GetSprite();
+	sf::Vector2f GetPosition();
 };
  

@@ -39,6 +39,9 @@ public:
 	Bullet& operator=(const Bullet& other);
 	//Returneaza pozitia si starea gloantelor. Starea gloantelor se refera daca acestea sunt active sau nu pe mapa
 	std::vector<std::tuple<int, int, bool>> GetBulletsPositionAndState();
-	bool CheckCollision(sf::Vector2f upperLeft,sf::Vector2f size, int index);
+	//bool CheckCollision(const sf::Sprite& other, int index);
+	const sf::Sprite& GetSprite(int index);
+	void SetStateFalse(int Index);
+	bool GetState(int Index);
 };
 

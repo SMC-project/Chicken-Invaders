@@ -27,3 +27,8 @@ void Explosion::explosion_setPosition(float x_POS, float y_POS)
 {
 	sprite_explosion.setPosition(x_POS, y_POS);
 }
+
+void Explosion::explosion_setScale(int width, int height)
+{
+	sprite_explosion.setScale(width, height);
+}

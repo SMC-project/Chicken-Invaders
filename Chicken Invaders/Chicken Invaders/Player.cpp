@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "RectangularBoundaryCollision.hpp"
 
 void Player::Init(sf::Vector2f initialPos, const sf::Texture& texture, const sf::Texture& uiMissileTexture)
 {
@@ -160,23 +159,23 @@ void Player::DrawLives(sf::RenderWindow& gameWindow)
 }
 
 //Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
-bool Player::CheckCollision(const sf::Sprite& other)
-{
-	if (collision::areColliding(m_spriteShip, other))
-		return true;
-	return false;
-
-	////Check if the collision object is too far on the right or on the left of our sprite, if so we can't collide
-	//if (m_spriteShip.getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_spriteShip.getPosition().x + m_shipSize.x))
-	//	return false;
-
-	////Check if the collision object is higher or lower than our sprite, if so we can't collide
-	//if (m_spriteShip.getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_spriteShip.getPosition().y + m_shipSize.y))
-	//	return false;
-
-	////If it is not outside our sprite then we are overlapping with it
-	//return true;
-}
+//bool Player::CheckCollision(const sf::Sprite& other)
+//{
+//	if (collision::areColliding(m_spriteShip, other))
+//		return true;
+//	return false;
+//
+//	////Check if the collision object is too far on the right or on the left of our sprite, if so we can't collide
+//	//if (m_spriteShip.getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_spriteShip.getPosition().x + m_shipSize.x))
+//	//	return false;
+//
+//	////Check if the collision object is higher or lower than our sprite, if so we can't collide
+//	//if (m_spriteShip.getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_spriteShip.getPosition().y + m_shipSize.y))
+//	//	return false;
+//
+//	////If it is not outside our sprite then we are overlapping with it
+//	//return true;
+//}
 
 //Decrement lives and reset position; in the future it will have a GameOver functionality
 void Player::Die()
@@ -246,3 +245,5 @@ void Player::Animate()
 sf::Vector2f Player::GetPosition() { return m_spriteShip.getPosition(); }
 int Player::GetNrMissiles() { return m_nrMissiles; }
 void Player::ShootMissile() { m_nrMissiles--; }
+
+const sf::Sprite& Player::GetSprite() { return m_spriteShip; }

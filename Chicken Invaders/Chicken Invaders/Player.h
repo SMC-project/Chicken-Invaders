@@ -31,7 +31,7 @@ public:
 
 	//Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
 	//Returns true if we collided with something
-	bool CheckCollision(const sf::Sprite& other);
+	//bool CheckCollision(const sf::Sprite& other);
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
 	bool IsPlayerDead();
@@ -46,6 +46,7 @@ public:
 	sf::Vector2f GetPosition();
 	int GetNrMissiles();
 	void ShootMissile();
+	const sf::Sprite& GetSprite();
 
 private:
 	sf::Vector2f m_initialPos;	//We store the initial position in order to reset the player when he dies
