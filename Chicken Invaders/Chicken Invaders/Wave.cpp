@@ -118,3 +118,4 @@ void Wave::firstWaveMovement(std::vector<Chicken> &chickens, RenderWindow& map)
 		}
 	}
 }
+

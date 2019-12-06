@@ -25,6 +25,5 @@ public:
 	void setPositionWaveOne(std::vector<Chicken>& chickens, int Window_width, int Window_height);
 	void firstWaveMovement(std::vector<Chicken>& chickens, RenderWindow& map);
 
-
 };
 
