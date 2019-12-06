@@ -1,35 +1,59 @@
 #include "Present.h"
 
 
-void Present::dropPresent()
+Present::Present(sf::Vector2f initialPos, const sf::Texture& texture)
 {
-	framePresent += animSpeed_Present;
-	if (framePresent > frameCountPresent) framePresent = 0;
-	setDropPresent.setTextureRect(IntRect(int(framePresent) * 256, 0, 256, 256));
+	m_sprite.setTexture(texture);
+	m_sprite.setScale(.15, .15);
+	m_sprite.setPosition(initialPos.x, initialPos.y);
 }
 
-void Present::setSpritePresent(const Texture& texture)
+Present::Present(Present&& other) noexcept
 {
-	setDropPresent.setTexture(texture);
-	setDropPresent.setScale(.15, .15);
+	m_sprite.setTexture(*other.m_sprite.getTexture());
+	m_sprite.scale(other.m_sprite.getScale());
+	m_sprite.setPosition(other.m_sprite.getPosition());
 }
 
-void Present::drawPresent(RenderWindow& map)
+Present& Present::operator=(const Present& other)
 {
-	dropPresent();
-	map.draw(setDropPresent);
+	m_sprite.setTexture(*other.m_sprite.getTexture());
+	m_sprite.scale(other.m_sprite.getScale());
+	m_sprite.setPosition(other.m_sprite.getPosition());
+	return *this;
 }
 
-void Present::setPositionPresent(float posX, float posY)
+void Present::DropPresent()
 {
-	setDropPresent.setPosition(posX, posY);
+	m_framePresent += m_animSpeed_Present;
+	if (m_framePresent > m_frameCountPresent) m_framePresent = 0;
+	m_sprite.setTextureRect(IntRect(int(m_framePresent) * 256, 0, 256, 256));
 }
 
-bool Present::fallDownPresent(int windowHeight)
+void Present::SetSpritePresent(const Texture& texture)
 {
-	setDropPresent.move(0, fallDownSpeed);
-	if (setDropPresent.getPosition().y > windowHeight)
+	m_sprite.setTexture(texture);
+	m_sprite.setScale(.15, .15);
+}
+
+void Present::DrawPresent(RenderWindow& map)
+{
+	DropPresent();
+	map.draw(m_sprite);
+}
+
+void Present::SetPositionPresent(float posX, float posY)
+{
+	m_sprite.setPosition(posX, posY);
+}
+
+bool Present::FallDownPresent(int windowHeight)
+{
+	m_sprite.move(0, m_fallDownSpeed);
+	if (m_sprite.getPosition().y > windowHeight)
 		return true;
 	return false;
 }
+
+const sf::Sprite& Present::GetSprite() { return m_sprite; }
 

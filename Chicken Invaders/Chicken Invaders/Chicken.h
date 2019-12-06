@@ -15,6 +15,7 @@ private:
 	Sprite m_chickenSprite;
 	Vector2f m_chickenSize;
 
+
 public:
 	Chicken(Vector2f initialPos, const Texture& texture);
 	//Move constructor needed for inserting chickens in chicken vector 
@@ -29,6 +30,5 @@ public:
 	sf::Vector2f getPosition();
 	sf::Vector2f getSize();
 	const sf::Sprite& GetSprite();
-	sf::Vector2f GetPosition();
 };
  

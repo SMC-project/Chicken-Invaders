@@ -41,7 +41,7 @@ public:
 	std::vector<std::tuple<int, int, bool>> GetBulletsPositionAndState();
 	//bool CheckCollision(const sf::Sprite& other, int index);
 	const sf::Sprite& GetSprite(int index);
-	void SetStateFalse(int Index);
-	bool GetState(int Index);
+	void SetStateFalse(int index);
+	bool GetState(int index);
 };
 

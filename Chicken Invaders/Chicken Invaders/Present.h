@@ -8,18 +8,21 @@ using namespace sf;
 class Present
 {
 private:
-	Sprite setDropPresent;
-	float framePresent = 0;
-	int frameCountPresent = 45;
-	float animSpeed_Present = .8;
-	float fallDownSpeed = 10;
+	Sprite m_sprite;
+	float m_framePresent = 0;
+	int m_frameCountPresent = 45;
+	float m_animSpeed_Present = .8;
+	float m_fallDownSpeed = 10;
 
 public:
-	void dropPresent();
+	Present(sf::Vector2f initialPos, const sf::Texture& texture);
+	Present(Present&& other) noexcept;
+	Present& operator=(const Present& other);
+	void DropPresent();
 	//functions of presents
-	void setSpritePresent(const Texture& texture);
-	void drawPresent(RenderWindow& map);
-	void setPositionPresent(float posX, float posY);
-	bool fallDownPresent(int windowHeight);
-
+	void SetSpritePresent(const Texture& texture);
+	void DrawPresent(RenderWindow& map);
+	void SetPositionPresent(float posX, float posY);
+	bool FallDownPresent(int windowHeight);
+	const sf::Sprite& GetSprite();
 };

@@ -182,14 +182,14 @@ std::vector<std::tuple<int, int, bool>> Bullet::GetBulletsPositionAndState()
 
 const sf::Sprite& Bullet::GetSprite(int index) {return  m_bulletSprites[index];}
 
-void Bullet::SetStateFalse(int Index)
+void Bullet::SetStateFalse(int index)
 {
-	std::get<2>(m_bullets[Index]) = false;
+	std::get<2>(m_bullets[index]) = false;
 }
 
-bool Bullet::GetState(int Index)
+bool Bullet::GetState(int index)
 {
-	return std::get<2>(m_bullets[Index]);
+	return std::get<2>(m_bullets[index]);
 }
 
 void Bullet::Present_Collected()

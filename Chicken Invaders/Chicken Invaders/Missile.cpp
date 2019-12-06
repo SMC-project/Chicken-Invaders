@@ -14,9 +14,9 @@ Missile::Missile(int shipCenterPosition_x, int shipCenterPosition_y, const sf::T
 	m_missileSprite.setPosition(shipCenterPosition_x + 34, shipCenterPosition_y - 40);
 	m_missilePosition_X = shipCenterPosition_x + 34;
 	m_missilePosition_Y = shipCenterPosition_y - 40;
-	int CenterPosition = 1920 / 2;
-	int HowMuchIWantToRotate_x = (CenterPosition - shipCenterPosition_x - 55) / 20;
-	m_missileSprite.rotate(HowMuchIWantToRotate_x);
+	int centerPosition = 1920 / 2;
+	int howMuchIWantToRotate_x = (centerPosition - shipCenterPosition_x - 55) / 20;
+	m_missileSprite.rotate(howMuchIWantToRotate_x);
 
 }
 

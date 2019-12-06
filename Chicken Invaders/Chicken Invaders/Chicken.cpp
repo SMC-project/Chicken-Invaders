@@ -7,7 +7,6 @@ Chicken::Chicken(Vector2f initialPos, const Texture& texture)
 	m_chickenSprite.setTexture(texture);
 	m_chickenSprite.setScale(.3, .3);
 	m_chickenSize= Vector2f(texture.getSize().x * m_chickenSprite.getScale().x, texture.getSize().y * m_chickenSprite.getScale().y);
-	
 	initialPos.x -= m_chickenSize.x / 3;
 	initialPos.y -= m_chickenSize.y / 3;
 	m_chickenSprite.setPosition(initialPos.x, initialPos.y);
@@ -70,4 +69,3 @@ sf::Vector2f Chicken::getSize()
 
 const sf::Sprite& Chicken::GetSprite() { return m_chickenSprite; }
 
-sf::Vector2f Chicken::GetPosition(){return m_chickenSprite.getPosition();}
