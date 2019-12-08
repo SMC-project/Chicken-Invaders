@@ -96,7 +96,7 @@ void Wave::setPositionWaveOne(std::vector<Chicken>& chickens, int Window_width, 
 
 }
 
-void Wave::firstWaveMovement(std::vector<Chicken> &chickens, RenderWindow& map)
+void Wave::firstWaveMovement(std::vector<Chicken> &chickens)
 {
 	for (int index = 0; index < chickens.size(); index++)
 	{
@@ -119,3 +119,30 @@ void Wave::firstWaveMovement(std::vector<Chicken> &chickens, RenderWindow& map)
 	}
 }
 
+void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	float fact = 360 / wave4and5NrChickens;
+	float xPos, yPos;
+	for (int index = 0; index <= wave4and5NrChickens; index++)
+	{
+		xPos = sin(index * fact * pi / 180) * radius1 + (SCREEN_WIDTH) / 2;
+		yPos = cos(index * fact * pi / 180) * radius2 + (SCREEN_HEIGHT) / 3;
+		chickens.push_back(std::move(Chicken(Vector2f(xPos, yPos), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens[chickens.size() - 1].SetChickenIndex(index);
+	}
+}
+
+void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	degrees += 1;
+	if (degrees >= 360)
+		degrees -= 360;
+	float fact = 360 / wave4and5NrChickens;
+	float xPos, yPos;
+	for (int index = 0; index < chickens.size(); index++)
+	{
+		xPos = sin((degrees + chickens[index].GetChickenIndex() * fact) * pi / 180) * radius1 + (SCREEN_WIDTH - 128) / 2;
+		yPos = cos((degrees + chickens[index].GetChickenIndex() * fact) * pi / 180) * radius2 + (SCREEN_HEIGHT - 128) / 3;
+		chickens[index].setPositionChicken(xPos, yPos);
+	}
+}

@@ -23,7 +23,7 @@ Meat::Meat(sf::Vector2f initialPos, const sf::Texture& texture)
 	m_sprite.setRotation(random);
 	m_rotationSpeed = rand() % 5 + 5;
 
-	m_velocity.x = rand() % 10+2;
+	m_velocity.x = rand() % 8+2;
 	if (rand() % 2 == 1)
 		m_velocity.x = -m_velocity.x;
 

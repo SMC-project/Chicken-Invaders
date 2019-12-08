@@ -15,6 +15,7 @@ private:
 	Sprite m_chickenSprite;
 	Vector2f m_chickenSize;
 
+	int m_chickenIndex = 0; //Used for wave 4 and 5
 
 public:
 	Chicken(Vector2f initialPos, const Texture& texture);
@@ -30,5 +31,9 @@ public:
 	sf::Vector2f getPosition();
 	sf::Vector2f getSize();
 	const sf::Sprite& GetSprite();
+
+	//Used for wave 4 and 5
+	void SetChickenIndex(int index);
+	int GetChickenIndex();
 };
  
