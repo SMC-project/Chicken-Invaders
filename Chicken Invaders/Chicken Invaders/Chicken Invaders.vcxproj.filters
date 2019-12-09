@@ -81,6 +81,9 @@
     <ClCompile Include="Wave.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Earth.cpp">
+      <Filter>Source Files\Universal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files\Universal</Filter>
     </ClInclude>
     <ClInclude Include="TitleScreen.h">
+      <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="Earth.h">
       <Filter>Header Files\Universal</Filter>
     </ClInclude>
   </ItemGroup>
