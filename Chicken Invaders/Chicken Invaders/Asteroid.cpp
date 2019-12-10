@@ -12,7 +12,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture)
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
 	hits_remaining = 1;
-	m_sprite_asteroid.setRotation(-45);
+	//m_sprite_asteroid.setRotation(-45);
 }
 
 Asteroid::Asteroid(Asteroid&& other) noexcept
@@ -22,7 +22,7 @@ Asteroid::Asteroid(Asteroid&& other) noexcept
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	m_sprite_asteroid.setRotation(-45);
+	//m_sprite_asteroid.setRotation(-45);
 }
 
 Asteroid& Asteroid::operator=(const Asteroid& other)
@@ -32,7 +32,7 @@ Asteroid& Asteroid::operator=(const Asteroid& other)
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	m_sprite_asteroid.setRotation(-45);
+	//m_sprite_asteroid.setRotation(-45);
 	return *this;
 }
 
@@ -54,16 +54,21 @@ void Asteroid::draw_asteroid(RenderWindow& map)
 void Asteroid::asteroid_setPosition(float x_POS, float y_POS)
 {
 	m_sprite_asteroid.setPosition(x_POS, y_POS);
-	m_sprite_asteroid.setRotation(-45);
+	//m_sprite_asteroid.setRotation(-45);
 }
 
-bool Asteroid::Falldown(int screenHeight)
+bool Asteroid::Falldown(int screenHeight,float posX,float posY)
 {
-	m_sprite_asteroid.move(10,10);
+	m_sprite_asteroid.move(posX,posY);
 
 	if (m_sprite_asteroid.getPosition().y > screenHeight)
 		return true;
 	return false;
+}
+
+void Asteroid::setRotation(float rotation)
+{
+	m_sprite_asteroid.setRotation(rotation);
 }
 
 void Asteroid::SetHits_Remaining(int number)

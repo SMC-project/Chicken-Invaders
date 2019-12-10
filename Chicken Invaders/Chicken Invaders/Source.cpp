@@ -230,6 +230,14 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3));
 				wave_number = 4;
 			}
+			if (eventHandler.key.code == Keyboard::Num6)
+			{
+				chickens.clear();
+				asteroids.clear();
+				waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+					, WINDOW_WIDTH, WINDOW_HEIGHT);
+				wave_number = 6;
+			}
 		}
 		if (eventHandler.type == Event::KeyReleased)
 		{
@@ -293,7 +301,7 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaT
 	{
 		for (int index = 0; index < asteroids.size(); index++)
 		{
-			if (asteroids[index].Falldown(WINDOW_HEIGHT))
+			if (asteroids[index].Falldown(WINDOW_HEIGHT,10,10))
 				asteroids.erase(asteroids.begin() + index);
 		}
 	}
@@ -309,6 +317,11 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaT
 
 		if (earth.WaveHasStarted() == true && chickens.size() == 0)
 			earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT + earth.GetSize().y));
+	}
+	if (wave_number == 6)
+	{
+		waveManager.wave6Movement(asteroids, WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	}
 
 	for (int i = 0; i < presents.size(); i++)
