@@ -20,9 +20,11 @@ private:
 	float radius1 = 600;
 	float radius2 = 250;
 	float degrees = 0;
-
+	
 public:
 	bool m_leftOrRightMovement = true;
+	bool m_wave7_left_right = true;
+	bool m_wave7_left_right2 = true;
 	std::vector<Chicken> chickens;
 	ResourceLoader resurceLoader;
 
@@ -38,5 +40,7 @@ public:
 	void wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 	void wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 
+	void Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT);
+	void Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 };
 
