@@ -10,6 +10,11 @@ Chicken::Chicken(Vector2f initialPos, const Texture& texture)
 	initialPos.x -= m_chickenSize.x / 3;
 	initialPos.y -= m_chickenSize.y / 3;
 	m_chickenSprite.setPosition(initialPos.x, initialPos.y);
+
+	//Used for the default animation (first row in sprite sheet)
+	m_startFrameLine = 0;
+	m_endFrameLine = 0;
+	m_frameLine = m_startFrameLine;
 }
 Chicken::Chicken(Chicken&& other) noexcept
 {
@@ -20,6 +25,15 @@ Chicken::Chicken(Chicken&& other) noexcept
 	m_chickenSprite.setPosition(other.m_chickenSprite.getPosition());
 
 	m_chickenIndex = other.m_chickenIndex;
+
+	//Used for the default animation (first row in sprite sheet)
+	m_startFrameLine = other.m_startFrameLine;
+	m_endFrameLine = other.m_endFrameLine;
+	m_frameLine = m_startFrameLine;
+	m_frameCol = other.m_frameCol;
+	m_moveDirectionFact = other.m_moveDirectionFact;
+	m_xOffsetFact = other.m_xOffsetFact;
+	m_yOffsetFact = other.m_yOffsetFact;
 }
 
 Chicken& Chicken::operator=(const Chicken& other)
@@ -32,15 +46,33 @@ Chicken& Chicken::operator=(const Chicken& other)
 
 	m_chickenIndex = other.m_chickenIndex;
 
+	//Used for the default animation (first row in sprite sheet)
+	m_startFrameLine = other.m_startFrameLine;
+	m_endFrameLine = other.m_endFrameLine;
+	m_frameLine = m_startFrameLine;
+	m_frameCol = other.m_frameCol;
+	m_moveDirectionFact = other.m_moveDirectionFact;
+	m_xOffsetFact = other.m_xOffsetFact;
+	m_yOffsetFact = other.m_yOffsetFact;
+
 	return *this;
 }
 
 void Chicken::chickenAnimation()
 {
-	frameChicken += animeSpeedChicken;
-	if (frameChicken > frameCountchicken)
-		frameChicken = 0;
-	m_chickenSprite.setTextureRect(IntRect(int(frameChicken) * 256, 0, 256, 256));
+	m_frameCol += m_animSpeed;
+	if (m_frameCol >= m_frameCount)
+	{
+		m_frameCol = 0;
+		if (m_startFrameLine != m_endFrameLine)
+		{
+			if (m_frameLine < m_endFrameLine)
+				m_frameLine++;
+			else
+				m_frameLine = m_startFrameLine;
+		}
+	}
+	m_chickenSprite.setTextureRect(IntRect(int(m_frameCol) * 256, m_frameLine * 256, 256, 256));
 }
 
 void Chicken::drawChicken(RenderWindow& map)
@@ -74,5 +106,10 @@ sf::Vector2f Chicken::getSize()
 const sf::Sprite& Chicken::GetSprite() { return m_chickenSprite; }
 
 //Used for wave 4 and 5
-void Chicken::SetChickenIndex(int index) { m_chickenIndex = index; }
-int Chicken::GetChickenIndex() { return m_chickenIndex; }
+void Chicken::SetAnimationFrames(int startLine, int endLine)
+{
+	m_startFrameLine = startLine;
+	m_endFrameLine = endLine;
+
+	m_frameLine = m_startFrameLine;
+}

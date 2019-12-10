@@ -1,85 +1,15 @@
 #include "Wave.h"
-//
-//void Wave::fisrtWavePosition(Chicken chicken[5][8],const int WINDOW_WIDTH,const int WINDOW_HEIGHT)
-//{
-//
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//			chicken[i][j].sprite_chicken.setPosition(140*j + WINDOW_WIDTH/4, 120*i + WINDOW_HEIGHT/9);
-//	
-//}
-//
-//void Wave::drawWave(RenderWindow& map,Chicken chicken[5][8])
-//{
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//			map.draw(chicken[i][j].sprite_chicken);
-//}
-//
-//void Wave::setSprite(Texture& enemy,Chicken chicken[5][8])
-//{
-//	enemy.loadFromFile("Sprites/Enemy/chicken.png");
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//		{
-//			chicken[i][j].sprite_chicken.setTexture(enemy);
-//			chicken[i][j].sprite_chicken.setScale(0.3,0.3);
-//		}
-//}
-//
-//void Wave::movementFirstWave(Chicken chicken[5][8])
-//{
-//	for (int i = 0; i < 5; i++)
-//		for (int j = 0; j < 8; j++)
-//		{
-//
-//			float current_x = chicken[i][j].sprite_chicken.getPosition().x;
-//			float current_y = chicken[i][j].sprite_chicken.getPosition().y;
-//			if (!left_or_right_movement)
-//			{
-//				if (current_x >= 1700) 
-//				{
-//					current_x -= 5;
-//					left_or_right_movement = !left_or_right_movement;
-//				}
-//				else
-//					current_x += 5;
-//			}
-//			else
-//			{
-//				if (current_x <= 20) 
-//				{
-//					current_x += 5;
-//					left_or_right_movement = !left_or_right_movement;
-//					
-//					
-//				}
-//				else
-//					current_x -= 5;
-//			}
-//			for (int i = 0; i < 5; i++)
-//				for (int j = 0; j < 8; j++)
-//					chicken[i][j].Animation();
-//			chicken[i][j].sprite_chicken.setPosition(current_x, current_y);
-//			//std::cout << chicken[0][0].sprite_chicken.getPosition().x<<' ';
-//		}
-//
-//}
-
-Wave::Wave()
-{
-}
-
-void Wave::firstWave(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int WINDOW_WIDTH, int WINDOW_HEIGHT)
+#include <iomanip>
+#include <iostream>
+void Wave::Wave1Init(std::vector<Chicken>& chickens, const Texture& texture, int WINDOW_WIDTH, int WINDOW_HEIGHT)
 {
 	for (int index = 0; index < 40; index++)
 	{
-		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9),
-			resurceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9), texture)));
 	}
 }
 
-void Wave::setPositionWaveOne(std::vector<Chicken>& chickens, int Window_width, int Window_height)
+void Wave::Wave1SetPosition(std::vector<Chicken>& chickens, int Window_width, int Window_height)
 {
 	int firstCoord = 0;
 	int secondCoord = 0;
@@ -96,7 +26,7 @@ void Wave::setPositionWaveOne(std::vector<Chicken>& chickens, int Window_width, 
 
 }
 
-void Wave::firstWaveMovement(std::vector<Chicken> &chickens)
+void Wave::Wave1Movement(std::vector<Chicken> &chickens)
 {
 	for (int index = 0; index < chickens.size(); index++)
 	{
@@ -119,30 +49,57 @@ void Wave::firstWaveMovement(std::vector<Chicken> &chickens)
 	}
 }
 
+void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids)
+{
+	float random_number;
+	for (int index = 0; index < 15; index++)
+	{
+		random_number = rand() % 900 + rand() % 100;
+		random_number = -random_number;
+		float current_x = random_number;
+
+		random_number = rand() % 900 + rand() % 100;
+		random_number = -random_number;
+		float current_y = random_number;
+
+		asteroids.push_back(std::move(Asteroid(sf::Vector2f(current_x, current_y), texture)));
+	}
+}
+
 void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
-	float fact = 360 / wave4and5NrChickens;
+	float fact = 360.0f / wave4and5NrChickens;
 	float xPos, yPos;
+	int direction;
+	int offsetFact1, offsetFact2;
 	for (int index = 0; index <= wave4and5NrChickens; index++)
 	{
-		xPos = sin(index * fact * pi / 180) * radius1 + (SCREEN_WIDTH) / 2;
-		yPos = cos(index * fact * pi / 180) * radius2 + (SCREEN_HEIGHT) / 3;
+		direction = rand() % 2 == 1 ? 1 : -1;
+		offsetFact1 = rand() % 100;
+		offsetFact2 = rand() % 100;
+
+		xPos = direction * sin(index * fact * pi / 180) * (radius1 + offsetFact1) + (SCREEN_WIDTH) / 2;
+		yPos = cos(index * fact * pi / 180) * (radius2 + offsetFact2) + (SCREEN_HEIGHT) / 3;
 		chickens.push_back(std::move(Chicken(Vector2f(xPos, yPos), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
-		chickens[chickens.size() - 1].SetChickenIndex(index);
+		chickens[chickens.size() - 1].m_chickenIndex = index;
+		chickens[chickens.size() - 1].SetAnimationFrames(0, 0);
+		chickens[chickens.size() - 1].m_moveDirectionFact = direction;
+		chickens[chickens.size() - 1].m_xOffsetFact = offsetFact1;
+		chickens[chickens.size() - 1].m_yOffsetFact = offsetFact2;
 	}
 }
 
 void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
 	degrees += 1;
-	if (degrees >= 360)
-		degrees -= 360;
-	float fact = 360 / wave4and5NrChickens;
+	if (degrees == 360)
+		degrees = 0;
+	float fact = 360.0f / wave4and5NrChickens;
 	float xPos, yPos;
 	for (int index = 0; index < chickens.size(); index++)
 	{
-		xPos = sin((degrees + chickens[index].GetChickenIndex() * fact) * pi / 180) * radius1 + (SCREEN_WIDTH - 128) / 2;
-		yPos = cos((degrees + chickens[index].GetChickenIndex() * fact) * pi / 180) * radius2 + (SCREEN_HEIGHT - 128) / 3;
+		xPos = chickens[index].m_moveDirectionFact * sin((degrees + chickens[index].m_chickenIndex * fact) * pi / 180) * (radius1 + chickens[index].m_xOffsetFact) + (SCREEN_WIDTH - 128) / 2;
+		yPos = cos((degrees + chickens[index].m_chickenIndex * fact) * pi / 180) * (radius2 + chickens[index].m_yOffsetFact) + (SCREEN_HEIGHT - 128) / 3;
 		chickens[index].setPositionChicken(xPos, yPos);
 	}
 }

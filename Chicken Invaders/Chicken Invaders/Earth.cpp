@@ -45,6 +45,7 @@ void Earth::Reset()
 	m_finishMove = true;
 	m_initWave = false;
 	m_velocity = sf::Vector2f(0, 0);
+	m_sprite.setPosition(sf::Vector2f(-m_size.x, -m_size.y));
 }
 
 sf::Vector2f Earth::GetSize() { return m_size; }

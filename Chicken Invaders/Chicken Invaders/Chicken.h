@@ -8,14 +8,27 @@
 using namespace sf;
 class Chicken
 {
+public:
+	//Used for wave 4 and 5 variables
+	int m_chickenIndex = 0;
+	int m_moveDirectionFact = 1;
+	int m_xOffsetFact = 0;
+	int m_yOffsetFact = 0;
+
 private:
-	float frameChicken = 0;
-	int frameCountchicken = 44;
-	float animeSpeedChicken = 1.5;
+	//These variables are used for moving between rows on the sprite sheet; in the constructor they are assigned the default value
+	//And their values can be changed in a setter
+	int m_startFrameLine;
+	int m_endFrameLine;
+
+	int m_frameLine = 0;
+	float m_frameCol = 0;
+
+	int m_frameCount = 45;
+	float m_animSpeed = 1;
+
 	Sprite m_chickenSprite;
 	Vector2f m_chickenSize;
-
-	int m_chickenIndex = 0; //Used for wave 4 and 5
 
 public:
 	Chicken(Vector2f initialPos, const Texture& texture);
@@ -32,8 +45,6 @@ public:
 	sf::Vector2f getSize();
 	const sf::Sprite& GetSprite();
 
-	//Used for wave 4 and 5
-	void SetChickenIndex(int index);
-	int GetChickenIndex();
+	void SetAnimationFrames(int startLine, int endLine);
 };
  
