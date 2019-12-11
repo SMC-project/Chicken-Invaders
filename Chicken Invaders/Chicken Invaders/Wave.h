@@ -23,8 +23,8 @@ private:
 	
 public:
 	bool m_leftOrRightMovement = true;
-	bool m_wave7_left_right = true;
-	bool m_wave7_left_right2 = true;
+	bool m_wave7_left_right[30] = {1};
+	bool m_wave7_left_right2[30] = { 1 };
 	std::vector<Chicken> chickens;
 	ResourceLoader resurceLoader;
 
@@ -42,5 +42,8 @@ public:
 
 	void Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 	void Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT);
+
+	void Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT);
+	void Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 };
 

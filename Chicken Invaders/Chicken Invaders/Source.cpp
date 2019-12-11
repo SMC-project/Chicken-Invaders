@@ -247,6 +247,14 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				waveManager.Wave7Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 			}
+			if (eventHandler.key.code == Keyboard::Num8)
+			{
+				wave_number = 8;
+				earth.Reset();
+				asteroids.clear();
+				chickens.clear();
+				waveManager.Wave8Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT);
+			}
 
 		}
 		if (eventHandler.type == Event::KeyReleased)
@@ -336,6 +344,10 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaT
 	if (wave_number == 7)
 	{
 		waveManager.Wave7Movement(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
+	}
+	if (wave_number == 8)
+	{
+		waveManager.Wave8Movement(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
 	for (int i = 0; i < presents.size(); i++)

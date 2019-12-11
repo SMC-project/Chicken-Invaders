@@ -136,58 +136,79 @@ void Wave::wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int
 	}
 }
 
-void Wave::Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 16; i++)
 	{
-		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH - i * 180 - 10, 200), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH - i * 100 - 10, 200), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 16; i++)
 	{
-		chickens.push_back(std::move(Chicken(Vector2f(i * 180 + 10, 300), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(i * 100 + 10, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
 	}
 
 }
 
-void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
-	for (int index = 0; index < chickens.size()-4; index++)
-	{
-		if (!m_wave7_left_right)
-			if (chickens[index].getPosition().x >= 1700)
-			{
-				m_wave7_left_right = !m_wave7_left_right;
-			}
-			else
-				chickens[index].moveChicken(5, .2);
-		else if (m_wave7_left_right)
-		{
-			if (chickens[index].getPosition().x <= 20)
-			{
-				m_wave7_left_right = !m_wave7_left_right;
-			}
-			else
-				chickens[index].moveChicken(-5, .2);
-		}
+	for (int index = 0; index < chickens.size()/2; index++)
+	{	
+		chickens[index].moveChicken(-7, 7);
 	}
 
-	for (int index = chickens.size() - 4; index < chickens.size(); index++)
+	for (int index = chickens.size()/2; index < chickens.size(); index++)
 	{
-		if (!m_wave7_left_right2)
-			if (chickens[index].getPosition().x >= 1700)
+		chickens[index].moveChicken(7, 7);
+	}
+}
+
+void Wave::Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		chickens.push_back(std::move(Chicken(Vector2f(i * 140 + 100, 250), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH-i * 140 - 100, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+	}
+}
+
+void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	for (int i = 0; i < chickens.size()/2; i++)
+	{
+		if (m_wave7_left_right[i] == 0)
+			if (chickens[i].getPosition().x >= 1700)
 			{
-				m_wave7_left_right2 = !m_wave7_left_right2;
+				m_wave7_left_right[i] = 1;
 			}
 			else
-				chickens[index].moveChicken(5, .2);
-		else if (m_wave7_left_right2)
-		{
-			if (chickens[index].getPosition().x <= 20)
+				chickens[i].moveChicken(6, 1);
+		else if(m_wave7_left_right[i] == 1)
+			if (chickens[i].getPosition().x <= 20)
 			{
-				m_wave7_left_right2 = !m_wave7_left_right2;
+				m_wave7_left_right[i] = 0;
 			}
 			else
-				chickens[index].moveChicken(-5, .2);
-		}
+				chickens[i].moveChicken(-6, 1 );
+	}
+
+	for (int i = chickens.size() / 2; i < chickens.size(); i++)
+	{
+		if (m_wave7_left_right2[i] == 0)
+			if (chickens[i].getPosition().x >= 1700)
+			{
+				m_wave7_left_right2[i] = 1;
+			}
+			else
+				chickens[i].moveChicken(6, 1);
+		else if (m_wave7_left_right2[i] == 1)
+			if (chickens[i].getPosition().x <= 20)
+			{
+				m_wave7_left_right2[i] = 0;
+			}
+			else
+				chickens[i].moveChicken(-6, 1);
 	}
 }
