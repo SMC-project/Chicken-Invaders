@@ -45,5 +45,8 @@ public:
 
 	void Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 	void Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT);
+
+	void Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT);
+	void Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int SCREEN_HEIGHT);
 };
 

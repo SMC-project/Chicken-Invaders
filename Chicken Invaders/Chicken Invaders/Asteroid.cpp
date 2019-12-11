@@ -5,14 +5,12 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture)
 {
 	m_sprite_asteroid.setTexture(texture);
 	m_sprite_asteroid.setScale(.2, .2);
-	m_sprite_asteroid.setRotation(-45);
 	m_asteroidSize = Vector2f(256 * m_sprite_asteroid.getScale().x, 1024 * m_sprite_asteroid.getScale().y);
-
 	initialPos.x -= m_asteroidSize.x / 2;
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
 	hits_remaining = 1;
-	//m_sprite_asteroid.setRotation(-45);
+
 }
 
 Asteroid::Asteroid(Asteroid&& other) noexcept
@@ -22,7 +20,12 @@ Asteroid::Asteroid(Asteroid&& other) noexcept
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	//m_sprite_asteroid.setRotation(-45);
+	hits_remaining = other.hits_remaining;
+	frame_asteroid1 = other.frame_asteroid1;
+	framecount_asteroid1 = other.framecount_asteroid1;
+	animSpeed_Asteroid1 = other.animSpeed_Asteroid1;
+	m_sprite_asteroid.setRotation(other.m_sprite_asteroid.getRotation());
+	m_velocity = other.m_velocity;
 }
 
 Asteroid& Asteroid::operator=(const Asteroid& other)
@@ -32,7 +35,12 @@ Asteroid& Asteroid::operator=(const Asteroid& other)
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	//m_sprite_asteroid.setRotation(-45);
+	hits_remaining = other.hits_remaining;
+	frame_asteroid1 = other.frame_asteroid1;
+	framecount_asteroid1 = other.framecount_asteroid1;
+	animSpeed_Asteroid1 = other.animSpeed_Asteroid1;
+	m_sprite_asteroid.setRotation(other.m_sprite_asteroid.getRotation());
+	m_velocity = other.m_velocity;
 	return *this;
 }
 
@@ -69,6 +77,16 @@ bool Asteroid::Falldown(int screenHeight,float posX,float posY)
 void Asteroid::setRotation(float rotation)
 {
 	m_sprite_asteroid.setRotation(rotation);
+}
+
+float Asteroid::getVelocity()
+{
+	return m_velocity;
+}
+
+void Asteroid::setVelocity(float velocity)
+{
+	m_velocity = velocity;
 }
 
 void Asteroid::SetHits_Remaining(int number)

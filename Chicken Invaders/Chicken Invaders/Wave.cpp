@@ -162,6 +162,8 @@ void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 	}
 }
 
+
+
 void Wave::Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
 	for (int i = 0; i < 8; i++)
@@ -210,5 +212,72 @@ void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 			}
 			else
 				chickens[i].moveChicken(-6, 1);
+	}
+}
+void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	float randomNumber;
+	float direction;
+	srand(time(NULL));
+	for (int index = 0; index < 40; index++)
+	{
+		direction = rand() % 3 + 1;
+		if (direction == 1)
+		{
+			randomNumber = rand() % 900 + rand() % 100;
+			randomNumber = -randomNumber;
+			float currentX = randomNumber;
+
+			randomNumber = rand() % 900 + rand() % 100;
+			randomNumber = -randomNumber;
+			float currentY = randomNumber;
+			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture)));
+			asteroids[asteroids.size() - 1].setVelocity(direction);
+		}
+		if (direction == 2)
+		{
+			randomNumber = rand() % 1920 + rand() % 1000;
+			float currentX = randomNumber;
+
+			randomNumber = rand() % 1080 + rand() % 200;
+			randomNumber = -randomNumber;
+			float currentY = randomNumber;
+			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture)));
+			asteroids[asteroids.size() - 1].setVelocity(direction);
+		}
+		if (direction == 3)
+		{
+	
+			randomNumber = rand() % 1920 + 1800 + rand() % 100;
+		
+			float currentX = randomNumber;
+
+			randomNumber = rand() % 900 + 400 + rand() % 100;
+			randomNumber = -randomNumber;
+			float currentY = randomNumber;
+			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture)));
+			asteroids[asteroids.size() - 1].setVelocity(direction);
+		}
+	}
+	for (int index = 0; index < asteroids.size(); index++)
+	{
+		if (asteroids[index].getVelocity() == 1)
+			asteroids[index].setRotation(-45);
+		else if (asteroids[index].getVelocity() == 2)
+			asteroids[index].setRotation(0);
+		else if (asteroids[index].getVelocity() == 3)
+			asteroids[index].setRotation(45);
+	}
+}
+
+void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int SCREEN_HEIGHT)
+{
+	for (int index = 0; index < asteroids.size(); index++) {
+		if (asteroids[index].getVelocity() == 1)
+			asteroids[index].Falldown(SCREEN_HEIGHT, 10, 10);
+		else if (asteroids[index].getVelocity() == 2)
+			asteroids[index].Falldown(SCREEN_HEIGHT, 0, 20);
+		else if (asteroids[index].getVelocity() == 3)
+			asteroids[index].Falldown(SCREEN_HEIGHT, -10, 10);
 	}
 }

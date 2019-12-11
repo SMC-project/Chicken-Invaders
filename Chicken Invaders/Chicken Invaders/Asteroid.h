@@ -11,6 +11,7 @@ private:
 	float frame_asteroid1 = 0;
 	int framecount_asteroid1 = 29;
 	float animSpeed_Asteroid1 = 1;
+	float m_velocity = 0;
 	Sprite m_sprite_asteroid;
 	Vector2f m_asteroidSize;
 
@@ -26,7 +27,8 @@ public:
 	void asteroid_setPosition(float x_POS, float y_POS);
 	bool Falldown(int screenHeight, float posX, float posY);
 	void setRotation(float rotation);
-
+	float getVelocity();
+	void setVelocity(float velocity);
 
 	void SetHits_Remaining(int number);
 	int GetHits_Remaining();
