@@ -27,6 +27,8 @@ private:
 	int m_frameCount = 45;
 	float m_animSpeed = 1;
 
+	float m_scoreChicken = 25;
+
 	Sprite m_chickenSprite;
 	Vector2f m_chickenSize;
 
@@ -40,6 +42,7 @@ public:
 	void drawChicken(RenderWindow& map);
 	void setPositionChicken(float posX, float posY);
 	void moveChicken(float posX, float posY);
+	float getChickenScore();
 	//Getters
 	sf::Vector2f getPosition();
 	sf::Vector2f getSize();

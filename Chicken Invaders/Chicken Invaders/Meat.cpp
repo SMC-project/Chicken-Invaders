@@ -135,6 +135,11 @@ void Meat::Draw(sf::RenderWindow& gameWindow)
 	gameWindow.draw(m_sprite);
 }
 
+float Meat::getMeatScore()
+{
+	return m_meatScore;
+}
+
 sf::Vector2f Meat::GetPosition()
 {
 	return sf::Vector2f();

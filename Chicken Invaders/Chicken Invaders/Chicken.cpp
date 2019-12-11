@@ -91,6 +91,11 @@ void Chicken::moveChicken(float posX, float posY)
 	m_chickenSprite.move(posX, posY);
 }
 
+float Chicken::getChickenScore()
+{
+	return m_scoreChicken;
+}
+
 
 
 sf::Vector2f Chicken::getPosition()

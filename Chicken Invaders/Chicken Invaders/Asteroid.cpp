@@ -89,6 +89,11 @@ void Asteroid::setVelocity(float velocity)
 	m_velocity = velocity;
 }
 
+float Asteroid::getScore()
+{
+	return m_score;
+}
+
 void Asteroid::SetHits_Remaining(int number)
 {
 	hits_remaining = number;

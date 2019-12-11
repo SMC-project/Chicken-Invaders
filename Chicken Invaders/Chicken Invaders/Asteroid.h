@@ -12,6 +12,7 @@ private:
 	int framecount_asteroid1 = 29;
 	float animSpeed_Asteroid1 = 1;
 	float m_velocity = 0;
+	float m_score = 25;
 	Sprite m_sprite_asteroid;
 	Vector2f m_asteroidSize;
 
@@ -29,6 +30,7 @@ public:
 	void setRotation(float rotation);
 	float getVelocity();
 	void setVelocity(float velocity);
+	float getScore();
 
 	void SetHits_Remaining(int number);
 	int GetHits_Remaining();

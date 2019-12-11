@@ -11,6 +11,7 @@ public:
 
 	bool Move(int SCREEN_WIDTH, int SCREEN_HEIGHT, float deltaTime);
 	void Draw(sf::RenderWindow& gameWindow);
+	float getMeatScore();
 
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetSize();
@@ -28,5 +29,6 @@ private:
 	float m_bounce = 0;
 	float m_sideBounce = 0;
 	float m_destroyTime;
+	float m_meatScore=10;
 };
 

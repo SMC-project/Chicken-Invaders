@@ -408,6 +408,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 	for (int index = 0; index < meat.size(); index++)
 		if (CheckSpriteCollision(player.GetSprite(), meat[index].GetSprite()))
 		{
+			player.UpdateScore(meat[index].getMeatScore());
 			meat.erase(meat.begin() + index);
 			player.AddMeat();
 		}
@@ -424,6 +425,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 				if (GameBullets[j].GetState(z) == true)
 					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), asteroids[index].GetSprite()))
 					{
+						player.UpdateScore(asteroids[index].getScore());
 						explosions.push_back(Explosion());
 						explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
 						explosions[explosions.size() - 1].explosion_setPosition(asteroids[index].GetPosition().x + 100, asteroids[index].GetPosition().y + 70);
@@ -438,6 +440,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 				if (GameBullets[j].GetState(z) == true)
 					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), chickens[index].GetSprite()))
 					{
+						player.UpdateScore(chickens[index].getChickenScore());
 						explosions.push_back(Explosion());
 						explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
 						explosions[explosions.size() - 1].explosion_setPosition(chickens[index].getPosition().x, chickens[index].getPosition().y - 20);
