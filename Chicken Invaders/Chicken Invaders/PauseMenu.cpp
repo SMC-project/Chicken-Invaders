@@ -5,7 +5,7 @@ void PauseMenu::PauseMenu_SetTextures(int WINDOW_WIDTH, int WINDOW_HEIGHT, Resou
 	pause_menu.setTexture(resourceLoader.GetTexture(ResourceLoader::TextureType::PauseMenu_panel));
 	pause_selection.setTexture(resourceLoader.GetTexture(ResourceLoader::TextureType::PauseMenu_select));
 	pause_menu.setScale(1,1);
-	pause_menu.setPosition(500, 500);
+	pause_menu.setPosition(0, 0);
 }
 
 void PauseMenu::PauseMenu_Display(RenderWindow& map, PauseMenu& object)
