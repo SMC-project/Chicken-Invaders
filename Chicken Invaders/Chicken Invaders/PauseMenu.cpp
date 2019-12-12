@@ -4,8 +4,11 @@ void PauseMenu::PauseMenu_SetTextures(int WINDOW_WIDTH, int WINDOW_HEIGHT, Resou
 {
 	pause_menu.setTexture(resourceLoader.GetTexture(ResourceLoader::TextureType::PauseMenu_panel));
 	pause_selection.setTexture(resourceLoader.GetTexture(ResourceLoader::TextureType::PauseMenu_select));
-	pause_menu.setScale(1,1);
-	pause_menu.setPosition(0, 0);
+	pause_menu.setScale(.2,.2);
+	pause_menu.setPosition(750, 250);
+	pause_selection.setScale(.2, .2);
+	pause_selection.setPosition(800, 550);
+	
 }
 
 void PauseMenu::PauseMenu_Display(RenderWindow& map, PauseMenu& object)
@@ -29,4 +32,15 @@ void PauseMenu::PauseMenu_Select(RenderWindow& map, PauseMenu& object, int& sele
 	{
 
 	}
+}
+
+void PauseMenu::PauseMenu_ChangeSelection(int& selected)
+{
+	if (selected == 1)
+		this->pause_selection.setPosition(820, 400);
+	else if (selected == 2)
+		this->pause_selection.setPosition(830,480);
+	else
+		this->pause_selection.setPosition(800, 550);
+
 }

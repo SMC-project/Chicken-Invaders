@@ -220,6 +220,7 @@ bool ResourceLoader::Init2()
 		}
 		});
 
+	
 	musicThread.join();
 	backgroundThread.join();
 	earthThread.join();
@@ -235,6 +236,8 @@ bool ResourceLoader::Init2()
 	rocketThread.join();
 	heartThread.join();
 	rocketUIThread.join();
+	PauseMenuPanelThread.join();
+	PauseMenuSelectThread.join();
 	playButtonThread.join();
 	exitButtonThread.join();
 	exitHoverThread.join();
@@ -243,8 +246,7 @@ bool ResourceLoader::Init2()
 	sideTextureThread.join();
 	tipThread.join();
 	mainMenuBackgroundThread.join();
-	PauseMenuPanelThread.join();
-	PauseMenuSelectThread.join();
+	
 
 	return perfectLoad;
 }
