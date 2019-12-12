@@ -84,6 +84,9 @@
     <ClCompile Include="Earth.cpp">
       <Filter>Source Files\Universal</Filter>
     </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Source Files\Universal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -129,6 +132,9 @@
       <Filter>Header Files\Universal</Filter>
     </ClInclude>
     <ClInclude Include="Earth.h">
+      <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
       <Filter>Header Files\Universal</Filter>
     </ClInclude>
   </ItemGroup>

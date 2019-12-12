@@ -28,7 +28,9 @@ public:
 		UI_button_leaderboardHover,
 		UI_side,
 		UI_tip,
-		UI_background
+		UI_background,
+		PauseMenu_panel,
+		PauseMenu_select
 	};
 
 public:
@@ -72,5 +74,8 @@ private:
 	sf::Texture m_uiTip;
 
 	sf::Texture m_ui_background;
+
+	sf::Texture m_p_panel;
+	sf::Texture m_p_select;
 };
 

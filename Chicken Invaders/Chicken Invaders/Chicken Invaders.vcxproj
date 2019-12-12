@@ -27,6 +27,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Meat.cpp" />
     <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Present.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Meat.h" />
     <ClInclude Include="Missile.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Present.h" />
     <ClInclude Include="RectangularBoundaryCollision.hpp" />

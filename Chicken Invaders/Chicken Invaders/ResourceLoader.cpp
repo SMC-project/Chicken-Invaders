@@ -204,6 +204,22 @@ bool ResourceLoader::Init2()
 		}
 		});
 
+	std::thread PauseMenuPanelThread([this, &perfectLoad]() {
+		if (m_p_panel.loadFromFile("Sprites/user_interface/pause_panel.png") == false)
+		{
+			printf("Error: couldn't load pause menu's panel.\n");
+			perfectLoad = false;
+		}
+		});
+
+	std::thread PauseMenuSelectThread([this, &perfectLoad]() {
+		if (m_p_select.loadFromFile("Sprites/user_interface/pause_select.png") == false)
+		{
+			printf("Error: couldn't load pause menu's panel.\n");
+			perfectLoad = false;
+		}
+		});
+
 	musicThread.join();
 	backgroundThread.join();
 	earthThread.join();
@@ -227,6 +243,8 @@ bool ResourceLoader::Init2()
 	sideTextureThread.join();
 	tipThread.join();
 	mainMenuBackgroundThread.join();
+	PauseMenuPanelThread.join();
+	PauseMenuSelectThread.join();
 
 	return perfectLoad;
 }
@@ -279,6 +297,10 @@ const sf::Texture& ResourceLoader::GetTexture(const TextureType& type)
 		return m_uiTip;
 	case TextureType::UI_background:
 		return m_ui_background;
+	case TextureType::PauseMenu_panel:
+		return m_p_panel;
+	case TextureType::PauseMenu_select:
+		return m_p_select;
 	}
 }
 
