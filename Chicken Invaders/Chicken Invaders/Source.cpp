@@ -253,7 +253,11 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				if (eventHandler.key.code == Keyboard::Enter)
 				{
 					if (pause_selected == 2)
+					{
 						wave_number = 0;
+						start_game = false;
+						isPaused = false;
+					}
 					if (pause_selected == 3)
 						gameWindow.close();
 
