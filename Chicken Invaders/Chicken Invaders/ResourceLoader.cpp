@@ -74,7 +74,13 @@ bool ResourceLoader::Init2()
 		}
 		});
 
-	//m_boss;
+	std::thread bossThread([this, &perfectLoad]() {
+		if (m_boss.loadFromFile("Sprites/Enemy/boss.png") == false)
+		{
+			printf("Error: couldn't load boss.\n");
+			perfectLoad = false;
+		}
+		});
 
 	std::thread giftThread([this, &perfectLoad]() {
 		if (m_gift.loadFromFile("Sprites/Extras/gift.png") == false)
@@ -228,6 +234,7 @@ bool ResourceLoader::Init2()
 	asteroidFlameThread.join();
 	asteroidThread.join();
 	chickenThread.join();
+	bossThread.join();
 	giftThread.join();
 	meatThread.join();
 	explosionThread.join();
@@ -267,6 +274,8 @@ const sf::Texture& ResourceLoader::GetTexture(const TextureType& type)
 		return m_asteroidFlame;
 	case TextureType::Chicken:
 		return m_chicken;
+	case TextureType::Boss:
+		return m_boss;
 	case TextureType::Gift:
 		return m_gift;
 	case TextureType::Meat:

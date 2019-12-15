@@ -284,9 +284,7 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 
 void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
-	
-	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),1,700,50)));
-
+	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss),1,700,50)));
 }
 
 void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREEN_HEIGHT)

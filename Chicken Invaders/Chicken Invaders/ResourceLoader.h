@@ -13,6 +13,7 @@ public:
 		Asteroid,
 		AsteroidFlame,
 		Chicken,
+		Boss,
 		Gift,
 		Meat,
 		Explosion,
@@ -51,7 +52,7 @@ private:
 	sf::Texture m_asteroid;
 	sf::Texture m_asteroidFlame;
 	sf::Texture m_chicken;
-	//static sf::Texture m_boss;
+	sf::Texture m_boss;
 
 	sf::Texture m_gift;
 	sf::Texture m_meat;
