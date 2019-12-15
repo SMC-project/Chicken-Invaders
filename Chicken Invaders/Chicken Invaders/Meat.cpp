@@ -40,7 +40,6 @@ Meat::Meat(Meat&& other) noexcept
 	m_size = other.m_size;
 	m_sprite.setPosition(other.m_sprite.getPosition());
 	m_sprite.setOrigin(other.m_sprite.getOrigin());
-
 	m_velocity = other.m_velocity;
 	m_destroyTime = other.m_destroyTime;
 	m_rotationFact = other.m_rotationFact;

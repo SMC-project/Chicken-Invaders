@@ -5,6 +5,7 @@
 #include "Present.h"
 #include<time.h>
 #include "ResourceLoader.h"
+#include"Boss.h"
 
 class Wave
 {
@@ -48,5 +49,8 @@ public:
 
 	void Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 	void Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int SCREEN_HEIGHT);
+
+	void Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT);
+	void Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 };
 

@@ -281,3 +281,33 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 			asteroids[index].Falldown(SCREEN_HEIGHT, -10, 10);
 	}
 }
+
+void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	
+	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),1,700,50)));
+
+}
+
+void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+{
+	for (int index = 0; index < bosses.size(); index++)
+	{
+		if (!m_leftOrRightMovement)
+			if (bosses[index].GetPosition().x >= 1400)
+			{
+				m_leftOrRightMovement = !m_leftOrRightMovement;
+			}
+			else
+				bosses[index].UpdatePosition(8, 0);
+		else if (m_leftOrRightMovement)
+		{
+			if (bosses[index].GetPosition().x <= 20)
+			{
+				m_leftOrRightMovement = !m_leftOrRightMovement;
+			}
+			else
+				bosses[index].UpdatePosition(-8, 0);
+		}
+	}
+}
