@@ -437,7 +437,7 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaT
 		{
 			for (int index = 0; index < asteroids.size(); index++)
 			{
-				if (asteroids[index].Falldown(WINDOW_HEIGHT, 10, 10))
+				if (asteroids[index].Falldown(WINDOW_HEIGHT, asteroids[index].getasteroidsSpeed()-10, asteroids[index].getasteroidsSpeed()-10))
 					asteroids.erase(asteroids.begin() + index);
 			}
 		}

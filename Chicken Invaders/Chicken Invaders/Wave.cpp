@@ -51,7 +51,9 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens)
 
 void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids)
 {
+	float randScale;
 	float random_number;
+	float randSpeed;
 	for (int index = 0; index < 15; index++)
 	{
 		random_number = rand() % 900 + rand() % 100;
@@ -66,6 +68,11 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids)
 	}
 	for (int index = 0; index < asteroids.size(); index++)
 	{
+		randScale = rand() % 4 + 2;
+		randScale = randScale / 10.0f;
+		randSpeed = rand() % 30 + 10;
+		asteroids[index].setAsteroidsSpeed(randSpeed);
+		asteroids[index].serScale(randScale);
 		asteroids[index].setRotation(-45);
 	}
 }
@@ -111,6 +118,8 @@ void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, i
 void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
 	float randomNumber;
+	float randScale;
+	float randSpeed;
 	srand(time(NULL));
 	for (int index = 0; index < 40; index++)
 	{
@@ -124,7 +133,15 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 	}
 	for (int index = 0; index < asteroids.size(); index++)
 	{
+		randScale = rand() % 4 + 2;
+		randScale = randScale / 10.0f;
+		
+		
+		randSpeed = rand() % 30 + 10;
+		std::cout << randSpeed << " ";
+		asteroids[index].serScale(randScale);
 		asteroids[index].setRotation(0);
+		asteroids[index].setAsteroidsSpeed(randSpeed);
 	}
 }
 
@@ -132,7 +149,8 @@ void Wave::wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int
 {
 	for (int index = 0; index < asteroids.size(); index++)
 	{
-		asteroids[index].Falldown(SCREEN_HEIGHT, 0, 20);
+		
+		asteroids[index].Falldown(SCREEN_HEIGHT, 0, asteroids[index].getasteroidsSpeed());
 	}
 }
 
@@ -216,8 +234,10 @@ void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 }
 void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
+	float randScale;
 	float randomNumber;
 	float direction;
+	float randSpeed;
 	srand(time(NULL));
 	for (int index = 0; index < 40; index++)
 	{
@@ -267,6 +287,12 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			asteroids[index].setRotation(0);
 		else if (asteroids[index].getVelocity() == 3)
 			asteroids[index].setRotation(45);
+		randScale = rand() % 4 + 2;
+		randScale = randScale / 10.0f;
+		randSpeed = rand() % 30 + 10;
+		
+		asteroids[index].setAsteroidsSpeed(randSpeed);
+		asteroids[index].serScale(randScale);
 	}
 }
 
@@ -274,11 +300,12 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 {
 	for (int index = 0; index < asteroids.size(); index++) {
 		if (asteroids[index].getVelocity() == 1)
-			asteroids[index].Falldown(SCREEN_HEIGHT, 10, 10);
+			asteroids[index].Falldown(SCREEN_HEIGHT, asteroids[index].getasteroidsSpeed()-10, asteroids[index].getasteroidsSpeed()-10);
 		else if (asteroids[index].getVelocity() == 2)
-			asteroids[index].Falldown(SCREEN_HEIGHT, 0, 20);
+			asteroids[index].Falldown(SCREEN_HEIGHT, 0, asteroids[index].getasteroidsSpeed());
 		else if (asteroids[index].getVelocity() == 3)
-			asteroids[index].Falldown(SCREEN_HEIGHT, -10, 10);
+			asteroids[index].Falldown(SCREEN_HEIGHT, -asteroids[index].getasteroidsSpeed()+10, asteroids[index].getasteroidsSpeed()-10);
+	
 	}
 }
 
