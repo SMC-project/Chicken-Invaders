@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
 
+#include "../LeaderboardDataSaver/DataSaver.h"
+
 #include "ResourceLoader.h"
 #include"Wave.h"
 #include"ScrollBackground.h"
