@@ -158,41 +158,27 @@ void Player::DrawLives(sf::RenderWindow& gameWindow)
 		gameWindow.draw(m_spriteLives[index]);
 }
 
-//Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
-//bool Player::CheckCollision(const sf::Sprite& other)
-//{
-//	if (collision::areColliding(m_spriteShip, other))
-//		return true;
-//	return false;
-//
-//	////Check if the collision object is too far on the right or on the left of our sprite, if so we can't collide
-//	//if (m_spriteShip.getPosition().x > (upperLeft.x + size.x) || upperLeft.x > (m_spriteShip.getPosition().x + m_shipSize.x))
-//	//	return false;
-//
-//	////Check if the collision object is higher or lower than our sprite, if so we can't collide
-//	//if (m_spriteShip.getPosition().y > (upperLeft.y + size.y) || upperLeft.y > (m_spriteShip.getPosition().y + m_shipSize.y))
-//	//	return false;
-//
-//	////If it is not outside our sprite then we are overlapping with it
-//	//return true;
-//}
-
 //Decrement lives and reset position; in the future it will have a GameOver functionality
 void Player::Die()
 {
 	m_isImmortal = true;
 	m_lives--;
 	m_spriteShip.setPosition(m_initialPos);
-
-	if (m_lives == 0)
-	{
-		m_lives = 3;
-		ResetScore();
-	}
 }
 bool Player::IsPlayerDead() 
 { 
 	return m_isImmortal; 
+}
+
+void Player::Reset()
+{
+	m_lives = 3;
+	m_score = 0;
+	m_spriteShip.setPosition(m_initialPos);
+	m_currentMeat = 0;
+	m_nrMissiles = 0;
+	m_currentImmortalTime = 0;
+	m_isImmortal = false;
 }
 
 //Load the font for the text and set up the text's position, size, initial value.
@@ -206,11 +192,6 @@ void Player::SetUpScore(const sf::Font& font)
 void Player::UpdateScore(int value)
 {
 	m_score += value;
-}
-//Reset the score, called when the player reaches 0 lives
-void Player::ResetScore()
-{
-	m_score = 0;
 }
 
 //Draw the score to the screen
@@ -247,3 +228,5 @@ int Player::GetNrMissiles() { return m_nrMissiles; }
 void Player::ShootMissile() { m_nrMissiles--; }
 
 const sf::Sprite& Player::GetSprite() { return m_spriteShip; }
+bool Player::IsDead() { return m_lives == 0 ? true : false; }
+long Player::GetScore() { return m_score; }

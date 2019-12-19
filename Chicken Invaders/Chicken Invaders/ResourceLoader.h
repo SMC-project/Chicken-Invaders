@@ -31,7 +31,8 @@ public:
 		UI_tip,
 		UI_background,
 		PauseMenu_panel,
-		PauseMenu_select
+		PauseMenu_select,
+		Leaderboard
 	};
 
 public:
@@ -78,5 +79,7 @@ private:
 
 	sf::Texture m_p_panel;
 	sf::Texture m_p_select;
+
+	sf::Texture m_leaderboard;
 };
 

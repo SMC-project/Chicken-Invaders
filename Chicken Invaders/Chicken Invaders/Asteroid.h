@@ -12,7 +12,9 @@ private:
 	int framecount_asteroid1 = 29;
 	float animSpeed_Asteroid1 = 1;
 	float m_velocity = 0;
+	float m_asteroidSpeed = 0;
 	float m_score = 25;
+	float m_scale;
 	Sprite m_sprite_asteroid;
 	Vector2f m_asteroidSize;
 
@@ -27,13 +29,23 @@ public:
 	void draw_asteroid(RenderWindow& map);
 	void asteroid_setPosition(float x_POS, float y_POS);
 	bool Falldown(int screenHeight, float posX, float posY);
+
 	void setRotation(float rotation);
+
 	float getVelocity();
 	void setVelocity(float velocity);
+
 	float getScore();
+
+	float getScale();
+	void serScale(float scale);
 
 	void SetHits_Remaining(int number);
 	int GetHits_Remaining();
+
+	void setAsteroidsSpeed(float speed);
+	float getasteroidsSpeed();
+
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetSize();
 	const sf::Sprite& GetSprite();
