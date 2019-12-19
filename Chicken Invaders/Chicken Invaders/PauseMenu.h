@@ -12,6 +12,6 @@ public:
 	void PauseMenu_SetTextures(int WINDOW_WIDTH, int WINDOW_HEIGHT, ResourceLoader& resourceLoader);
 	void PauseMenu_Display(RenderWindow& map, PauseMenu& object);
 	void PauseMenu_Select(RenderWindow& map, PauseMenu& object, int& selected);
-	void PauseMenu_ChangeSelection(int& selected);
+	void PauseMenu_ChangeSelection(int selected);
 };
 

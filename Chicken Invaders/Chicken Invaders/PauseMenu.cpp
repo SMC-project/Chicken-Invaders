@@ -34,7 +34,7 @@ void PauseMenu::PauseMenu_Select(RenderWindow& map, PauseMenu& object, int& sele
 	}
 }
 
-void PauseMenu::PauseMenu_ChangeSelection(int& selected)
+void PauseMenu::PauseMenu_ChangeSelection(int selected)
 {
 	if (selected == 1)
 		this->pause_selection.setPosition(820, 400);

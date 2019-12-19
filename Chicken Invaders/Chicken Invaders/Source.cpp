@@ -29,7 +29,7 @@ using namespace sf;
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& selected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses);
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs);
 
 void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss> &gameBosses);
 
@@ -94,6 +94,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 	std::vector<Meat> meat;
 
+	DataSaver dataSaver;
+	bool leaderboardIsActive = false;
 
 	bool isPaused = false;
 	int pause_selected = 1;
@@ -110,7 +112,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 	
-		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, selected, player, resourceLoader, Contor, GameBullets, meat,gameMissiles,asteroids, chickens, waveManager, earth,isPaused, pauseMenu,pause_selected,gameBosses);
+		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, selected, player, resourceLoader, Contor, GameBullets, meat,gameMissiles,asteroids, chickens, waveManager, earth,isPaused, pauseMenu,pause_selected,gameBosses, leaderboardIsActive, presents, eggs);
 
 		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, deltaTime, gameBackground, player, eggs, chickens, presents, asteroids,GameBullets, meat,gameMissiles,resourceLoader, waveManager, earth,isPaused,pauseMenu,gameWindow,gameBosses);
 		CheckCollisions(resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions, meat,gameMissiles,chickens,presents,isPaused,gameBosses);
@@ -147,10 +149,11 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 	player.Init(Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 7 / 8), resourceLoader.GetTexture(ResourceLoader::TextureType::Ship), resourceLoader.GetTexture(ResourceLoader::TextureType::UI_rocket));
 	gameBackground.Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Background));
 
-	resourceLoader.GetMusic().play();
+	//resourceLoader.GetMusic().play();
 
 	titleScreen.IntroMain_SetTextures(WINDOW_WIDTH, WINDOW_HEIGHT, resourceLoader);
 	pauseMenu.PauseMenu_SetTextures(WINDOW_WIDTH, WINDOW_HEIGHT, resourceLoader);
+	pauseMenu.PauseMenu_ChangeSelection(1);
 	earth.Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Earth));
 
 	player.LoadLiveSprites(resourceLoader.GetTexture(ResourceLoader::TextureType::UI_heart));
@@ -172,32 +175,67 @@ bool CheckSpriteCollision(const sf::Sprite& oneSprite, const sf::Sprite& another
 
 }
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& selected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth,bool& isPaused,PauseMenu& pauseMenu,int& pause_selected, std::vector<Boss>& gameBosses)
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth,bool& isPaused,PauseMenu& pauseMenu,int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs)
 {
 	Event eventHandler;
 	while (gameWindow.pollEvent(eventHandler))
 	{
-		
 		if (eventHandler.type == Event::KeyPressed)
 		{
-			if (!isPaused)
+			if (eventHandler.key.code == Keyboard::Left)
 			{
-				if (eventHandler.key.code == Keyboard::Left)
+				if (!isPaused)
+				{
 					player.SetMovement(false, 1);
-				if (eventHandler.key.code == Keyboard::Right)
-					player.SetMovement(true, 1);
+				}
 			}
-			
-			//The game starts when you are in title screen and press space
-			if (eventHandler.key.code == Keyboard::Space)
+			if (eventHandler.key.code == Keyboard::Right)
+			{
+				if (!isPaused)
+				{
+					player.SetMovement(true, 1);
+				}
+			}
+			if (eventHandler.key.code == Keyboard::Space || eventHandler.key.code == Keyboard::Enter || eventHandler.key.code == Keyboard::Z)
 			{
 				if (start_game == false)
 				{
-					wave_number = 1;
-					start_game = true;
+					if (eventHandler.key.code == Keyboard::Space)
+					{
+						wave_number = 1;
+						start_game = true;
+					}
+					else if (mainMenuLeaderboardSelected == false)
+						gameWindow.close();
+				}
+				if (isPaused)
+				{
+					if (pause_selected == 1)
+					{
+						leaderboardIsActive = true;
+					}
+					if (pause_selected == 2)
+					{
+						wave_number = 0;
+
+						chickens.clear();
+						asteroids.clear();
+						meat.clear();
+						gameBosses.clear();
+						gameMissiles.clear();
+						GameBullets.clear();
+						eggs.clear();
+						presents.clear();
+						Contor = 0;
+						player.Reset();
+
+						start_game = false;
+						isPaused = false;
+					}
+					if (pause_selected == 3)
+						gameWindow.close();
 				}
 			}
-			
 			if (eventHandler.key.code == Keyboard::Escape)
 			{
 				if (start_game)
@@ -205,83 +243,41 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					if (!isPaused)
 					{
 						isPaused = true;
-						//Open the Pause Menu
-						
 					}
 					else
 					{
 						isPaused = false;
-						//Close the Pause Menu
 					}
 				}
 			}
-			if (eventHandler.type == Event::KeyPressed)
-			{
 			if (eventHandler.key.code == Keyboard::Up)
 			{
-			
-				if (pause_selected == 2)
+				if (isPaused)
 				{
-					pause_selected = 1;
+					pause_selected--;
+					if (pause_selected < 1)
+						pause_selected = 1;
 					pauseMenu.PauseMenu_ChangeSelection(pause_selected);
-
 				}
-				if (pause_selected == 3)
+				if (start_game == false)
 				{
-					pause_selected = 2;
-					pauseMenu.PauseMenu_ChangeSelection(pause_selected);
-
+					mainMenuLeaderboardSelected = true;
 				}
-			}
-			
-				if (eventHandler.key.code == Keyboard::Down)
-				{
-					if (pause_selected == 1)
-					{
-						pause_selected = 2;
-						pauseMenu.PauseMenu_ChangeSelection(pause_selected);
-					}
-
-					if (pause_selected == 2)
-					{
-						pause_selected = 3;
-						pauseMenu.PauseMenu_ChangeSelection(pause_selected);
-
-					}
-
-					
-				}
-			}
-			if (isPaused)
-			{
-				if (eventHandler.key.code == Keyboard::Enter)
-				{
-					if (pause_selected == 2)
-					{
-						wave_number = 0;
-						start_game = false;
-						isPaused = false;
-					}
-					if (pause_selected == 3)
-						gameWindow.close();
-
-				}
-			}
-			//You can select between leaderboards button and exit button
-			if (eventHandler.key.code == Keyboard::Up)
-			{
-				selected = true;
 			}
 			if (eventHandler.key.code == Keyboard::Down)
 			{
-				selected = false;
+				if (isPaused)
+				{
+					pause_selected++;
+					if (pause_selected > 3)
+						pause_selected = 3;
+					pauseMenu.PauseMenu_ChangeSelection(pause_selected);
+				}
+				if (start_game == false)
+				{
+					mainMenuLeaderboardSelected = false;
+				}
 			}
-			if (eventHandler.key.code == Keyboard::Enter)
-			{
-				if (selected == false)
-					gameWindow.close();
-			}
-
 			if (eventHandler.key.code == Keyboard::Num1 || eventHandler.key.code == Keyboard::Num2)
 			{
 				wave_number = 1;
@@ -359,10 +355,8 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				gameBosses.clear();
 				waveManager.Wave10Init(gameBosses, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT);
 			}
-
 		}
 		if (eventHandler.type == Event::KeyReleased)
-
 		{
 			if (eventHandler.key.code == Keyboard::Left)
 				player.SetMovement(false, 0);

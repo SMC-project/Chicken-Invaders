@@ -3,7 +3,7 @@
 
 bool ResourceLoader::Init1()
 {
-	if (m_textFont.loadFromFile("Fonts/Montserrat-Regular.ttf") == false)
+	if (m_textFont.loadFromFile("Fonts/Beaufort W01 Regular.ttf") == false)
 	{
 		printf("Error: couldn't load font.\n");
 		return false;
@@ -11,8 +11,6 @@ bool ResourceLoader::Init1()
 
 	return true;
 }
-
-
 
 bool ResourceLoader::Init2()
 {
@@ -226,6 +224,14 @@ bool ResourceLoader::Init2()
 		}
 		});
 
+	std::thread leaderboardThread([this, &perfectLoad]() {
+		if (m_leaderboard.loadFromFile("Sprites/user_interface/leaderboard_panel.jpg") == false)
+		{
+			printf("Error: couldn't load leaderboardl.\n");
+			perfectLoad = false;
+		}
+		});
+
 	
 	musicThread.join();
 	backgroundThread.join();
@@ -253,7 +259,7 @@ bool ResourceLoader::Init2()
 	sideTextureThread.join();
 	tipThread.join();
 	mainMenuBackgroundThread.join();
-	
+	leaderboardThread.join();
 
 	return perfectLoad;
 }
@@ -312,6 +318,8 @@ const sf::Texture& ResourceLoader::GetTexture(const TextureType& type)
 		return m_p_panel;
 	case TextureType::PauseMenu_select:
 		return m_p_select;
+	case TextureType::Leaderboard:
+		return m_leaderboard;
 	}
 }
 

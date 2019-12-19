@@ -24,17 +24,14 @@ public:
 	void SetUpScore(const sf::Font& font);
 	//Add to the score, called when defeating an enemy
 	void UpdateScore(int value);
-	//Reset the score, called when the player reaches 0 lives
-	void ResetScore();
 	//Draw the score to the screen
 	void DrawScore(sf::RenderWindow& window);
 
-	//Check if we collided with something; to do this we check the upper left corner and lower right corner of the sprites
-	//Returns true if we collided with something
-	//bool CheckCollision(const sf::Sprite& other);
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
 	bool IsPlayerDead();
+
+	void Reset();
 
 	//Will change the rect of the spritesheet to simulate an animation
 	//It knows which rect to pick so that it renders the expected animation
