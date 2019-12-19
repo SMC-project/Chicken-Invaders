@@ -45,6 +45,7 @@ public:
 	int GetNrMissiles();
 	void ShootMissile();
 	const sf::Sprite& GetSprite();
+	long GetScore();
 
 private:
 	sf::Vector2f m_initialPos;	//We store the initial position in order to reset the player when he dies
