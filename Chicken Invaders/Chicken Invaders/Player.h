@@ -79,7 +79,7 @@ private:
 	int m_animRowFrame = 0;
 
 	//Score variables, I may put them the game manager later
-	long long m_score = 0;
+	long m_score = 0;
 	sf::Text m_scoreText;
 
 	sf::Sprite m_ui_rocket;

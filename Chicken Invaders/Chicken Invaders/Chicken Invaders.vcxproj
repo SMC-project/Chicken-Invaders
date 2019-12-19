@@ -26,6 +26,7 @@
     <ClCompile Include="Earth.cpp" />
     <ClCompile Include="Egg.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Leaderboard.cpp" />
     <ClCompile Include="Meat.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Earth.h" />
     <ClInclude Include="Egg.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Leaderboard.h" />
     <ClInclude Include="Meat.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="PauseMenu.h" />
