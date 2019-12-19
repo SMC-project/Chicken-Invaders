@@ -48,7 +48,7 @@ Asteroid& Asteroid::operator=(const Asteroid& other)
 void Asteroid::Asteroid_animation()
 {
 	frame_asteroid1 += animSpeed_Asteroid1;
-	if (frame_asteroid1 > framecount_asteroid1) 
+	if (frame_asteroid1 > framecount_asteroid1)
 		frame_asteroid1 = 0;
 	m_sprite_asteroid.setTextureRect(IntRect(int(frame_asteroid1) * 256, 0, 256, 1024));
 }
@@ -65,9 +65,9 @@ void Asteroid::asteroid_setPosition(float x_POS, float y_POS)
 	//m_sprite_asteroid.setRotation(-45);
 }
 
-bool Asteroid::Falldown(int screenHeight,float posX,float posY)
+bool Asteroid::Falldown(int screenHeight, float posX, float posY)
 {
-	m_sprite_asteroid.move(posX,posY);
+	m_sprite_asteroid.move(posX, posY);
 
 	if (m_sprite_asteroid.getPosition().y > screenHeight)
 		return true;
@@ -104,7 +104,30 @@ int Asteroid::GetHits_Remaining()
 	return hits_remaining;
 }
 
-Vector2f Asteroid::GetPosition() { return m_sprite_asteroid.getPosition(); }
+Vector2f Asteroid::GetPosition() {
+
+	Vector2f temp(m_sprite_asteroid.getPosition().x, m_sprite_asteroid.getPosition().y);
+	if (m_sprite_asteroid.getRotation() == 0)
+	{
+		temp.x -= 45;
+		temp.y += 115;
+		std::cout << "mamamamama";
+	}
+	if (m_sprite_asteroid.getRotation() == 45)
+	{
+		//std::cout << "da0";
+		//temp.x+=300;
+		//temp.y -= 90;
+	}
+	if(m_sprite_asteroid.getRotation()==315)
+	{
+		std::cout << "da1";
+		temp.x +=70;
+		temp.y+=10;
+	}
+	return temp;
+
+}
 Vector2f Asteroid::GetSize() { return m_asteroidSize; }
 
 const sf::Sprite& Asteroid::GetSprite() { return m_sprite_asteroid; }

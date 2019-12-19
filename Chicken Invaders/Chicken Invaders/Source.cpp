@@ -553,7 +553,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						player.UpdateScore(asteroids[index].getScore());
 						explosions.push_back(Explosion());
 						explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
-						explosions[explosions.size() - 1].explosion_setPosition(asteroids[index].GetPosition().x + 100, asteroids[index].GetPosition().y + 70);
+						explosions[explosions.size() - 1].explosion_setPosition(asteroids[index].GetPosition().x, asteroids[index].GetPosition().y);
 						asteroids.erase(asteroids.begin() + index);
 						GameBullets[j].SetStateFalse(z);
 						z = 7;
