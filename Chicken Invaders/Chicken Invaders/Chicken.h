@@ -14,7 +14,7 @@ public:
 	int m_moveDirectionFact = 1;
 	int m_xOffsetFact = 0;
 	int m_yOffsetFact = 0;
-
+	int chickenLife;
 private:
 	//These variables are used for moving between rows on the sprite sheet; in the constructor they are assigned the default value
 	//And their values can be changed in a setter
@@ -49,5 +49,7 @@ public:
 	const sf::Sprite& GetSprite();
 
 	void SetAnimationFrames(int startLine, int endLine);
+	int getChickenLife();
+	void setChickenLife(int life);
 };
  

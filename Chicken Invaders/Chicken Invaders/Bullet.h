@@ -42,6 +42,7 @@ public:
 	//bool CheckCollision(const sf::Sprite& other, int index);
 	const sf::Sprite& GetSprite(int index);
 	void SetStateFalse(int index);
+	void SetStateTrue(int index);
 	bool GetState(int index);
 };
 
