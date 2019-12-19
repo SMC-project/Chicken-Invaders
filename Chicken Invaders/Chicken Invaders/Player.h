@@ -40,6 +40,7 @@ public:
 	void DrawUIMissile(sf::RenderWindow& GameWindow, const sf::Texture& texture);
 	void AddMeat();
 
+	bool IsDead();
 	sf::Vector2f GetPosition();
 	int GetNrMissiles();
 	void ShootMissile();

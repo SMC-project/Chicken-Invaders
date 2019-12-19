@@ -164,11 +164,6 @@ void Player::Die()
 	m_isImmortal = true;
 	m_lives--;
 	m_spriteShip.setPosition(m_initialPos);
-
-	if (m_lives == 0)
-	{
-		Reset();
-	}
 }
 bool Player::IsPlayerDead() 
 { 
@@ -179,6 +174,11 @@ void Player::Reset()
 {
 	m_lives = 3;
 	m_score = 0;
+	m_spriteShip.setPosition(m_initialPos);
+	m_currentMeat = 0;
+	m_nrMissiles = 0;
+	m_currentImmortalTime = 0;
+	m_isImmortal = false;
 }
 
 //Load the font for the text and set up the text's position, size, initial value.
@@ -228,3 +228,4 @@ int Player::GetNrMissiles() { return m_nrMissiles; }
 void Player::ShootMissile() { m_nrMissiles--; }
 
 const sf::Sprite& Player::GetSprite() { return m_spriteShip; }
+bool Player::IsDead() { return m_lives == 0 ? true : false; }
