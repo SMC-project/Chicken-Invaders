@@ -126,7 +126,7 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		randomNumber = rand() % 1920 + rand() % 1000;
 		float currentX = randomNumber;
 
-		randomNumber = rand() % 1080 + rand() % 200;
+		randomNumber = rand() % 1920 + rand() % 200;
 		randomNumber = -randomNumber;
 		float currentY = randomNumber;
 		asteroids.push_back(std::move(Asteroid(Vector2f(currentX, currentY), texture)));
@@ -137,7 +137,7 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		randScale = randScale / 10.0f;
 		
 		
-		randSpeed = rand() % 30 + 10;
+		randSpeed = rand() % 20 + 10;
 		std::cout << randSpeed << " ";
 		asteroids[index].serScale(randScale);
 		asteroids[index].setRotation(0);
@@ -289,7 +289,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			asteroids[index].setRotation(45);
 		randScale = rand() % 4 + 2;
 		randScale = randScale / 10.0f;
-		randSpeed = rand() % 30 + 10;
+		randSpeed = rand() % 20 + 10;
 		
 		asteroids[index].setAsteroidsSpeed(randSpeed);
 		asteroids[index].serScale(randScale);

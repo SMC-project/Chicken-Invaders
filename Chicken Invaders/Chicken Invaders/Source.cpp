@@ -400,10 +400,12 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				chickens.clear();
 				asteroids.clear();
 				gameBosses.clear();
-				if (wave_number / 10 % 10 % 2 == 0)
-					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids);
-				else if (wave_number / 10 % 10 % 2 != 0)
-					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids);
+				if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
+				else if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
 				wave_number = 6;
 			}
 			if (eventHandler.key.code == Keyboard::Num7)
@@ -432,10 +434,13 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				asteroids.clear();
 				chickens.clear();
 				gameBosses.clear();
-				if (wave_number / 10 % 10 % 2 == 0)
-					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids);
-				else if (wave_number / 10 % 10 % 2 != 0)
-					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids);
+				if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
+				else if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
+			
 			}
 			if (eventHandler.key.code == Keyboard::Num0)
 			{

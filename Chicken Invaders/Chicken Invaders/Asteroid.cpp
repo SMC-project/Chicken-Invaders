@@ -9,7 +9,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture)
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
 	hits_remaining = 1;
-	m_scale = .2;
+	//m_scale = .2;
 	m_sprite_asteroid.setScale(m_scale, m_scale);
 
 }
