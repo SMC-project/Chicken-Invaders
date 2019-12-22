@@ -17,6 +17,7 @@ private:
 	float m_scale;
 	Sprite m_sprite_asteroid;
 	Vector2f m_asteroidSize;
+	float m_iniPosX;
 
 public:
 	Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const int &waveNumber);

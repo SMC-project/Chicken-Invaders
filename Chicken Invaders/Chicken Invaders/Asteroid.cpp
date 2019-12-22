@@ -7,6 +7,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const in
 	m_asteroidSize = Vector2f(256 * m_sprite_asteroid.getScale().x, 1024 * m_sprite_asteroid.getScale().y);
 	initialPos.x -= m_asteroidSize.x / 2;
 	initialPos.y -= m_asteroidSize.y / 2;
+	m_iniPosX = initialPos.x;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
 	m_life = waveNumver / 10 +1;
 	//m_scale = .2;
@@ -17,7 +18,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const in
 Asteroid::Asteroid(Asteroid&& other) noexcept
 {
 	m_sprite_asteroid.setTexture(*other.m_sprite_asteroid.getTexture());
-
+	m_iniPosX = other.m_iniPosX;
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
@@ -34,7 +35,7 @@ Asteroid::Asteroid(Asteroid&& other) noexcept
 Asteroid& Asteroid::operator=(const Asteroid& other)
 {
 	m_sprite_asteroid.setTexture(*other.m_sprite_asteroid.getTexture());
-
+	m_iniPosX = other.m_iniPosX;
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
@@ -119,7 +120,9 @@ const int& Asteroid::GetLife() { return m_life; }
 
 bool Asteroid::IsOnTheScreen()
 {
-	if (m_sprite_asteroid.getPosition().x > 2000 || m_sprite_asteroid.getPosition().x < -40)
+	if (m_iniPosX < 0 && m_sprite_asteroid.getPosition().x > 1920)
+		return false;
+	if (m_iniPosX > 1920 && m_sprite_asteroid.getPosition().x < -40)
 		return false;
 	if (m_sprite_asteroid.getPosition().y > 1120)
 		return false;
