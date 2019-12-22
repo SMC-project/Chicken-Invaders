@@ -186,6 +186,11 @@ void Bullet::SetStateFalse(int index)
 {
 	std::get<2>(m_bullets[index]) = false;
 }
+void Bullet::SetStateTrue(int index)
+{
+	std::get<2>(m_bullets[index]) = true;
+}
+
 
 bool Bullet::GetState(int index)
 {

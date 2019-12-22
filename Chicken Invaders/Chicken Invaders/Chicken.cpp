@@ -34,6 +34,7 @@ Chicken::Chicken(Chicken&& other) noexcept
 	m_moveDirectionFact = other.m_moveDirectionFact;
 	m_xOffsetFact = other.m_xOffsetFact;
 	m_yOffsetFact = other.m_yOffsetFact;
+	chickenLife = other.chickenLife;
 }
 
 Chicken& Chicken::operator=(const Chicken& other)
@@ -54,6 +55,7 @@ Chicken& Chicken::operator=(const Chicken& other)
 	m_moveDirectionFact = other.m_moveDirectionFact;
 	m_xOffsetFact = other.m_xOffsetFact;
 	m_yOffsetFact = other.m_yOffsetFact;
+	chickenLife = other.chickenLife;
 
 	return *this;
 }
@@ -117,4 +119,14 @@ void Chicken::SetAnimationFrames(int startLine, int endLine)
 	m_endFrameLine = endLine;
 
 	m_frameLine = m_startFrameLine;
+}
+
+int Chicken::getChickenLife()
+{
+	return chickenLife;
+}
+
+void Chicken::setChickenLife(int life)
+{
+	chickenLife = life;
 }

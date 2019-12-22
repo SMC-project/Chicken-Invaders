@@ -378,7 +378,11 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				chickens.clear();
 				asteroids.clear();
 				gameBosses.clear();
-				waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids);
+				if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids);
+				else if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids);
+
 			}
 			//Wave Testing
 			if (eventHandler.key.code == Keyboard::Num4 || eventHandler.key.code == Keyboard::Num5)
@@ -396,8 +400,12 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				chickens.clear();
 				asteroids.clear();
 				gameBosses.clear();
-				waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
-					, WINDOW_WIDTH, WINDOW_HEIGHT);
+				if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
+				else if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
 				wave_number = 6;
 			}
 			if (eventHandler.key.code == Keyboard::Num7)
@@ -426,8 +434,13 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				asteroids.clear();
 				chickens.clear();
 				gameBosses.clear();
-				waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
-					, WINDOW_WIDTH, WINDOW_HEIGHT);
+				if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
+				else if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+						, WINDOW_WIDTH, WINDOW_HEIGHT);
+			
 			}
 			if (eventHandler.key.code == Keyboard::Num0)
 			{
@@ -592,7 +605,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						Contor--;
 				}
 			}
-
+		//check if the asteroids colide with ship 
 		for (int index = 0; index < asteroids.size(); index++)
 			if (CheckSpriteCollision(player.GetSprite(), asteroids[index].GetSprite()))
 			{
@@ -610,7 +623,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						Contor--;
 				}
 			}
-
+		//check the colision with the meat and present
 		for (int index = 0; index < meat.size(); index++)
 			if (CheckSpriteCollision(player.GetSprite(), meat[index].GetSprite()))
 			{
@@ -625,7 +638,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 				Contor++;
 			}
 	}
-
+	//check the colision of asteroids with bullet
 	for (int index = 0; index < asteroids.size(); index++)
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
@@ -641,29 +654,50 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						z = 7;
 						j = GameBullets.size();
 					}
+	//check the colision of chickens with bullets
 	for (int index = 0; index < chickens.size(); index++)
+	{//seteaza viata la 2 
+		chickens[index].setChickenLife(1);
 		for (int j = 0; j < GameBullets.size(); j++)
+
 			for (int z = 0; z < 7; z++)
-				if (GameBullets[j].GetState(z) == true)
+				// cred ca e din cauza conditiei de orprire
+				if ( GameBullets[j].GetState(z) == true) {
+					
+				
 					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), chickens[index].GetSprite()))
 					{
-						player.UpdateScore(chickens[index].getChickenScore());
-						explosions.push_back(Explosion());
-						explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
-						explosions[explosions.size() - 1].explosion_setPosition(chickens[index].getPosition().x, chickens[index].getPosition().y - 20);
-						Meat meatClone(sf::Vector2f(chickens[index].getPosition().x - 10, chickens[index].getPosition().y - 20), resourceLoader.GetTexture(ResourceLoader::TextureType::Meat));
-						meat.push_back(std::move(meatClone));
-						GameBullets[j].SetStateFalse(z);
-						int random = rand() % 30;
-						if (random == 3)
+						chickens[index].setChickenLife(chickens[index].getChickenLife() - 1);
+						//daca pun state la game bullets false le reduce viata doar cu 1, dar daca nu o fac bulletul trece prin toate gainile 
+						//GameBullets[j].SetStateFalse(z);
+						
+						std::cout << chickens[index].getChickenLife()<<" ";
+						if (chickens[index].getChickenLife() == 0)
 						{
-							Present presentClone(sf::Vector2f(chickens[index].getPosition().x - 10, chickens[index].getPosition().y - 20), resourceLoader.GetTexture(ResourceLoader::TextureType::Gift));
-							presents.push_back(std::move(presentClone));
+							player.UpdateScore(chickens[index].getChickenScore());
+							explosions.push_back(Explosion());
+							explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
+							explosions[explosions.size() - 1].explosion_setPosition(chickens[index].getPosition().x, chickens[index].getPosition().y - 20);
+							Meat meatClone(sf::Vector2f(chickens[index].getPosition().x - 10, chickens[index].getPosition().y - 20), resourceLoader.GetTexture(ResourceLoader::TextureType::Meat));
+							meat.push_back(std::move(meatClone));
+							GameBullets[j].SetStateFalse(z);
+
+							int random = rand() % 30;
+							if (random == 3)
+							{
+								Present presentClone(sf::Vector2f(chickens[index].getPosition().x - 10, chickens[index].getPosition().y - 20), resourceLoader.GetTexture(ResourceLoader::TextureType::Gift));
+								presents.push_back(std::move(presentClone));
+							}
+							chickens.erase(chickens.begin() + index);
+							z = 7;
+							j = GameBullets.size();
 						}
-						chickens.erase(chickens.begin() + index);
-						z = 7;
-						j = GameBullets.size();
 					}
+					
+				
+
+				}
+	}
 	for (int index = 0; index < gameBosses.size(); index++)
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
