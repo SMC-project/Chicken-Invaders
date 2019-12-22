@@ -1,11 +1,11 @@
 #include "Wave.h"
 #include <iomanip>
 #include <iostream>
-void Wave::Wave1Init(std::vector<Chicken>& chickens, const Texture& texture, int WINDOW_WIDTH, int WINDOW_HEIGHT)
+void Wave::Wave1Init(std::vector<Chicken>& chickens, const Texture& texture, int WINDOW_WIDTH, int WINDOW_HEIGHT, const int& waveNumber)
 {
 	for (int index = 0; index < 40; index++)
 	{
-		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9), texture)));
+		chickens.push_back(std::move(Chicken(sf::Vector2f(140 * index + WINDOW_WIDTH / 4, 120 * index + WINDOW_HEIGHT / 9), texture,waveNumber)));
 	}
 }
 
@@ -49,7 +49,7 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens)
 	}
 }
 
-void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids)
+void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, const int& waveNumber)
 {
 	float randScale;
 	float random_number;
@@ -64,7 +64,7 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids)
 		random_number = -random_number;
 		float current_y = random_number;
 
-		asteroids.push_back(std::move(Asteroid(sf::Vector2f(current_x, current_y), texture)));
+		asteroids.push_back(std::move(Asteroid(sf::Vector2f(current_x, current_y), texture,waveNumber)));
 	}
 	for (int index = 0; index < asteroids.size(); index++)
 	{
@@ -77,7 +77,7 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids)
 	}
 }
 
-void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int &waveNumber)
 {
 	float fact = 360.0f / wave4and5NrChickens;
 	float xPos, yPos;
@@ -91,7 +91,7 @@ void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourc
 
 		xPos = direction * sin(index * fact * pi / 180) * (radius1 + offsetFact1) + (SCREEN_WIDTH) / 2;
 		yPos = cos(index * fact * pi / 180) * (radius2 + offsetFact2) + (SCREEN_HEIGHT) / 3;
-		chickens.push_back(std::move(Chicken(Vector2f(xPos, yPos), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(xPos, yPos), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),waveNumber)));
 		chickens[chickens.size() - 1].m_chickenIndex = index;
 		chickens[chickens.size() - 1].SetAnimationFrames(0, 0);
 		chickens[chickens.size() - 1].m_moveDirectionFact = direction;
@@ -115,7 +115,7 @@ void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, i
 	}
 }
 
-void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
 {
 	float randomNumber;
 	float randScale;
@@ -129,7 +129,7 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		randomNumber = rand() % 1920 + rand() % 200;
 		randomNumber = -randomNumber;
 		float currentY = randomNumber;
-		asteroids.push_back(std::move(Asteroid(Vector2f(currentX, currentY), texture)));
+		asteroids.push_back(std::move(Asteroid(Vector2f(currentX, currentY), texture,waveNumber)));
 	}
 	for (int index = 0; index < asteroids.size(); index++)
 	{
@@ -154,15 +154,15 @@ void Wave::wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int
 	}
 }
 
-void Wave::Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
 {
 	for (int i = 0; i < 16; i++)
 	{
-		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH - i * 100 - 10, 200), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH - i * 100 - 10, 200), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),waveNumber)));
 	}
 	for (int i = 0; i < 16; i++)
 	{
-		chickens.push_back(std::move(Chicken(Vector2f(i * 100 + 10, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(i * 100 + 10, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),waveNumber)));
 	}
 
 }
@@ -182,15 +182,15 @@ void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 
 
 
-void Wave::Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
 {
 	for (int i = 0; i < 8; i++)
 	{
-		chickens.push_back(std::move(Chicken(Vector2f(i * 140 + 100, 250), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(i * 140 + 100, 250), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),waveNumber)));
 	}
 	for (int i = 0; i < 8; i++)
 	{
-		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH-i * 140 - 100, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken))));
+		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH-i * 140 - 100, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),waveNumber)));
 	}
 }
 
@@ -232,7 +232,7 @@ void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 				chickens[i].moveChicken(-6, 1);
 	}
 }
-void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
 {
 	float randScale;
 	float randomNumber;
@@ -251,7 +251,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			randomNumber = rand() % 900 + rand() % 100;
 			randomNumber = -randomNumber;
 			float currentY = randomNumber;
-			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture)));
+			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture,waveNumber)));
 			asteroids[asteroids.size() - 1].setVelocity(direction);
 		}
 		if (direction == 2)
@@ -262,7 +262,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			randomNumber = rand() % 1080 + rand() % 200;
 			randomNumber = -randomNumber;
 			float currentY = randomNumber;
-			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture)));
+			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture,waveNumber)));
 			asteroids[asteroids.size() - 1].setVelocity(direction);
 		}
 		if (direction == 3)
@@ -275,7 +275,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			randomNumber = rand() % 900 + 400 + rand() % 100;
 			randomNumber = -randomNumber;
 			float currentY = randomNumber;
-			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture)));
+			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture,waveNumber)));
 			asteroids[asteroids.size() - 1].setVelocity(direction);
 		}
 	}
@@ -309,7 +309,7 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 	}
 }
 
-void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
 {
 	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss),1,700,50)));
 }

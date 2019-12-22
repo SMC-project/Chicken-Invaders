@@ -1,14 +1,14 @@
 #include "Asteroid.h"
 
 
-Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture)
+Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const int &waveNumver)
 {
 	m_sprite_asteroid.setTexture(texture);
 	m_asteroidSize = Vector2f(256 * m_sprite_asteroid.getScale().x, 1024 * m_sprite_asteroid.getScale().y);
 	initialPos.x -= m_asteroidSize.x / 2;
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
-	hits_remaining = 1;
+	m_life = (waveNumver / 10) +1;
 	//m_scale = .2;
 	m_sprite_asteroid.setScale(m_scale, m_scale);
 
@@ -21,7 +21,7 @@ Asteroid::Asteroid(Asteroid&& other) noexcept
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	hits_remaining = other.hits_remaining;
+	m_life = other.m_life;
 	frame_asteroid1 = other.frame_asteroid1;
 	framecount_asteroid1 = other.framecount_asteroid1;
 	animSpeed_Asteroid1 = other.animSpeed_Asteroid1;
@@ -38,7 +38,7 @@ Asteroid& Asteroid::operator=(const Asteroid& other)
 	m_sprite_asteroid.setScale(other.m_sprite_asteroid.getScale());
 	m_asteroidSize = other.m_asteroidSize;
 	m_sprite_asteroid.setPosition(other.m_sprite_asteroid.getPosition());
-	hits_remaining = other.hits_remaining;
+	m_life = other.m_life;
 	frame_asteroid1 = other.frame_asteroid1;
 	framecount_asteroid1 = other.framecount_asteroid1;
 	animSpeed_Asteroid1 = other.animSpeed_Asteroid1;
@@ -110,15 +110,13 @@ void Asteroid::serScale(float scale)
 	m_sprite_asteroid.setScale(scale, scale);
 }
 
-void Asteroid::SetHits_Remaining(int number)
+void Asteroid::GetHit()
 {
-	hits_remaining = number;
+	m_life--;
 }
 
-int Asteroid::GetHits_Remaining()
-{
-	return hits_remaining;
-}
+const int& Asteroid::GetLife() { return m_life; }
+
 
 Vector2f Asteroid::GetPosition() {
 
@@ -154,7 +152,6 @@ float Asteroid::getasteroidsSpeed()
 	return m_asteroidSpeed;
 }
 
-Vector2f Asteroid::GetPosition() { return m_sprite_asteroid.getPosition(); }
 Vector2f Asteroid::GetSize() { return m_asteroidSize; }
 
 const sf::Sprite& Asteroid::GetSprite() { return m_sprite_asteroid; }

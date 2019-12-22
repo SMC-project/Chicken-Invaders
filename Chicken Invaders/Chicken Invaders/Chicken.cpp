@@ -2,7 +2,7 @@
 
 
 
-Chicken::Chicken(Vector2f initialPos, const Texture& texture)
+Chicken::Chicken(Vector2f initialPos, const Texture& texture, const int& waveNumber)
 {
 	m_chickenSprite.setTexture(texture);
 	m_chickenSprite.setScale(.3, .3);
@@ -15,6 +15,7 @@ Chicken::Chicken(Vector2f initialPos, const Texture& texture)
 	m_startFrameLine = 0;
 	m_endFrameLine = 0;
 	m_frameLine = m_startFrameLine;
+	m_life = waveNumber/10 + 1;
 }
 Chicken::Chicken(Chicken&& other) noexcept
 {
@@ -34,7 +35,7 @@ Chicken::Chicken(Chicken&& other) noexcept
 	m_moveDirectionFact = other.m_moveDirectionFact;
 	m_xOffsetFact = other.m_xOffsetFact;
 	m_yOffsetFact = other.m_yOffsetFact;
-	chickenLife = other.chickenLife;
+	m_life = other.m_life;
 }
 
 Chicken& Chicken::operator=(const Chicken& other)
@@ -55,7 +56,7 @@ Chicken& Chicken::operator=(const Chicken& other)
 	m_moveDirectionFact = other.m_moveDirectionFact;
 	m_xOffsetFact = other.m_xOffsetFact;
 	m_yOffsetFact = other.m_yOffsetFact;
-	chickenLife = other.chickenLife;
+	m_life = other.m_life;
 
 	return *this;
 }
@@ -121,12 +122,12 @@ void Chicken::SetAnimationFrames(int startLine, int endLine)
 	m_frameLine = m_startFrameLine;
 }
 
-int Chicken::getChickenLife()
+const int& Chicken::GetLife()
 {
-	return chickenLife;
+	return m_life;
 }
 
-void Chicken::setChickenLife(int life)
+void Chicken::GetHit()
 {
-	chickenLife = life;
+	m_life--;
 }

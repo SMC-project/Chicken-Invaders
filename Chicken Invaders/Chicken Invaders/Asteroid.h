@@ -7,7 +7,7 @@ using namespace sf;
 class Asteroid
 {
 private:
-	int hits_remaining;
+	int m_life;
 	float frame_asteroid1 = 0;
 	int framecount_asteroid1 = 29;
 	float animSpeed_Asteroid1 = 1;
@@ -19,7 +19,7 @@ private:
 	Vector2f m_asteroidSize;
 
 public:
-	Asteroid(sf::Vector2f initialPos, const sf::Texture& texture);
+	Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const int &waveNumber);
 	//Move constructor; needed for inserting (temporary) asteroids into the asteroids vector
 	Asteroid(Asteroid&& other) noexcept;
 	void Asteroid_animation();
@@ -40,8 +40,8 @@ public:
 	float getScale();
 	void serScale(float scale);
 
-	void SetHits_Remaining(int number);
-	int GetHits_Remaining();
+	void GetHit();
+	const int& GetLife();
 
 	void setAsteroidsSpeed(float speed);
 	float getasteroidsSpeed();
