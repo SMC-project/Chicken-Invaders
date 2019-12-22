@@ -42,6 +42,7 @@ public:
 
 	void GetHit();
 	const int& GetLife();
+	bool IsOnTheScreen();
 
 	void setAsteroidsSpeed(float speed);
 	float getasteroidsSpeed();
@@ -49,5 +50,6 @@ public:
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetSize();
 	const sf::Sprite& GetSprite();
+	
 };
 

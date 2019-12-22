@@ -15,7 +15,7 @@ Boss::Boss(const sf::Texture& texture,const int &waveNumber, const float& posX, 
 	m_size = sf::Vector2f(texture.getSize().x * m_sprite.getScale().x, texture.getSize().y * m_sprite.getScale().y);
 	m_sprite.setScale(2, 2);
 	m_sprite.setPosition(posX,posY);
-	m_life = waveNumber * 25;
+	m_life = waveNumber * 10;
 
 }
 

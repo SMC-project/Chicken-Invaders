@@ -8,7 +8,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const in
 	initialPos.x -= m_asteroidSize.x / 2;
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
-	m_life = (waveNumver / 10) +1;
+	m_life = waveNumver / 10 +1;
 	//m_scale = .2;
 	m_sprite_asteroid.setScale(m_scale, m_scale);
 
@@ -116,6 +116,15 @@ void Asteroid::GetHit()
 }
 
 const int& Asteroid::GetLife() { return m_life; }
+
+bool Asteroid::IsOnTheScreen()
+{
+	if (m_sprite_asteroid.getPosition().x > 2000 || m_sprite_asteroid.getPosition().x < -40)
+		return false;
+	if (m_sprite_asteroid.getPosition().y > 1120)
+		return false;
+	return true;
+}
 
 
 Vector2f Asteroid::GetPosition() {

@@ -131,3 +131,10 @@ void Chicken::GetHit()
 {
 	m_life--;
 }
+
+bool Chicken::IsOnTheScreen()
+{
+	if (m_chickenSprite.getPosition().y > 1120)
+		return false;
+	return true;
+}

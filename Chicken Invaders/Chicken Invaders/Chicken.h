@@ -51,5 +51,6 @@ public:
 	void SetAnimationFrames(int startLine, int endLine);
 	const int& GetLife();
 	void GetHit();
+	bool IsOnTheScreen();
 };
  

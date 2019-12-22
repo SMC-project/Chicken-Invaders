@@ -30,9 +30,9 @@ using namespace sf;
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData);
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int &waveTransition, bool &endWave, float &waveTime);
 
-void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses);
+void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses, int &waveTransition);
 
 void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Chicken>& chickens, std::vector<Present>& presents, bool& isPaused, std::vector<Boss>& gameBosses);
 
@@ -42,7 +42,7 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 
 bool CheckSpriteCollision(const sf::Sprite& oneSprite, const sf::Sprite& anotherSprite);
 
-void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Meat>& meat, std::vector<Boss>& gameBosses, std::vector<Missile>& gameMissiles, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, std::vector<Present>& presents, int& Contor, Player& player, bool& start_game, bool& isPaused, bool& endGame, bool& savePlayerData);
+void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Meat>& meat, std::vector<Boss>& gameBosses, std::vector<Missile>& gameMissiles, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, std::vector<Present>& presents, int& Contor, Player& player, bool& start_game, bool& isPaused, bool& endGame, bool& savePlayerData, int &waveTransition, bool &endWave);
 #pragma endregion
 
 int main()
@@ -79,6 +79,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	TitleScreen titleScreen;
 	PauseMenu pauseMenu;
 
+	float waveTime = clock.getElapsedTime().asMilliseconds();
 
 	Earth earth;
 	Player player;
@@ -110,6 +111,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 
 	bool isPaused = false;
 	int pause_selected = 1;
+	int waveTransition = 0;
+	bool endWave=true;
 #pragma endregion
 
 	if (Init(WINDOW_WIDTH, WINDOW_HEIGHT, gameWindow, clock, resourceLoader, loadingText, titleScreen, gameBackground, player, earth, pauseMenu, leaderboardPanel, gameOverText, dataSaver) == false)
@@ -123,9 +126,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 
-		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData);
-
-		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, deltaTime, gameBackground, player, eggs, chickens, presents, asteroids, GameBullets, meat, gameMissiles, resourceLoader, waveManager, earth, isPaused, pauseMenu, gameWindow, gameBosses);
+		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData,waveTransition,endWave,waveTime);
+		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, deltaTime, gameBackground, player, eggs, chickens, presents, asteroids, GameBullets, meat, gameMissiles, resourceLoader, waveManager, earth, isPaused, pauseMenu, gameWindow, gameBosses,waveTransition);
 		CheckCollisions(resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions, meat, gameMissiles, chickens, presents, isPaused, gameBosses);
 
 		if (player.IsDead() && endGame == false)
@@ -148,7 +150,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	}
 }
 
-void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Meat>& meat, std::vector<Boss>& gameBosses, std::vector<Missile>& gameMissiles, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, std::vector<Present>& presents, int& Contor, Player& player, bool& start_game, bool& isPaused, bool& endGame, bool& savePlayerData)
+void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Meat>& meat, std::vector<Boss>& gameBosses, std::vector<Missile>& gameMissiles, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, std::vector<Present>& presents, int& Contor, Player& player, bool& start_game, bool& isPaused, bool& endGame, bool& savePlayerData, int &waveTransition, bool &endWave)
 {
 	clock.restart();
 	wave_number = 0;
@@ -168,6 +170,8 @@ void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, s
 	isPaused = false;
 	endGame = false;
 	savePlayerData = false;
+	endWave = true;
+	waveTransition = 0;
 }
 
 bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Earth& earth, PauseMenu& pauseMenu, Leaderboard& leaderboardPanel, Text& gameOverText, DataSaver& dataSaver)
@@ -236,7 +240,7 @@ bool CheckSpriteCollision(const sf::Sprite& oneSprite, const sf::Sprite& another
 
 }
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData)
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool &endWave, float &waveTime)
 {
 	Event eventHandler;
 	while (gameWindow.pollEvent(eventHandler))
@@ -273,6 +277,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					if (eventHandler.key.code == Keyboard::Space)
 					{
 						wave_number = 1;
+						waveTransition = 1;
 						start_game = true;
 					}
 					else
@@ -291,7 +296,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					}
 					if (pause_selected == 2)
 					{
-						ResetGame(clock, wave_number, chickens, asteroids, meat, gameBosses, gameMissiles, GameBullets, eggs, presents, Contor, player, start_game, isPaused, endGame, savePlayerData);
+						ResetGame(clock, wave_number, chickens, asteroids, meat, gameBosses, gameMissiles, GameBullets, eggs, presents, Contor, player, start_game, isPaused, endGame, savePlayerData,waveTransition,endWave);
 					}
 					if (pause_selected == 3)
 						gameWindow.close();
@@ -312,7 +317,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				if (leaderboardIsActive)
 				{
 					if (endGame == true)
-						ResetGame(clock, wave_number, chickens, asteroids, meat, gameBosses, gameMissiles, GameBullets, eggs, presents, Contor, player, start_game, isPaused, endGame, savePlayerData);
+						ResetGame(clock, wave_number, chickens, asteroids, meat, gameBosses, gameMissiles, GameBullets, eggs, presents, Contor, player, start_game, isPaused, endGame, savePlayerData,waveTransition,endWave);
 					leaderboardIsActive = false;
 				}
 				else if (start_game && endGame == false)
@@ -361,96 +366,98 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					}
 				}
 			}
-			if (eventHandler.key.code == Keyboard::Num1 || eventHandler.key.code == Keyboard::Num2)
-			{
-				wave_number = 1;
+			Time time = clock.getElapsedTime();
+			if (endWave == true)
+			{  if(time.asMilliseconds()>waveTime)
 				earth.Reset();
 				asteroids.clear();
 				chickens.clear();
 				gameBosses.clear();
-				waveManager.Wave1Init(chickens, resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-				waveManager.Wave1SetPosition(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
+				if (waveTransition % 10 == 1 || waveTransition % 10 == 2)
+				{
+					wave_number = 1;
+					waveManager.Wave1Init(chickens, resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					waveManager.Wave1SetPosition(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
+					endWave = false;
+				}
+				if (waveTransition % 10 == 3)
+				{
+					wave_number = 3;
+					if (wave_number / 10 % 10 % 2 == 0)
+						waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids, waveTransition);
+					else if (wave_number / 10 % 10 % 2 != 0)
+						waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids, waveTransition);
+					endWave = false;
+				}
+				if (waveTransition % 10 == 4 || waveTransition % 10 == 5)
+				{
+					if (earth.WaveHasStarted() == false && earth.FinishedMoving() == true)
+					{
+						earth.SetWaveHasStarted(true);
+						waveManager.Wave4And5Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					}
+					earth.SetPosition(sf::Vector2f(WINDOW_WIDTH / 2, 0));
+					earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3));
+					wave_number = 4;
+					endWave = false;
+				}
+				if (waveTransition % 10 == 6)
+				{
+					if (wave_number / 10 % 10 % 2 != 0)
+						waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+							, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					else if (wave_number / 10 % 10 % 2 == 0)
+						waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+							, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					wave_number = 6;
+					endWave = false;
+				}
+				if (waveTransition % 10 == 7)
+				{
+					waveManager.Wave7Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					wave_number = 7;
+					endWave = false;
+				}
+				if (waveTransition % 10 == 8)
+				{
+					wave_number = 8;
+					waveManager.Wave8Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					endWave = false;
+				}
+				if (waveTransition % 10 == 9)
+				{
+					wave_number = 9;
+					if (wave_number / 10 % 10 % 2 != 0)
+						waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+							, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					else if (wave_number / 10 % 10 % 2 == 0)
+						waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+							, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					endWave = false;
+				}
+				if (waveTransition % 10 == 0 && waveTransition != 0)
+				{
+					wave_number = 10;
+					waveManager.Wave10Init(gameBosses, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+					endWave = false;
+				}
 			}
-			if (eventHandler.key.code == Keyboard::Num3)
+			else if(chickens.empty()==true&&asteroids.empty()==true&&gameBosses.empty()==true)
 			{
-				earth.Reset();
-				wave_number = 3;
-				chickens.clear();
-				asteroids.clear();
-				gameBosses.clear();
-				if (wave_number / 10 % 10 % 2 == 0)
-					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids, 2);
-				else if (wave_number / 10 % 10 % 2 != 0)
-					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids, 2);
-
+				if (wave_number != 4)
+				{
+					endWave = true;
+					waveTransition++;
+					waveTime = time.asMilliseconds() + 5;
+				}
+				else if (earth.WaveHasStarted()==true)
+				{
+					endWave = true;
+					waveTransition++;
+					waveTime = time.asMilliseconds() + 5;
+				}
 			}
-			//Wave Testing
-			if (eventHandler.key.code == Keyboard::Num4 || eventHandler.key.code == Keyboard::Num5)
-			{
-				earth.Reset();
-				chickens.clear();
-				asteroids.clear();
-				gameBosses.clear();
-				earth.SetPosition(sf::Vector2f(WINDOW_WIDTH / 2, 0));
-				earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3));
-				wave_number = 4;
-			}
-			if (eventHandler.key.code == Keyboard::Num6)
-			{
-				chickens.clear();
-				asteroids.clear();
-				gameBosses.clear();
-				if (wave_number / 10 % 10 % 2 != 0)
-					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
-						, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-				else if (wave_number / 10 % 10 % 2 == 0)
-					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
-						, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-				wave_number = 6;
-			}
-			if (eventHandler.key.code == Keyboard::Num7)
-			{
-				wave_number = 7;
-				earth.Reset();
-				asteroids.clear();
-				chickens.clear();
-				gameBosses.clear();
-				waveManager.Wave7Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-
-			}
-			if (eventHandler.key.code == Keyboard::Num8)
-			{
-				wave_number = 8;
-				earth.Reset();
-				asteroids.clear();
-				chickens.clear();
-				gameBosses.clear();
-				waveManager.Wave8Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-			}
-			if (eventHandler.key.code == Keyboard::Num9)
-			{
-				wave_number = 9;
-				earth.Reset();
-				asteroids.clear();
-				chickens.clear();
-				gameBosses.clear();
-				if (wave_number / 10 % 10 % 2 != 0)
-					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
-						, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-				else if (wave_number / 10 % 10 % 2 == 0)
-					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
-						, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-
-			}
-			if (eventHandler.key.code == Keyboard::Num0)
-			{
-				wave_number = 10;
-				earth.Reset();
-				asteroids.clear();
-				chickens.clear();
-				gameBosses.clear();
-				waveManager.Wave10Init(gameBosses, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-			}
+		
 		}
 		if (eventHandler.type == Event::KeyReleased)
 		{
@@ -485,7 +492,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 	}
 }
 
-void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses)
+void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses, int &waveTransition)
 {
 	gameBackground.AnimateBackground();
 	player.MoveShip(WINDOW_WIDTH);
@@ -540,16 +547,10 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaT
 		if (!isPaused)
 		{
 			earth.Move();
-			if (earth.WaveHasStarted() == false && earth.FinishedMoving() == true)
-			{
-				earth.SetWaveHasStarted(true);
-				waveManager.Wave4And5Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-			}
 			waveManager.Wave4And5Movement(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-			if (earth.WaveHasStarted() == true && chickens.size() == 0)
+		
+		}	if (earth.WaveHasStarted() == true && chickens.size() == 0)
 				earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT + earth.GetSize().y));
-		}
 
 	}
 	if (wave_number == 6)
@@ -623,7 +624,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						Contor--;
 				}
 			}
-		//check the colision with the meat and present
+		//check if the meat and present collides with the ship
 		for (int index = 0; index < meat.size(); index++)
 			if (CheckSpriteCollision(player.GetSprite(), meat[index].GetSprite()))
 			{
@@ -637,8 +638,10 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 				presents.erase(presents.begin() + i);
 				Contor++;
 			}
+		//
+
 	}
-	//check the colision of asteroids with bullet
+	//check if bullets collides with asteroids
 	for (int index = 0; index < asteroids.size(); index++)
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
@@ -659,7 +662,14 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						z = 7;
 						j = GameBullets.size();
 					}
-	//check the colision of chickens with bullets
+	//IsOnTheScreen
+	for (int i = 0; i < asteroids.size(); i++)
+		if (asteroids[i].IsOnTheScreen() == false)
+			asteroids.erase(asteroids.begin() + i);
+	for (int i = 0; i < chickens.size(); i++)
+		if (chickens[i].IsOnTheScreen() == false)
+			chickens.erase(chickens.begin() + i);
+	//check if bullets collides with chickens
 	for (int index = 0; index < chickens.size(); index++)
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
@@ -697,7 +707,6 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), gameBosses[index].GetSprite()))
 					{
 						player.UpdateScore(gameBosses[index].GetScore());
-
 						if (gameBosses[index].GetLife() == 1)
 						{
 							player.UpdateScore(gameBosses[index].GetScore() * 10);
