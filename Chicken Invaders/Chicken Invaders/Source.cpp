@@ -30,7 +30,7 @@ using namespace sf;
 
 void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT);
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int &waveTransition, bool &endWave, float &waveTime, Text &textWaveNumber, bool &drawWaveNumber);
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool& endWave);
 
 void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses, int &waveTransition);
 
@@ -40,7 +40,9 @@ void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGH
 
 bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Earth& earth, PauseMenu& pauseMenu, Leaderboard& leaderboardPanel, Text& gameOverText, DataSaver& dataSaver, Text &textWaveNumber);
 
-bool CheckSpriteCollision(const sf::Transformable& first, const sf::Transformable& second);
+void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, int& waveTransition, Text& textWaveNumber, bool& endWave, float& waveTime, bool& drawWaveNumber, Earth& earth, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, std::vector<Boss>& gameBosses, std::vector<Egg>& eggs, int& wave_number, Wave& waveManager, ResourceLoader& resourceLoader);
+
+bool CheckSpriteCollision(const sf::Sprite& first, const sf::Sprite& second);
 
 void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Meat>& meat, std::vector<Boss>& gameBosses, std::vector<Missile>& gameMissiles, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, std::vector<Present>& presents, int& Contor, Player& player, bool& start_game, bool& isPaused, bool& endGame, bool& savePlayerData, int &waveTransition, bool &endWave);
 #pragma endregion
@@ -79,7 +81,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	TitleScreen titleScreen;
 	PauseMenu pauseMenu;
 
-	float waveTime =7;
+	float waveTime = 7;
 
 	Earth earth;
 	Player player;
@@ -128,7 +130,9 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 
-		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData,waveTransition,endWave,waveTime,textWaveNumber,drawWaveNumber);
+		CheckWaveTransition(WINDOW_WIDTH, WINDOW_HEIGHT, clock, waveTransition, textWaveNumber, endWave, waveTime, drawWaveNumber, earth, asteroids, chickens, gameBosses, eggs, wave_number, waveManager, resourceLoader);
+
+		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData, waveTransition, endWave);
 		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, deltaTime, gameBackground, player, eggs, chickens, presents, asteroids, GameBullets, meat, gameMissiles, resourceLoader, waveManager, earth, isPaused, pauseMenu, gameWindow, gameBosses,waveTransition);
 		CheckCollisions(resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions, meat, gameMissiles, chickens, presents, isPaused, gameBosses, wave_number);
 
@@ -247,7 +251,115 @@ bool CheckSpriteCollision(const sf::Sprite& first, const sf::Sprite& second)
 	return false;
 }
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool &endWave, float &waveTime, Text &textWaveNumber, bool& drawWaveNumber)
+void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, int& waveTransition, Text& textWaveNumber, bool& endWave, float& waveTime, bool& drawWaveNumber, Earth& earth, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, std::vector<Boss>& gameBosses, std::vector<Egg>& eggs, int& wave_number, Wave& waveManager, ResourceLoader& resourceLoader)
+{
+	//
+	float time = clock.getElapsedTime().asSeconds();
+	std::string stWaveNumber = "Wave ";
+	stWaveNumber += std::to_string(waveTransition);
+	textWaveNumber.setString(stWaveNumber);
+	textWaveNumber.setPosition(WINDOW_WIDTH / 2 - textWaveNumber.getLocalBounds().width / 2, WINDOW_HEIGHT / 3 - textWaveNumber.getLocalBounds().height / 3);
+	//
+	if (endWave == true)
+	{
+		if (time > waveTime)
+		{
+			drawWaveNumber = false;
+			eggs.clear();
+			earth.Reset();
+			asteroids.clear();
+			chickens.clear();
+			gameBosses.clear();
+			if (waveTransition % 10 == 1 || waveTransition % 10 == 2)
+			{
+				wave_number = 1;
+				waveManager.Wave1Init(chickens, resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				waveManager.Wave1SetPosition(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
+				endWave = false;
+			}
+			if (waveTransition % 10 == 3)
+			{
+				wave_number = 3;
+				if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids, waveTransition);
+				else if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids, waveTransition);
+				endWave = false;
+			}
+			if (waveTransition % 10 == 4 || waveTransition % 10 == 5)
+			{
+				if (earth.WaveHasStarted() == false && earth.FinishedMoving() == true)
+				{
+					earth.SetWaveHasStarted(true);
+					waveManager.Wave4And5Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				}
+				earth.SetPosition(sf::Vector2f(WINDOW_WIDTH / 2, 0));
+				earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3));
+				wave_number = 4;
+				endWave = false;
+			}
+			if (waveTransition % 10 == 6)
+			{
+				if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+						, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				else if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+						, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				wave_number = 6;
+				endWave = false;
+			}
+			if (waveTransition % 10 == 7)
+			{
+				waveManager.Wave7Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				wave_number = 7;
+				endWave = false;
+			}
+			if (waveTransition % 10 == 8)
+			{
+				wave_number = 8;
+				waveManager.Wave8Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				endWave = false;
+			}
+			if (waveTransition % 10 == 9)
+			{
+				wave_number = 9;
+				if (wave_number / 10 % 10 % 2 != 0)
+					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
+						, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				else if (wave_number / 10 % 10 % 2 == 0)
+					waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
+						, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				endWave = false;
+			}
+			if (waveTransition % 10 == 0 && waveTransition != 0)
+			{
+				wave_number = 10;
+				waveManager.Wave10Init(gameBosses, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
+				endWave = false;
+			}
+		}
+		else
+			drawWaveNumber = true;
+	}
+	else if (chickens.empty() == true && asteroids.empty() == true && gameBosses.empty() == true)
+	{
+		if (wave_number != 4)
+		{
+			endWave = true;
+			waveTransition++;
+			waveTime = time + 5;
+		}
+		else if (earth.WaveHasStarted() == true)
+		{
+			endWave = true;
+			waveTransition++;
+			waveTime = time + 5;
+		}
+	}
+}
+
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool &endWave)
 {
 	Event eventHandler;
 	while (gameWindow.pollEvent(eventHandler))
@@ -373,110 +485,6 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					}
 				}
 			}
-			//
-			float time = clock.getElapsedTime().asSeconds();
-			std::string stWaveNumber = "Wave ";
-			stWaveNumber += std::to_string(waveTransition);
-			textWaveNumber.setString(stWaveNumber);
-			textWaveNumber.setPosition(WINDOW_WIDTH / 2 - textWaveNumber.getLocalBounds().width / 2, WINDOW_HEIGHT / 3 - textWaveNumber.getLocalBounds().height / 3);
-			//
-			if (endWave == true)
-			{
-				if (time > waveTime)
-				{
-					drawWaveNumber = false;
-					earth.Reset();
-					asteroids.clear();
-					chickens.clear();
-					gameBosses.clear();
-					if (waveTransition % 10 == 1 || waveTransition % 10 == 2)
-					{
-						wave_number = 1;
-						waveManager.Wave1Init(chickens, resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						waveManager.Wave1SetPosition(chickens, WINDOW_WIDTH, WINDOW_HEIGHT);
-						endWave = false;
-					}
-					if (waveTransition % 10 == 3)
-					{
-						wave_number = 3;
-						if (wave_number / 10 % 10 % 2 == 0)
-							waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), asteroids, waveTransition);
-						else if (wave_number / 10 % 10 % 2 != 0)
-							waveManager.Wave3Init(resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame), asteroids, waveTransition);
-						endWave = false;
-					}
-					if (waveTransition % 10 == 4 || waveTransition % 10 == 5)
-					{
-						if (earth.WaveHasStarted() == false && earth.FinishedMoving() == true)
-						{
-							earth.SetWaveHasStarted(true);
-							waveManager.Wave4And5Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						}
-						earth.SetPosition(sf::Vector2f(WINDOW_WIDTH / 2, 0));
-						earth.SetTarget(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3));
-						wave_number = 4;
-						endWave = false;
-					}
-					if (waveTransition % 10 == 6)
-					{
-						if (wave_number / 10 % 10 % 2 != 0)
-							waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
-								, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						else if (wave_number / 10 % 10 % 2 == 0)
-							waveManager.wave6Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
-								, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						wave_number = 6;
-						endWave = false;
-					}
-					if (waveTransition % 10 == 7)
-					{
-						waveManager.Wave7Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						wave_number = 7;
-						endWave = false;
-					}
-					if (waveTransition % 10 == 8)
-					{
-						wave_number = 8;
-						waveManager.Wave8Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						endWave = false;
-					}
-					if (waveTransition % 10 == 9)
-					{
-						wave_number = 9;
-						if (wave_number / 10 % 10 % 2 != 0)
-							waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid)
-								, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						else if (wave_number / 10 % 10 % 2 == 0)
-							waveManager.Wave9Init(asteroids, resourceLoader.GetTexture(ResourceLoader::TextureType::AsteroidFlame)
-								, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						endWave = false;
-					}
-					if (waveTransition % 10 == 0 && waveTransition != 0)
-					{
-						wave_number = 10;
-						waveManager.Wave10Init(gameBosses, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
-						endWave = false;
-					}
-				}
-				else
-					drawWaveNumber = true;
-			}
-			else if(chickens.empty()==true&&asteroids.empty()==true&&gameBosses.empty()==true)
-			{
-				if (wave_number != 4)
-				{
-					endWave = true;
-					waveTransition++;
-					waveTime = time+5;
-				}
-				else if (earth.WaveHasStarted()==true)
-				{
-					endWave = true;
-					waveTransition++;
-					waveTime = time+5;
-				}
-			}
-		
 		}
 		if (eventHandler.type == Event::KeyReleased)
 		{
@@ -507,7 +515,6 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				}
 			}
 		}
-
 	}
 }
 

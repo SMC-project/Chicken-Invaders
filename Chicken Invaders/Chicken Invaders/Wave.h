@@ -17,7 +17,8 @@ private:
 
 	//Wave 5 variables
 	const float pi = 3.14159265359;
-	int wave4and5NrChickens = 20;
+	int wave4and5NrInit = 20;
+	int wave4and5NrChickens;
 	float radius1 = 600;
 	float radius2 = 250;
 	float degrees = 0;

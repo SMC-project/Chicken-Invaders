@@ -1,6 +1,7 @@
 #include "Wave.h"
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 void Wave::Wave1Init(std::vector<Chicken>& chickens, const Texture& texture, int WINDOW_WIDTH, int WINDOW_HEIGHT, const int& waveNumber)
 {
 	for (int index = 0; index < 40; index++)
@@ -54,7 +55,8 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, c
 	float randScale;
 	float random_number;
 	float randSpeed;
-	for (int index = 0; index < 15; index++)
+	int targetCount = std::clamp(15 + waveNumber / 10, 15, 50);
+	for (int index = 0; index < targetCount; index++)
 	{
 		random_number = rand() % 900 + rand() % 100;
 		random_number = -random_number;
@@ -79,6 +81,7 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, c
 
 void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int &waveNumber)
 {
+	wave4and5NrChickens = std::clamp(wave4and5NrInit + waveNumber / 10, wave4and5NrInit, 50);
 	float fact = 360.0f / wave4and5NrChickens;
 	float xPos, yPos;
 	int direction;
@@ -121,7 +124,8 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 	float randScale;
 	float randSpeed;
 	srand(time(NULL));
-	for (int index = 0; index < 40; index++)
+	int targetCount = std::clamp(40 + waveNumber / 10, 40, 80);
+	for (int index = 0; index < targetCount; index++)
 	{
 		randomNumber = rand() % 1920 + rand() % 1000;
 		float currentX = randomNumber;
@@ -172,7 +176,6 @@ void Wave::Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoa
 	{
 		chickens.push_back(std::move(Chicken(Vector2f(i * 100 + 10, 300), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), waveNumber)));
 	}
-
 }
 
 void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
@@ -255,7 +258,8 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 	float direction;
 	float randSpeed;
 	srand(time(NULL));
-	for (int index = 0; index < 40; index++)
+	int targetCount = std::clamp(40 + waveNumber / 10, 40, 80);
+	for (int index = 0; index < targetCount; index++)
 	{
 		direction = rand() % 3 + 1;
 		if (direction == 1)
