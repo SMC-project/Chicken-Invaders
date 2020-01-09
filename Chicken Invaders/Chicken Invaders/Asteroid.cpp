@@ -137,7 +137,6 @@ Vector2f Asteroid::GetPosition() {
 	{
 		temp.x -= 45;
 		temp.y += 115;
-		std::cout << "mamamamama";
 	}
 	if (m_sprite_asteroid.getRotation() == 45)
 	{
@@ -147,7 +146,6 @@ Vector2f Asteroid::GetPosition() {
 	}
 	if(m_sprite_asteroid.getRotation()==315)
 	{
-		std::cout << "da1";
 		temp.x +=70;
 		temp.y+=10;
 	}

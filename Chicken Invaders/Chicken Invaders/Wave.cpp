@@ -138,7 +138,6 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		
 		
 		randSpeed = rand() % 20 + 20;
-		std::cout << randSpeed << " ";
 		asteroids[index].serScale(randScale);
 		asteroids[index].setRotation(0);
 		asteroids[index].setAsteroidsSpeed(randSpeed);
@@ -165,16 +164,33 @@ void Wave::Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoa
 		chickens.push_back(std::move(Chicken(Vector2f(i * 100 + 10, 100), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),waveNumber)));
 	}
 
+	for (int i = 0; i < 16; i++)
+	{
+		chickens.push_back(std::move(Chicken(Vector2f(SCREEN_WIDTH - i * 100 - 10, 400), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), waveNumber)));
+	}
+	for (int i = 0; i < 16; i++)
+	{
+		chickens.push_back(std::move(Chicken(Vector2f(i * 100 + 10, 300), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), waveNumber)));
+	}
+
 }
 
 void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
-	for (int index = 0; index < chickens.size()/2; index++)
+	for (int index = 0; index < chickens.size()/4; index++)
 	{	
 		chickens[index].moveChicken(-7, 7);
 	}
 
-	for (int index = chickens.size()/2; index < chickens.size(); index++)
+	for (int index = chickens.size()/4; index < chickens.size()/2; index++)
+	{
+		chickens[index].moveChicken(7, 7);
+	}
+	for (int index = chickens.size() / 2; index < (chickens.size() * 3) / 4; index++)
+	{
+		chickens[index].moveChicken(7, 7);
+	}
+	for (int index = (chickens.size() * 3) / 4; index < chickens.size(); index++)
 	{
 		chickens[index].moveChicken(7, 7);
 	}
