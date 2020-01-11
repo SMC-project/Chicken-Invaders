@@ -125,9 +125,6 @@
     <ClInclude Include="Wave.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="RectangularBoundaryCollision.hpp">
-      <Filter>Header Files\Universal</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files\Universal</Filter>
     </ClInclude>

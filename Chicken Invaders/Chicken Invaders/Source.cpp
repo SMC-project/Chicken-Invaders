@@ -20,7 +20,6 @@
 #include "Missile.h"
 #include "Meat.h"
 #include "Earth.h"
-#include "RectangularBoundaryCollision.hpp"
 #include "PauseMenu.h"
 #include "Boss.h"
 #include "Leaderboard.h"
@@ -34,15 +33,15 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 
 void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses, int &waveTransition);
 
-void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Chicken>& chickens, std::vector<Present>& presents, bool& isPaused, std::vector<Boss>& gameBosses, int wave_number);
+void CheckCollisions(Clock& clock, ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Chicken>& chickens, std::vector<Present>& presents, bool& isPaused, std::vector<Boss>& gameBosses, int wave_number, const Time& wave8StartTime);
 
 void DrawEverything(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, ResourceLoader& resourceLoader, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, std::vector<Present>& presents, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, bool& selected, bool& start_game, const Time& deltaTime, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, Earth& earth, PauseMenu& pauseMenu, bool& isPaused, int& pause_selected, std::vector<Boss>& gameBosses, bool leaderboardIsActive, Leaderboard& leaderboardPanel, bool endGame, Text gameOverText, std::string& playerName, bool &drawWaveNumber, Text textWaveNumber);
 
 bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& clock, ResourceLoader& resourceLoader, Text& loadingText, TitleScreen& titleScreen, ScrollBackground& gameBackground, Player& player, Earth& earth, PauseMenu& pauseMenu, Leaderboard& leaderboardPanel, Text& gameOverText, DataSaver& dataSaver, Text &textWaveNumber);
 
-void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, int& waveTransition, Text& textWaveNumber, bool& endWave, float& waveTime, bool& drawWaveNumber, Earth& earth, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, std::vector<Boss>& gameBosses, std::vector<Egg>& eggs, int& wave_number, Wave& waveManager, ResourceLoader& resourceLoader);
+void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, int& waveTransition, Text& textWaveNumber, bool& endWave, float& waveTime, bool& drawWaveNumber, Earth& earth, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, std::vector<Boss>& gameBosses, std::vector<Egg>& eggs, int& wave_number, Wave& waveManager, ResourceLoader& resourceLoader, Time& wave8StartTime);
 
-bool CheckSpriteCollision(const sf::Sprite& first, const sf::Sprite& second);
+bool CheckSpriteCollision(const sf::FloatRect& first, const sf::FloatRect& second);
 
 void ResetGame(Clock& clock, int& wave_number, std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Meat>& meat, std::vector<Boss>& gameBosses, std::vector<Missile>& gameMissiles, std::vector<Bullet>& GameBullets, std::vector<Egg>& eggs, std::vector<Present>& presents, int& Contor, Player& player, bool& start_game, bool& isPaused, bool& endGame, bool& savePlayerData, int &waveTransition, bool &endWave);
 #pragma endregion
@@ -117,6 +116,8 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	int pause_selected = 1;
 	int waveTransition = 0;
 	bool endWave=true;
+
+	Time wave8StartTime;
 #pragma endregion
 
 	if (Init(WINDOW_WIDTH, WINDOW_HEIGHT, gameWindow, clock, resourceLoader, loadingText, titleScreen, gameBackground, player, earth, pauseMenu, leaderboardPanel, gameOverText, dataSaver,textWaveNumber) == false)
@@ -130,11 +131,11 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 
-		CheckWaveTransition(WINDOW_WIDTH, WINDOW_HEIGHT, clock, waveTransition, textWaveNumber, endWave, waveTime, drawWaveNumber, earth, asteroids, chickens, gameBosses, eggs, wave_number, waveManager, resourceLoader);
+		CheckWaveTransition(WINDOW_WIDTH, WINDOW_HEIGHT, clock, waveTransition, textWaveNumber, endWave, waveTime, drawWaveNumber, earth, asteroids, chickens, gameBosses, eggs, wave_number, waveManager, resourceLoader, wave8StartTime);
 
 		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData, waveTransition, endWave);
 		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, deltaTime, gameBackground, player, eggs, chickens, presents, asteroids, GameBullets, meat, gameMissiles, resourceLoader, waveManager, earth, isPaused, pauseMenu, gameWindow, gameBosses,waveTransition);
-		CheckCollisions(resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions, meat, gameMissiles, chickens, presents, isPaused, gameBosses, wave_number);
+		CheckCollisions(clock, resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions, meat, gameMissiles, chickens, presents, isPaused, gameBosses, wave_number, wave8StartTime);
 
 		if (player.IsDead() && endGame == false)
 		{
@@ -244,14 +245,14 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 	return true;
 }
 
-bool CheckSpriteCollision(const sf::Sprite& first, const sf::Sprite& second)
+bool CheckSpriteCollision(const sf::FloatRect& first, const sf::FloatRect& second)
 {
-	if (collision::areColliding(first, second))
+	if (first.intersects(second))
 		return true;
 	return false;
 }
 
-void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, int& waveTransition, Text& textWaveNumber, bool& endWave, float& waveTime, bool& drawWaveNumber, Earth& earth, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, std::vector<Boss>& gameBosses, std::vector<Egg>& eggs, int& wave_number, Wave& waveManager, ResourceLoader& resourceLoader)
+void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, int& waveTransition, Text& textWaveNumber, bool& endWave, float& waveTime, bool& drawWaveNumber, Earth& earth, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, std::vector<Boss>& gameBosses, std::vector<Egg>& eggs, int& wave_number, Wave& waveManager, ResourceLoader& resourceLoader, Time& wave8StartTime)
 {
 	//
 	float time = clock.getElapsedTime().asSeconds();
@@ -317,6 +318,7 @@ void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, 
 			}
 			if (waveTransition % 10 == 8)
 			{
+				wave8StartTime = clock.getElapsedTime();
 				wave_number = 8;
 				waveManager.Wave8Init(chickens, resourceLoader, WINDOW_WIDTH, WINDOW_HEIGHT, waveTransition);
 				endWave = false;
@@ -611,15 +613,15 @@ void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaT
 			presents[i].FallDownPresent(WINDOW_HEIGHT);
 }
 
-void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Chicken>& chickens, std::vector<Present>& presents, bool& isPaused, std::vector<Boss>& gameBosses, int wave_number)
+void CheckCollisions(Clock& clock, ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Chicken>& chickens, std::vector<Present>& presents, bool& isPaused, std::vector<Boss>& gameBosses, int wave_number, const Time& wave8StartTime)
 {
 	if (player.IsDead() == false)
 	{
 		//Check if any of the eggs collides with the ship
 		for (int index = 0; index < eggs.size(); index++)
-			if (CheckSpriteCollision(player.GetSprite(), eggs[index].GetSprite()))
+			if (CheckSpriteCollision(player.GetSprite().getGlobalBounds(), eggs[index].GetSprite().getGlobalBounds()))
 			{
-				if (player.IsPlayerDead() == false)
+				if (player.IsImmortal() == false)
 				{
 					//If so erase the egg and kill the player
 					eggs.erase(eggs.begin() + index);
@@ -635,9 +637,27 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 		//check if the asteroids colide with ship 
 		for (int index = 0; index < asteroids.size(); index++)
 		{
-			if (CheckSpriteCollision(player.GetSprite(), asteroids[index].GetSprite()))
+			FloatRect asteroidCollider = asteroids[index].GetSprite().getGlobalBounds();
+			float rotation = asteroids[index].GetSprite().getRotation();
+			if (rotation > 270 && rotation < 340)
+				asteroidCollider.left += asteroidCollider.width * 2.0 / 3;
+			if (rotation >= 40 && rotation < 90)
+				asteroidCollider.left += 25;
+			if (rotation != 0)
+				asteroidCollider.top += asteroidCollider.height * 2.0 / 3;
+			else
+				asteroidCollider.top += asteroidCollider.height * 3.0 / 4;
+			asteroidCollider.height *= 1.0 / 3;
+			if (rotation != 0)
+				asteroidCollider.width *= 1.0 / 3;
+
+			asteroidCollider.height *= 2.0 / 3;
+			asteroidCollider.width *= 2.0 / 3;
+
+
+			if (CheckSpriteCollision(player.GetSprite().getGlobalBounds(), asteroidCollider))
 			{
-				if (player.IsPlayerDead() == false)
+				if (player.IsImmortal() == false)
 				{
 					//If so erase the asteroid and kill the player
 					asteroids.erase(asteroids.begin() + index);
@@ -654,39 +674,37 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 		}
 		//check if the meat and present collides with the ship
 		for (int index = 0; index < meat.size(); index++)
-			if (CheckSpriteCollision(player.GetSprite(), meat[index].GetSprite()))
+			if (CheckSpriteCollision(player.GetSprite().getGlobalBounds(), meat[index].GetSprite().getGlobalBounds()))
 			{
 				player.UpdateScore(meat[index].getMeatScore());
 				meat.erase(meat.begin() + index);
 				player.AddMeat();
 			}
 		for (int i = 0; i < presents.size(); i++)
-			if (CheckSpriteCollision(player.GetSprite(), presents[i].GetSprite()))
+			if (CheckSpriteCollision(player.GetSprite().getGlobalBounds(), presents[i].GetSprite().getGlobalBounds()))
 			{
 				presents.erase(presents.begin() + i);
 				Contor++;
 			}
 
-		if (wave_number % 7 == 0 || wave_number % 8 == 0)
+		if (wave_number % 7 == 0 || wave_number % 8 == 0 && clock.getElapsedTime().asSeconds() - wave8StartTime.asSeconds() > 0.1f)
 		{
 			for (int index = 0; index < chickens.size(); index++)
 			{
-				if (CheckSpriteCollision(player.GetSprite(), chickens[index].GetSprite()))
+				if (player.IsImmortal() == false)
 				{
-					//Chicken explosion
-					chickens.erase(chickens.begin() + index);
-					explosions.push_back(Explosion());
-					explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
-					explosions[explosions.size() - 1].explosion_setPosition(chickens[index].getPosition().x, chickens[index].getPosition().y - 20);
+					if (CheckSpriteCollision(player.GetSprite().getGlobalBounds(), chickens[index].GetSprite().getGlobalBounds()))
+					{
+						chickens.erase(chickens.begin() + index);
 
-					//Player explosion
-					explosions.push_back(Explosion());
-					explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
-					explosions[explosions.size() - 1].explosion_setPosition(player.GetPosition().x, player.GetPosition().y);
-					player.Die();
-					if (Contor > 1)
-						Contor--;
-					break;	//We don't want to lose all our lives in case we collided with multiple chickens.
+						//Player explosion
+						explosions.push_back(Explosion());
+						explosions[explosions.size() - 1].setSprite_explosion(resourceLoader.GetTexture(ResourceLoader::TextureType::Explosion));
+						explosions[explosions.size() - 1].explosion_setPosition(player.GetPosition().x, player.GetPosition().y);
+						player.Die();
+						if (Contor > 1)
+							Contor--;
+					}
 				}
 			}
 		}
@@ -696,7 +714,25 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
 				if (GameBullets[j].GetState(z) == true)
-					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), asteroids[index].GetSprite()))
+				{
+					FloatRect asteroidCollider = asteroids[index].GetSprite().getGlobalBounds();
+					float rotation = asteroids[index].GetSprite().getRotation();
+					if (rotation > 270 && rotation < 340)
+						asteroidCollider.left += asteroidCollider.width * 2.0 / 3;
+					if (rotation >= 40 && rotation < 90)
+						asteroidCollider.left += 25;
+					if (rotation != 0)
+						asteroidCollider.top += asteroidCollider.height * 2.0 / 3;
+					else
+						asteroidCollider.top += asteroidCollider.height * 3.0 / 4;
+					asteroidCollider.height *= 1.0 / 3;
+					if (rotation != 0)
+						asteroidCollider.width *= 1.0 / 3;
+
+					asteroidCollider.height *= 2.0 / 3;
+					asteroidCollider.width *= 2.0 / 3;
+
+					if (CheckSpriteCollision(GameBullets[j].GetSprite(z).getGlobalBounds(), asteroidCollider))
 					{
 						if (asteroids[index].GetLife() == 1)
 						{
@@ -712,6 +748,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 						z = 7;
 						j = GameBullets.size();
 					}
+				}
 	//IsOnTheScreen
 	for (int i = 0; i < asteroids.size(); i++)
 		if (asteroids[i].IsOnTheScreen() == false)
@@ -724,7 +761,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
 				if (GameBullets[j].GetState(z) == true)
-					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), chickens[index].GetSprite()))
+					if (CheckSpriteCollision(GameBullets[j].GetSprite(z).getGlobalBounds(), chickens[index].GetSprite().getGlobalBounds()))
 					{
 
 						if (chickens[index].GetLife() == 1)
@@ -754,7 +791,7 @@ void CheckCollisions(ResourceLoader& resourceLoader, Player& player, int& Contor
 		for (int j = 0; j < GameBullets.size(); j++)
 			for (int z = 0; z < 7; z++)
 				if (GameBullets[j].GetState(z) == true)
-					if (CheckSpriteCollision(GameBullets[j].GetSprite(z), gameBosses[index].GetSprite()))
+					if (CheckSpriteCollision(GameBullets[j].GetSprite(z).getGlobalBounds(), gameBosses[index].GetSprite().getGlobalBounds()))
 					{
 						player.UpdateScore(gameBosses[index].GetScore());
 						if (gameBosses[index].GetLife() == 1)

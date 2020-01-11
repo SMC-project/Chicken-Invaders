@@ -29,7 +29,7 @@ public:
 
 	//Decrement lives and reset position; in the future it will have a GameOver functionality
 	void Die();
-	bool IsPlayerDead();
+	bool IsImmortal();
 
 	void Reset();
 

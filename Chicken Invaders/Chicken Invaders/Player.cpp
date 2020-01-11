@@ -165,7 +165,7 @@ void Player::Die()
 	m_lives--;
 	m_spriteShip.setPosition(m_initialPos);
 }
-bool Player::IsPlayerDead() 
+bool Player::IsImmortal() 
 { 
 	return m_isImmortal; 
 }

@@ -73,6 +73,7 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, c
 		randScale = rand() % 4 + 2;
 		randScale = randScale / 10.0f;
 		randSpeed = rand() % 30 + 20;
+
 		asteroids[index].setAsteroidsSpeed(randSpeed);
 		asteroids[index].serScale(randScale);
 		asteroids[index].setRotation(-45);
