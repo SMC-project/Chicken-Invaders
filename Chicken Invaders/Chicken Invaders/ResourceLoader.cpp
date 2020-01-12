@@ -231,6 +231,13 @@ bool ResourceLoader::Init2()
 			perfectLoad = false;
 		}
 		});
+	std::thread featherThread([this, &perfectLoad]() {
+		if (m_feather.loadFromFile("Sprites/Extras/feather.png") == false)
+		{
+			printf("Error: couldn't load leaderboardl.\n");
+			perfectLoad = false;
+		}
+	});
 
 	
 	musicThread.join();
@@ -260,7 +267,7 @@ bool ResourceLoader::Init2()
 	tipThread.join();
 	mainMenuBackgroundThread.join();
 	leaderboardThread.join();
-
+	featherThread.join();
 	return perfectLoad;
 }
 
@@ -320,6 +327,8 @@ const sf::Texture& ResourceLoader::GetTexture(const TextureType& type)
 		return m_p_select;
 	case TextureType::Leaderboard:
 		return m_leaderboard;
+	case TextureType::Feather:
+		return m_feather;
 	}
 }
 

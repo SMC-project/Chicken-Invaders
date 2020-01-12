@@ -93,6 +93,9 @@
     <ClCompile Include="Leaderboard.cpp">
       <Filter>Source Files\Universal</Filter>
     </ClCompile>
+    <ClCompile Include="Feather.cpp">
+      <Filter>Source Files\Drops</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Leaderboard.h">
       <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="Feather.h">
+      <Filter>Header Files\Drops</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
