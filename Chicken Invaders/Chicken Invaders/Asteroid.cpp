@@ -1,7 +1,7 @@
 #include "Asteroid.h"
 
 
-Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const int &waveNumver)
+Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const int& waveNumver)
 {
 	m_sprite_asteroid.setTexture(texture);
 	m_asteroidSize = Vector2f(256 * m_sprite_asteroid.getScale().x, 1024 * m_sprite_asteroid.getScale().y);
@@ -9,7 +9,7 @@ Asteroid::Asteroid(sf::Vector2f initialPos, const sf::Texture& texture, const in
 	initialPos.y -= m_asteroidSize.y / 2;
 	m_iniPosX = initialPos.x;
 	m_sprite_asteroid.setPosition(initialPos.x, initialPos.y);
-	m_life = waveNumver / 10 +1;
+	m_life = waveNumver / 10 + 1;
 	//m_scale = .2;
 	m_sprite_asteroid.setScale(m_scale, m_scale);
 
@@ -129,8 +129,8 @@ bool Asteroid::IsOnTheScreen()
 	return true;
 }
 
-
-Vector2f Asteroid::GetPosition() {
+Vector2f Asteroid::GetPosition()
+{
 
 	Vector2f temp(m_sprite_asteroid.getPosition().x, m_sprite_asteroid.getPosition().y);
 	if (m_sprite_asteroid.getRotation() == 0)
@@ -140,21 +140,20 @@ Vector2f Asteroid::GetPosition() {
 	}
 	if (m_sprite_asteroid.getRotation() == 45)
 	{
-		//std::cout << "da0";
-		//temp.x+=300;
-		//temp.y -= 90;
+		temp.x -= 78 * 2 * (m_scale * 5); // I m not sure. I probably need to delete " *2 " later.
+		temp.y += 35 * (m_scale * 5);
 	}
-	if(m_sprite_asteroid.getRotation()==315)
+	if (m_sprite_asteroid.getRotation() == 315)
 	{
-		temp.x +=70;
-		temp.y+=10;
+		temp.x += 78 * (m_scale * 5);
+		temp.y += 35 * (m_scale * 5);
 	}
 	return temp;
 
 }
 void Asteroid::setAsteroidsSpeed(float speed)
 {
-	 m_asteroidSpeed=speed;
+	m_asteroidSpeed = speed;
 }
 
 float Asteroid::getasteroidsSpeed()
@@ -165,3 +164,8 @@ float Asteroid::getasteroidsSpeed()
 Vector2f Asteroid::GetSize() { return m_asteroidSize; }
 
 const sf::Sprite& Asteroid::GetSprite() { return m_sprite_asteroid; }
+
+const sf::Vector2f& Asteroid::GetScale()
+{
+	return m_sprite_asteroid.getScale();
+}

@@ -51,5 +51,6 @@ public:
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetSize();
 	const sf::Sprite& GetSprite();
+	const sf::Vector2f& GetScale();
 };
 

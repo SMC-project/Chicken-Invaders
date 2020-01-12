@@ -225,7 +225,11 @@ void Player::Animate()
 
 sf::Vector2f Player::GetPosition() { return m_spriteShip.getPosition(); }
 int Player::GetNrMissiles() { return m_nrMissiles; }
-void Player::ShootMissile() { m_nrMissiles--; }
+void Player::ShootMissile() 
+{
+	m_nrMissiles--;
+	m_currentMeat-=25; 
+}
 
 const sf::Sprite& Player::GetSprite() { return m_spriteShip; }
 bool Player::IsDead() { return m_lives == 0 ? true : false; }

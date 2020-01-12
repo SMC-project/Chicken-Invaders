@@ -18,6 +18,6 @@ public:
 	void setSprite_explosion(const Texture& texture);
 	bool draw_explosion(RenderWindow& map);
 	void explosion_setPosition(float x_POS, float y_POS);
-	void explosion_setScale(int width, int height);
+	void explosion_setScale(float width, float height);
 };
 
