@@ -32,7 +32,8 @@ public:
 		UI_background,
 		PauseMenu_panel,
 		PauseMenu_select,
-		Leaderboard
+		Leaderboard,
+		Feather
 	};
 
 public:
@@ -81,5 +82,6 @@ private:
 	sf::Texture m_p_select;
 
 	sf::Texture m_leaderboard;
+	sf::Texture m_feather;
 };
 

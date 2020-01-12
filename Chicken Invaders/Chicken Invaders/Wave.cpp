@@ -308,7 +308,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			asteroids[index].setRotation(0);
 		else if (asteroids[index].getVelocity() == 3)
 			asteroids[index].setRotation(45);
-		asteroids[index].setRotation(45);
+		//asteroids[index].setRotation(45);
 		randScale = rand() % 4 + 2;
 		randScale = randScale / 10.0f;
 		randSpeed = rand() % 10 + 20;
