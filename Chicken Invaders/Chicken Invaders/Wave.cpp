@@ -72,7 +72,7 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, c
 	{
 		randScale = rand() % 4 + 2;
 		randScale = randScale / 10.0f;
-		randSpeed = rand() % 20 + 20;
+		randSpeed = rand() % 10 + 20;
 
 		asteroids[index].setAsteroidsSpeed(randSpeed);
 		asteroids[index].serScale(randScale);
@@ -142,7 +142,7 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		randScale = randScale / 10.0f;
 		
 		
-		randSpeed = rand() % 20 + 20;
+		randSpeed = rand() % 10 + 20;
 		asteroids[index].serScale(randScale);
 		asteroids[index].setRotation(0);
 		asteroids[index].setAsteroidsSpeed(randSpeed);
@@ -308,9 +308,10 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 			asteroids[index].setRotation(0);
 		else if (asteroids[index].getVelocity() == 3)
 			asteroids[index].setRotation(45);
+		asteroids[index].setRotation(45);
 		randScale = rand() % 4 + 2;
 		randScale = randScale / 10.0f;
-		randSpeed = rand() % 20 + 20;
+		randSpeed = rand() % 10 + 20;
 		
 		asteroids[index].setAsteroidsSpeed(randSpeed);
 		asteroids[index].serScale(randScale);
@@ -332,7 +333,7 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 
 void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
 {
-	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss),1,700,50)));
+	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss),waveNumber,700,50)));
 }
 
 void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREEN_HEIGHT)
