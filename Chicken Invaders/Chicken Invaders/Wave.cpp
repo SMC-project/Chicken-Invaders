@@ -58,11 +58,11 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, c
 	int targetCount = std::clamp(15 + waveNumber / 10, 15, 50);
 	for (int index = 0; index < targetCount; index++)
 	{
-		random_number = rand() % 900 + rand() % 100;
+		random_number = rand() % 1200 + rand() % 100;
 		random_number = -random_number;
 		float current_x = random_number;
 
-		random_number = rand() % 900 + rand() % 100;
+		random_number = rand() % 1200 + rand() % 100;
 		random_number = -random_number;
 		float current_y = random_number;
 
@@ -72,7 +72,7 @@ void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, c
 	{
 		randScale = rand() % 4 + 2;
 		randScale = randScale / 10.0f;
-		randSpeed = rand() % 30 + 20;
+		randSpeed = rand() % 20 + 20;
 
 		asteroids[index].setAsteroidsSpeed(randSpeed);
 		asteroids[index].serScale(randScale);
@@ -277,7 +277,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		}
 		if (direction == 2)
 		{
-			randomNumber = rand() % 1920 + rand() % 1000;
+			randomNumber = rand() % 1920 + rand() % 100;
 			float currentX = randomNumber;
 
 			randomNumber = rand() % 1080 + rand() % 200;
@@ -289,11 +289,11 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 		if (direction == 3)
 		{
 	
-			randomNumber = rand() % 1920 + 1800 + rand() % 100;
+			randomNumber = rand() % 1920  + rand() % 100;
 		
 			float currentX = randomNumber;
 
-			randomNumber = rand() % 900 + 400 + rand() % 100;
+			randomNumber = rand() % 600 + 400 + rand() % 100;
 			randomNumber = -randomNumber;
 			float currentY = randomNumber;
 			asteroids.push_back(std::move(Asteroid(sf::Vector2f(currentX, currentY), texture,waveNumber)));

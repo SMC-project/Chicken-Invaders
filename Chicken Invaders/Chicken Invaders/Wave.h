@@ -22,6 +22,9 @@ private:
 	float radius1 = 600;
 	float radius2 = 250;
 	float degrees = 0;
+	int asteroidsNumber3 = 10;
+	int asteroidsNumber6 = 35;
+	int asteroidsNumber9 = 35;
 	
 public:
 	bool m_leftOrRightMovement = true;

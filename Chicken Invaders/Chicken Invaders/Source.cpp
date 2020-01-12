@@ -516,6 +516,12 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					player.ShootMissile();
 				}
 			}
+			if (eventHandler.key.code == Keyboard::Num1)
+			{
+				asteroids.clear();
+				chickens.clear();
+				waveTransition=9;
+			}
 		}
 	}
 }
