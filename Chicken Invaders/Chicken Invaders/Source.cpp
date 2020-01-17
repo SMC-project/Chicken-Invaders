@@ -189,6 +189,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 				wave_number = 1;
 				waveTransition = 1;
 				start_game = true;
+				netCheckStartGame = false;
 				net.packet.clear();
 			}
 		}
