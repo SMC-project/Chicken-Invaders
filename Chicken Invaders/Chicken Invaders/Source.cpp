@@ -56,7 +56,7 @@ int main()
 	const int WINDOW_HEIGHT = 1080;
 
 	Networking net;
-	char playMode, connectionMode;
+	char playMode, connectionMode = 'c';
 	std::cout << "How do you want to play?\n0 - single player\n1 - multiplayer\n\nUser choice: ";
 	std::cin >> playMode;
 	while (playMode != '0' && playMode != '1')
@@ -166,7 +166,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 
-		if (connectionMode == 'c' && net.ReceiveData())
+		if (playMode == '1' && connectionMode == 'c' && net.ReceiveData())
 		{
 			net.packet >> netReceivedData;
 			if (netReceivedData == "start game")
@@ -205,7 +205,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 			playerDeathTime -= deltaTime;
 			if (clock.getElapsedTime().asSeconds() - playerDeathTime.asSeconds() > gameOverTextTime)
 			{
-				if (playMode == '1')
+				/*if (playMode == '1')
 				{
 					net.packet << "game over";
 					net.SendData();
@@ -219,10 +219,10 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 					}
 				}
 				else
-				{
+				{*/
 					leaderboardIsActive = true;
 					savePlayerData = true;
-				}
+				//}
 			}
 		}
 	}
@@ -521,7 +521,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 				}
 				if (savePlayerData == true && eventHandler.key.code == Keyboard::Enter)
 				{
-					if (playMode == '1')
+					/*if (playMode == '1')
 					{
 						net.packet << playerName << player.GetScore();
 						net.SendData();
@@ -532,7 +532,7 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 						net.ReceiveData();
 						net.packet >> player2Name >> player2Score;
 						dataSaver.SaveData(player2Name, player2Score);
-					}
+					}*/
 
 					savePlayerData = false;
 					dataSaver.SaveData(playerName, player.GetScore());
