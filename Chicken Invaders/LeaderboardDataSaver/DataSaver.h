@@ -13,7 +13,7 @@ private:
 	struct PlayerData
 	{
 		std::string name;
-		long score;
+		uint32_t score;
 	};
 
 public:

@@ -45,7 +45,7 @@ public:
 	int GetNrMissiles();
 	void ShootMissile();
 	const sf::Sprite& GetSprite();
-	long GetScore();
+	uint32_t GetScore();
 
 private:
 	sf::Vector2f m_initialPos;	//We store the initial position in order to reset the player when he dies
@@ -81,7 +81,7 @@ private:
 	int m_animRowFrame = 0;
 
 	//Score variables, I may put them the game manager later
-	long m_score = 0;
+	uint32_t m_score = 0;
 	sf::Text m_scoreText;
 
 	sf::Sprite m_ui_rocket;

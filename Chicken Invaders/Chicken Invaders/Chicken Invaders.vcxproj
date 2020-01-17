@@ -30,6 +30,7 @@
     <ClCompile Include="Leaderboard.cpp" />
     <ClCompile Include="Meat.cpp" />
     <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="Networking.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Present.cpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Leaderboard.h" />
     <ClInclude Include="Meat.h" />
     <ClInclude Include="Missile.h" />
+    <ClInclude Include="Networking.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Present.h" />

@@ -233,4 +233,4 @@ void Player::ShootMissile()
 
 const sf::Sprite& Player::GetSprite() { return m_spriteShip; }
 bool Player::IsDead() { return m_lives == 0 ? true : false; }
-long Player::GetScore() { return m_score; }
+uint32_t Player::GetScore() { return m_score; }
