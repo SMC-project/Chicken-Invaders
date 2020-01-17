@@ -42,9 +42,12 @@ Feather::Feather(Feather&& other) noexcept
 	m_velocity = other.m_velocity;
 	m_rotationFact = other.m_rotationFact;
 	m_rotationSpeed = other.m_rotationSpeed;
+
+	
+
 }
 
-Feather& Feather::operator=(const Feather& other)
+Feather& Feather::operator=(const Feather&& other) noexcept
 {
 	m_sprite.setTexture(*other.m_sprite.getTexture());
 
@@ -61,7 +64,7 @@ Feather& Feather::operator=(const Feather& other)
 	return *this;
 }
 
-bool Feather::Move(int SCREEN_WIDTH, int SCREEN_HEIGHT, float deltaTimeSeconds)
+bool Feather::Move(uint16_t SCREEN_WIDTH, uint16_t SCREEN_HEIGHT, float deltaTimeSeconds)
 {
 	m_velocity.y += m_accelerationFact;
 
