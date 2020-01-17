@@ -29,9 +29,9 @@ using namespace sf;
 
 #pragma region Methods
 
-void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, char playMode, Networking& net);
+void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, char playMode, char connectionMode, Networking& net);
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool& endWave, float& waveTime, std::vector<Feather>& feathers, Networking& net, char playMode);
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool& endWave, float& waveTime, std::vector<Feather>& feathers, Networking& net, char playMode, char connectionMode, bool& netCheckStartGame);
 
 void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses, int& waveTransition, std::vector<Feather>& feathers);
 
@@ -85,12 +85,12 @@ int main()
 	RenderWindow gameWindow(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Chicken Invaders DX", Style::Fullscreen);
 	gameWindow.setFramerateLimit(30);
 
-	GameLoop(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, playMode, net);
+	GameLoop(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, playMode, connectionMode, net);
 
 	return 0;
 }
 
-void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, char playMode, Networking& net)
+void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, char playMode, char connectionMode, Networking& net)
 {
 #pragma region Variables
 
@@ -158,21 +158,37 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	sf::Time packetLastClearTime;
 	packetLastClearTime = clock.getElapsedTime();
 
+	bool netCheckStartGame = false;
+
 	//Game widow
 	while (gameWindow.isOpen())
 	{
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 
+		if (connectionMode == 'c' && net.ReceiveData())
+		{
+			net.packet >> netReceivedData;
+			if (netReceivedData == "start game")
+			{
+				std::cout << "start game";
+				wave_number = 1;
+				waveTransition = 1;
+				start_game = true;
+			}
+		}
+
 		if (playMode == '1' && clock.getElapsedTime().asSeconds() - packetLastClearTime.asSeconds() > 0.5f)
 		{
 			packetLastClearTime = clock.getElapsedTime();
 			net.packet.clear();
+
+			netCheckStartGame = false;
 		}
 
 		CheckWaveTransition(WINDOW_WIDTH, WINDOW_HEIGHT, clock, waveTransition, textWaveNumber, endWave, waveTime, drawWaveNumber, earth, asteroids, chickens, gameBosses, eggs, wave_number, waveManager, resourceLoader, waveStartTime);
 
-		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData, waveTransition, endWave, waveTime, feathers, net, playMode);
+		CheckInput(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, start_game, mainMenuLeaderboardSelected, player, resourceLoader, Contor, GameBullets, meat, gameMissiles, asteroids, chickens, waveManager, earth, isPaused, pauseMenu, pause_selected, gameBosses, leaderboardIsActive, presents, eggs, clock, endGame, playerName, dataSaver, leaderboardPanel, savePlayerData, waveTransition, endWave, waveTime, feathers, net, playMode, connectionMode, netCheckStartGame);
 		Movement(WINDOW_WIDTH, WINDOW_HEIGHT, wave_number, deltaTime, gameBackground, player, eggs, chickens, presents, asteroids, GameBullets, meat, gameMissiles, resourceLoader, waveManager, earth, isPaused, pauseMenu, gameWindow, gameBosses, waveTransition, feathers);
 		CheckCollisions(clock, resourceLoader, player, Contor, eggs, asteroids, GameBullets, explosions, meat, gameMissiles, chickens, presents, isPaused, gameBosses, wave_number, waveStartTime, feathers);
 
@@ -419,7 +435,7 @@ void CheckWaveTransition(int WINDOW_WIDTH, int WINDOW_HEIGHT, sf::Clock& clock, 
 	}
 }
 
-void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool& endWave, float& waveTime, std::vector<Feather>& feathers, Networking& net, char playMode)
+void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, int& wave_number, bool& start_game, bool& mainMenuLeaderboardSelected, Player& player, ResourceLoader& resourceLoader, int& Contor, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Asteroid>& asteroids, std::vector<Chicken>& chickens, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, int& pause_selected, std::vector<Boss>& gameBosses, bool& leaderboardIsActive, std::vector<Present>& presents, std::vector<Egg>& eggs, Clock& clock, bool& endGame, std::string& playerName, DataSaver& dataSaver, Leaderboard& leaderboard, bool& savePlayerData, int& waveTransition, bool& endWave, float& waveTime, std::vector<Feather>& feathers, Networking& net, char playMode, char connectionMode, bool& netCheckStartGame)
 {
 	Event eventHandler;
 	while (gameWindow.pollEvent(eventHandler))
@@ -457,18 +473,23 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					{
 						if (playMode == '1')
 						{
-							std::string data;
-							net.ReceiveData();
-							net.packet >> data;
-							if (data == "start game")
+							if (connectionMode == 's')
 							{
+								net.packet << "start game";
+								net.SendData();
+
+								std::cout << "start game";
 								wave_number = 1;
 								waveTransition = 1;
 								start_game = true;
 							}
 
-							net.packet << "start game";
-							net.SendData();
+							/*std::string data;
+							net.ReceiveData();
+							net.packet >> data;
+							*/
+
+							//netCheckStartGame = true;
 						}
 						else
 						{

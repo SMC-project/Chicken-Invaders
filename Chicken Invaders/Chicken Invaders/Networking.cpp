@@ -34,7 +34,9 @@ void Networking::SendData()
 	socket.send(packet);
 }
 
-void Networking::ReceiveData()
+bool Networking::ReceiveData()
 {
-	socket.receive(packet);
+	if(socket.receive(packet) == socket.Done)
+		return true;
+	return false;
 }

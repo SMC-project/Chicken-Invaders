@@ -8,7 +8,7 @@ public:
 	void ClientConnection();
 
 	void SendData();
-	void ReceiveData();
+	bool ReceiveData();
 public:
 	sf::Packet packet;
 
