@@ -32,11 +32,9 @@ void Networking::ClientConnection()
 void Networking::SendData()
 {
 	socket.send(packet);
-	packet.clear();
 }
 
 void Networking::ReceiveData()
 {
-	packet.clear();
 	socket.receive(packet);
 }

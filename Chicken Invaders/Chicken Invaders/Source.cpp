@@ -155,11 +155,20 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 	lastFrameTime = clock.getElapsedTime();
 	std::string netReceivedData;
 
+	sf::Time packetLastClearTime;
+	packetLastClearTime = clock.getElapsedTime();
+
 	//Game widow
 	while (gameWindow.isOpen())
 	{
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
+
+		if (playMode == '1' && clock.getElapsedTime().asSeconds() - packetLastClearTime.asSeconds() > 0.5f)
+		{
+			packetLastClearTime = clock.getElapsedTime();
+			net.packet.clear();
+		}
 
 		CheckWaveTransition(WINDOW_WIDTH, WINDOW_HEIGHT, clock, waveTransition, textWaveNumber, endWave, waveTime, drawWaveNumber, earth, asteroids, chickens, gameBosses, eggs, wave_number, waveManager, resourceLoader, waveStartTime);
 
