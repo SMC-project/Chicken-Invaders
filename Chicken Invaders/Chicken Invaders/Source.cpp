@@ -166,7 +166,7 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 		deltaTime = clock.getElapsedTime() - lastFrameTime;
 		lastFrameTime = clock.getElapsedTime();
 
-		if (playMode == '1' && connectionMode == 'c' && net.ReceiveData())
+		/*if (playMode == '1' && connectionMode == 'c' && net.ReceiveData())
 		{
 			net.packet >> netReceivedData;
 			if (netReceivedData == "start game")
@@ -176,9 +176,24 @@ void GameLoop(RenderWindow& gameWindow, const int WINDOW_WIDTH, const int WINDOW
 				waveTransition = 1;
 				start_game = true;
 			}
+		}*/
+
+		if (netCheckStartGame)
+		{
+			std::cout << "Check start game";
+			net.ReceiveData();
+			net.packet >> netReceivedData;
+			if (netReceivedData == "start game")
+			{
+				std::cout << "start game";
+				wave_number = 1;
+				waveTransition = 1;
+				start_game = true;
+				net.packet.clear();
+			}
 		}
 
-		if (playMode == '1' && clock.getElapsedTime().asSeconds() - packetLastClearTime.asSeconds() > 0.5f)
+		if (playMode == '1' && clock.getElapsedTime().asSeconds() - packetLastClearTime.asSeconds() > 2.5f)
 		{
 			packetLastClearTime = clock.getElapsedTime();
 			net.packet.clear();
@@ -473,23 +488,24 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 					{
 						if (playMode == '1')
 						{
-							if (connectionMode == 's')
-							{
+							//if (connectionMode == 's')
+							//{
 								net.packet << "start game";
 								net.SendData();
+								net.packet.clear();
 
-								std::cout << "start game";
+								/*std::cout << "start game";
 								wave_number = 1;
 								waveTransition = 1;
-								start_game = true;
-							}
+								start_game = true;*/
+							//}
 
 							/*std::string data;
 							net.ReceiveData();
 							net.packet >> data;
 							*/
 
-							//netCheckStartGame = true;
+							netCheckStartGame = true;
 						}
 						else
 						{
