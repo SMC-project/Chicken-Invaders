@@ -9,6 +9,8 @@
 #include"..\Chicken Invaders\Chicken.h"
 #include"..\Chicken Invaders\Asteroid.h"
 #include"..\Chicken Invaders\Present.h"
+#include"..\Chicken Invaders\Meat.h"
+#include"..\Chicken Invaders\Explosion.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -64,9 +66,9 @@ namespace ChickenInvadersUnitTests
 		TEST_METHOD(chickenIsMovingTest)
 		{
 			ResourceLoader resourceLoader;
-			Chicken chicken(Vector2f(40,40),resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken),1);
-			chicken.moveChicken(1,1);
-			Assert::AreNotEqual(sf::Vector2f(40,40), chicken.getPosition());
+			Chicken chicken(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), 1);
+			chicken.moveChicken(1, 1);
+			Assert::AreNotEqual(sf::Vector2f(40, 40), chicken.getPosition());
 
 		}
 		TEST_METHOD(isOnScreenTest)
@@ -74,9 +76,9 @@ namespace ChickenInvadersUnitTests
 			ResourceLoader resourceLoader;
 			Chicken chicken(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Chicken), 1);
 			Assert::AreNotSame(chicken.getPosition(), sf::Vector2f(0, 1920));
-			
+
 		}
-		
+
 		TEST_METHOD(isAliveChickenTest)
 		{
 			ResourceLoader resourceLoader;
@@ -88,7 +90,7 @@ namespace ChickenInvadersUnitTests
 		{
 			ResourceLoader resourceLoader;
 			Asteroid asteroid(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Asteroid), 3);
-	
+
 			Assert::IsTrue(asteroid.IsOnTheScreen());
 		}
 		TEST_METHOD(asteroidFallDowanTest)
@@ -108,18 +110,37 @@ namespace ChickenInvadersUnitTests
 		{
 			ResourceLoader resourceLoader;
 			Present present(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Gift));
-			 sf::Texture presentTexture = present.GetSprite().getTexture();
-			Assert::AreEqual(present.GetSprite().getTexture(),presentTexture);
+
+			sf::Texture presentTexture = *present.GetSprite().getTexture();
+			sf::Texture toCheckPresentTexture = resourceLoader.GetTexture(ResourceLoader::TextureType::Gift);
+			Assert::AreEqual(presentTexture, toCheckPresentTexture);
 		}
-		TEST_METHOD(GetLifeBossTest)
+		TEST_METHOD(falldownPresentTest)
 		{
 			ResourceLoader resourceLoader;
-			resourceLoader.Init1();
-			resourceLoader.Init2();
-
-			Boss boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss), 10, 50, 50);
-
-			Assert::IsTrue(boss.GetLife() != 0);
+			Present present(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Gift));
+			Assert::IsTrue(present.FallDownPresent(1920));
+		}
+		TEST_METHOD(movePresentTest)
+		{
+			ResourceLoader resourceLoader;
+			Present present(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Gift));
+			present.DropPresent();
+			Assert::AreNotEqual(Vector2f(40, 40), present.GetSprite().getPosition());
+		}
+		TEST_METHOD(fallDownMeanTest)
+		{
+			ResourceLoader resourceLoader;
+			Meat meat(Vector2f(40, 40), resourceLoader.GetTexture(ResourceLoader::TextureType::Meat));
+			meat.Move(1920, 1080, 20);
+			Assert::AreNotEqual(Vector2f(40, 40), meat.GetPosition());
+		}
+		TEST_METHOD(drwExplosionTest)
+		{
+			ResourceLoader resourceLoader;
+			Explosion explosion;
+			sf::RenderWindow map;
+			Assert::IsTrue(explosion.draw_explosion(map));
 		}
 
 		TEST_METHOD(EggFallDown)
