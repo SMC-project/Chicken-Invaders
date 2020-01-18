@@ -215,5 +215,15 @@ namespace ChickenInvadersUnitTests
 
 			Assert::IsFalse(std::get<2>(bullets[1]));
 		}
+		TEST_METHOD(GetLifeBossTest)
+		{
+			ResourceLoader resourceLoader;
+			resourceLoader.Init1();
+			resourceLoader.Init2();
+
+			Boss boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss), 10, 50, 50);
+
+			Assert::IsTrue(boss.GetLife() != 0);
+		}
 	};
 }
