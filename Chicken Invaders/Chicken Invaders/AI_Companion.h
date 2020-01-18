@@ -3,6 +3,7 @@
 #include "Chicken.h"
 #include"Boss.h"
 #include"Asteroid.h"
+#include "Player.h"
 class AI_Companion
 {
 private:
@@ -17,11 +18,12 @@ private:
 	int m_animColFrame = 0;
 	int m_animRowFrame = 0;
 	//Is active in game
-	bool m_active = true;
+	bool m_active = false;
 
 	//Special Rotation
 	bool m_startRotation=false;
 	bool m_rotateRight = false;
+	bool m_activated = false;
 	int  m_direction = -1;
 	const float pi = 3.14159265359;
 	float m_angle = 185;
@@ -52,6 +54,15 @@ public:
 	void SetInactive();
 
 	void ChangeCurrentPosition();
+
+	void SetPosition(Player &player);
+
+	bool GetActivated();
+
+	void ChangeActivatedValue();
+
+	void Reset();
+	
 
 
 

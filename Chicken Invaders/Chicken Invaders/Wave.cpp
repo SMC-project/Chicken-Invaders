@@ -27,7 +27,7 @@ void Wave::Wave1SetPosition(std::vector<Chicken>& chickens, int Window_width, in
 
 }
 
-void Wave::Wave1Movement(std::vector<Chicken> &chickens)
+void Wave::Wave1Movement(std::vector<Chicken> &chickens, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	for (int index = 0; index < chickens.size(); index++)
 	{
@@ -48,6 +48,13 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens)
 				chickens[index].moveChicken(-5, 0);
 		}
 	}
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated()==false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
+	}
+
 }
 
 void Wave::Wave3Init(const Texture& texture, std::vector<Asteroid>& asteroids, const int& waveNumber)
@@ -104,7 +111,7 @@ void Wave::Wave4And5Init(std::vector<Chicken>& chickens, ResourceLoader& resourc
 	}
 }
 
-void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	degrees += 1;
 	if (degrees == 360)
@@ -116,6 +123,12 @@ void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, i
 		xPos = chickens[index].m_moveDirectionFact * sin((degrees + chickens[index].m_chickenIndex * fact) * pi / 180) * (radius1 + chickens[index].m_xOffsetFact) + (SCREEN_WIDTH - 128) / 2;
 		yPos = cos((degrees + chickens[index].m_chickenIndex * fact) * pi / 180) * (radius2 + chickens[index].m_yOffsetFact) + (SCREEN_HEIGHT - 128) / 3;
 		chickens[index].setPositionChicken(xPos, yPos);
+	}
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
 	}
 }
 
@@ -149,12 +162,18 @@ void Wave::wave6Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 	}
 }
 
-void Wave::wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int SCREEN_HEIGHT, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	for (int index = 0; index < asteroids.size(); index++)
 	{
 		
 		asteroids[index].Falldown(SCREEN_HEIGHT, 0, asteroids[index].getasteroidsSpeed());
+	}
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
 	}
 }
 
@@ -172,7 +191,7 @@ void Wave::Wave8Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoa
 	
 }
 
-void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	for (int index = 0; index < chickens.size()/2; index++)
 	{	
@@ -183,7 +202,12 @@ void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 	{
 		chickens[index].moveChicken(7, 7);
 	}
-	
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
+	}
 }
 
 
@@ -200,7 +224,7 @@ void Wave::Wave7Init(std::vector<Chicken>& chickens, ResourceLoader& resourceLoa
 	}
 }
 
-void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int SCREEN_HEIGHT, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	for (int i = 0; i < chickens.size()/2; i++)
 	{
@@ -236,6 +260,12 @@ void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 			}
 			else
 				chickens[i].moveChicken(-6, 1);
+	}
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
 	}
 }
 void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
@@ -304,7 +334,7 @@ void Wave::Wave9Init(std::vector<Asteroid>& asteroids, const Texture& texture, i
 	}
 }
 
-void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int SCREEN_HEIGHT, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	for (int index = 0; index < asteroids.size(); index++) {
 		if (asteroids[index].getVelocity() == 1)
@@ -315,6 +345,12 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 			asteroids[index].Falldown(SCREEN_HEIGHT, -asteroids[index].getasteroidsSpeed()+10, asteroids[index].getasteroidsSpeed()-10);
 	
 	}
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
+	}
 }
 
 void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader, int SCREEN_WIDTH, int SCREEN_HEIGHT, const int& waveNumber)
@@ -322,7 +358,7 @@ void Wave::Wave10Init(std::vector<Boss> &bosses, ResourceLoader& resourceLoader,
 	bosses.emplace_back(std::move(Boss(resourceLoader.GetTexture(ResourceLoader::TextureType::Boss),waveNumber,700,50)));
 }
 
-void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREEN_HEIGHT, Player& player, AI_Companion& aiCompanion, uint32_t& scoreBeforeDeath)
 {
 	for (int index = 0; index < bosses.size(); index++)
 	{
@@ -342,5 +378,11 @@ void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREE
 			else
 				bosses[index].UpdatePosition(-8, 0);
 		}
+	}
+	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	{
+		aiCompanion.SetActive();
+		aiCompanion.SetPosition(player);
+		aiCompanion.ChangeActivatedValue();
 	}
 }

@@ -188,5 +188,34 @@ void AI_Companion::SetInactive()
 	m_active = false;
 }
 
+void AI_Companion::SetPosition(Player &player)
+{
+	m_sprite.setPosition(player.GetPosition().x + 100, player.GetPosition().y);
+}
+
+bool AI_Companion::GetActivated()
+{
+	return m_activated;
+}
+
+void AI_Companion::ChangeActivatedValue()
+{
+	if (m_activated == true)
+		m_activated = false;
+	else
+		m_activated = true;
+}
+
+void AI_Companion::Reset()
+{
+	//Is active in game
+	m_active = false;
+
+	//Special Rotation
+	m_startRotation = false;
+	m_rotateRight = false;
+    m_activated = false;
+}
+
 
 

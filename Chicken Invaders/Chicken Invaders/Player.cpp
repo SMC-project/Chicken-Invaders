@@ -236,3 +236,5 @@ bool Player::IsDead() { return m_lives == 0 ? true : false; }
 uint32_t Player::GetScore() { return m_score; }
 
 const sf::Vector2f& Player::GetSize() { return m_shipSize; }
+
+int Player::GetLifes(){	return m_lives; }
