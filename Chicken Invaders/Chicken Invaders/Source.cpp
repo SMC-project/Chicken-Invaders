@@ -334,7 +334,6 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 
 	time = clock.getElapsedTime();
 	std::cout << "Starting game: " << time.asSeconds() << "\n";
-
 	return true;
 }
 
@@ -671,6 +670,8 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 	}
 }void Movement(int WINDOW_WIDTH, int WINDOW_HEIGHT, int wave_number, Time& deltaTime, ScrollBackground& gameBackground, Player& player, std::vector<Egg>& eggs, std::vector<Chicken>& chickens, std::vector<Present>& presents, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, ResourceLoader& resourceLoader, Wave& waveManager, Earth& earth, bool& isPaused, PauseMenu& pauseMenu, RenderWindow& gameWindow, std::vector<Boss>& gameBosses, int& waveTransition, std::vector<Feather>& feathers, AI_Companion& aiCompanion,uint32_t &scoreBeforeDeath)
 {
+	
+
 	gameBackground.AnimateBackground();
 	player.MoveShip(WINDOW_WIDTH);
 	aiCompanion.MoveShip(WINDOW_WIDTH, player.GetPosition(), player.GetSize());
@@ -768,6 +769,15 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 
 void CheckCollisions(Clock& clock, ResourceLoader& resourceLoader, Player& player, int& Contor, std::vector<Egg>& eggs, std::vector<Asteroid>& asteroids, std::vector<Bullet>& GameBullets, std::vector<Explosion>& explosions, std::vector<Meat>& meat, std::vector<Missile>& gameMissiles, std::vector<Chicken>& chickens, std::vector<Present>& presents, bool& isPaused, std::vector<Boss>& gameBosses, int wave_number, const Time& waveStartTime, std::vector<Feather>& feathers, uint32_t &scoreBeforeDeath, AI_Companion& aiCompanion)
 {
+	//Add Ai_Companion bullets / Change location later
+
+	bool timeToShoot = aiCompanion.Shoot(chickens, asteroids, gameBosses, clock);
+	if (timeToShoot == true)
+	{
+		Bullet bullet(aiCompanion.GetPosition().x-12, aiCompanion.GetPosition().y, resourceLoader.GetTexture(ResourceLoader::TextureType::Bullet));
+		GameBullets.emplace_back(std::move(bullet));
+	}
+
 	if (player.IsDead() == false)
 	{
 		//Check if any of the eggs collides with the ship

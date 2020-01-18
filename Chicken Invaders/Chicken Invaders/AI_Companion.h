@@ -29,6 +29,7 @@ private:
 	float m_angle = 185;
 	float m_radius = 100;
 	int xPos, yPos;
+	float m_lastBullet = 10;
 
 public:
 
@@ -45,15 +46,13 @@ public:
 
 	const sf::Vector2f &GetPosition();
 
-	bool Shoot(std::vector<Chicken> &chickens, std::vector<Asteroid> &asteroids, std::vector<Boss> &boss);
+	bool Shoot(std::vector<Chicken> &chickens, std::vector<Asteroid> &asteroids, std::vector<Boss> &boss, Clock &clock);
 
 	void ChangeActiveValue();
 
 	void SetActive();
 	
 	void SetInactive();
-
-	void ChangeCurrentPosition();
 
 	void SetPosition(Player &player);
 

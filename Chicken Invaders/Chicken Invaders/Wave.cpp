@@ -37,7 +37,10 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens, Player& player, AI_Comp
 				m_leftOrRightMovement = !m_leftOrRightMovement;
 			}
 			else
+			{
+				chickens[index].ChangeMovementAIComp();
 				chickens[index].moveChicken(5, 0);
+			}
 		else if (m_leftOrRightMovement)
 		{
 			if (chickens[index].getPosition().x <= 20)
@@ -45,7 +48,10 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens, Player& player, AI_Comp
 				m_leftOrRightMovement = !m_leftOrRightMovement;
 			}
 			else
+			{
+				chickens[index].ChangeMovementAIComp();
 				chickens[index].moveChicken(-5, 0);
+			}
 		}
 	}
 	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated()==false)

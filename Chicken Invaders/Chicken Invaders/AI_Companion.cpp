@@ -37,8 +37,8 @@ void AI_Companion::DrawShip(sf::RenderWindow& gameWindow)
 
 void AI_Companion::MoveShip(int WINDOW_WIDTH, sf::Vector2f shipPosition, sf::Vector2f shipSize)
 {
-	int addRight=0;
-	int addLeft=0;
+	int addRight = 0;
+	int addLeft = 0;
 	if (m_rotateRight == false)
 	{
 		addLeft = 210;
@@ -60,10 +60,10 @@ void AI_Companion::MoveShip(int WINDOW_WIDTH, sf::Vector2f shipPosition, sf::Vec
 		if (moveDirection != 0)
 		{
 			//If we try to move left then we need to check to not pass the boundry so that we don't exit the screen
-			if (moveDirection < 0 && m_sprite.getPosition().x > m_boundryOffset+addLeft)
+			if (moveDirection < 0 && m_sprite.getPosition().x > m_boundryOffset + addLeft)
 				m_sprite.move(moveDirection * m_speed, 0);
 			//If we try to move right then we need to check to not pass the boundry so that we don't exit the screen
-			else if (moveDirection > 0 && m_sprite.getPosition().x <= (WINDOW_WIDTH - m_boundryOffset - m_size.x)+addRight)
+			else if (moveDirection > 0 && m_sprite.getPosition().x <= (WINDOW_WIDTH - m_boundryOffset - m_size.x) + addRight)
 			{
 				//The movement is relative to the last position of the sprite, so we can use a direction and a speed for it and not real coordinates
 				m_sprite.move(moveDirection * m_speed, 0);
@@ -161,10 +161,63 @@ void AI_Companion::Animate()
 
 const sf::Vector2f& AI_Companion::GetPosition() { return m_sprite.getPosition(); }
 
-bool AI_Companion::Shoot(std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Boss>& boss)
+bool AI_Companion::Shoot(std::vector<Chicken>& chickens, std::vector<Asteroid>& asteroids, std::vector<Boss>& boss, Clock& clock)
 {
+	if (m_active == true)
+	{
+		if (clock.getElapsedTime().asSeconds() - m_lastBullet > 8)
+		{
+			//Chickens
+			for (int i = 0; i < chickens.size(); i++)
+				if (abs(chickens[i].getPosition().y - m_sprite.getPosition().y) < 700)
+				{
+					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 60 && chickens[i].getPosition().x - m_sprite.getPosition().x>0 && chickens[i].IsMovingRight() == true)
+					{
+						m_lastBullet = clock.getElapsedTime().asSeconds();
+						return true;
+					}
+					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 0 &&chickens[i].getPosition().x - m_sprite.getPosition().x >-60 && chickens[i].IsMovingRight() == false)
+					{
+						m_lastBullet = clock.getElapsedTime().asSeconds();
+						return true;
+					}
 
-
+				}
+				else if (abs(chickens[i].getPosition().y - m_sprite.getPosition().y) < 900)
+				{
+					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 80 && chickens[i].getPosition().x - m_sprite.getPosition().x>0 && chickens[i].IsMovingRight() == true)
+					{
+						m_lastBullet = clock.getElapsedTime().asSeconds();
+						return true;
+					}
+					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 0 && chickens[i].getPosition().x - m_sprite.getPosition().x >-80 && chickens[i].IsMovingRight() == false)
+					{
+						m_lastBullet = clock.getElapsedTime().asSeconds();
+						return true;
+					}
+				}
+				
+			//else if (abs(chickens[i].getPosition().x - m_sprite.getPosition().x) < 60)
+			//{
+			//	m_lastBullet = clock.getElapsedTime().asSeconds();
+			//	return true;
+			//}
+		//Asteroids
+			for (int i = 0; i < asteroids.size(); i++)
+				if (abs(asteroids[i].GetPosition().x - m_sprite.getPosition().x < 250))
+				{
+					m_lastBullet = clock.getElapsedTime().asSeconds();
+					return true;
+				}
+			//GameBosses
+			for (int i = 0; i < boss.size(); i++)
+				if (abs(boss[i].GetPosition().x - m_sprite.getPosition().x < 100))
+				{
+					m_lastBullet = clock.getElapsedTime().asSeconds();
+					return true;
+				}
+		}
+	}
 	return false;
 }
 
@@ -188,7 +241,7 @@ void AI_Companion::SetInactive()
 	m_active = false;
 }
 
-void AI_Companion::SetPosition(Player &player)
+void AI_Companion::SetPosition(Player& player)
 {
 	m_sprite.setPosition(player.GetPosition().x + 100, player.GetPosition().y);
 }
@@ -214,7 +267,7 @@ void AI_Companion::Reset()
 	//Special Rotation
 	m_startRotation = false;
 	m_rotateRight = false;
-    m_activated = false;
+	m_activated = false;
 }
 
 

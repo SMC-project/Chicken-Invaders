@@ -138,3 +138,15 @@ bool Chicken::IsOnTheScreen()
 		return false;
 	return true;
 }
+
+bool Chicken::IsMovingRight()
+{
+	return m_leftOrRightMovement;
+}
+
+void Chicken::ChangeMovementAIComp()
+{
+	m_leftOrRightMovement = !m_leftOrRightMovement;
+}
+
+

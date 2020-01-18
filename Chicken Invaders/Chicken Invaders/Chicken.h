@@ -28,7 +28,7 @@ private:
 
 	float m_scoreChicken = 25;
 	int m_life;
-
+	bool m_leftOrRightMovement;
 	Sprite m_chickenSprite;
 	Vector2f m_chickenSize;
 
@@ -52,5 +52,8 @@ public:
 	const int& GetLife();
 	void GetHit();
 	bool IsOnTheScreen();
+	//Ai
+	bool IsMovingRight();
+	void ChangeMovementAIComp();
 };
  
