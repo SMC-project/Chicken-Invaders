@@ -99,6 +99,9 @@
     <ClCompile Include="Networking.cpp">
       <Filter>Source Files\Universal</Filter>
     </ClCompile>
+    <ClCompile Include="AI_Companion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="Networking.h">
       <Filter>Header Files\Universal</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_Companion.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

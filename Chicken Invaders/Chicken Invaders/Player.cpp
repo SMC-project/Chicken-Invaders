@@ -234,3 +234,5 @@ void Player::ShootMissile()
 const sf::Sprite& Player::GetSprite() { return m_spriteShip; }
 bool Player::IsDead() { return m_lives == 0 ? true : false; }
 uint32_t Player::GetScore() { return m_score; }
+
+const sf::Vector2f& Player::GetSize() { return m_shipSize; }
