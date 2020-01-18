@@ -66,3 +66,13 @@ const int& Boss::GetLife(){	return m_life;}
 void Boss::ByeByeBoss(){ m_life--;}
 
 const int& Boss::GetScore(){return 150;}
+
+bool Boss::IsMovingRight()
+{
+	return m_leftOrRight;
+}
+
+void Boss::ChangeMovementAIComp()
+{
+	m_leftOrRight = !m_leftOrRight;
+}

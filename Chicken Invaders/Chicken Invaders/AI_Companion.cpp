@@ -211,11 +211,19 @@ bool AI_Companion::Shoot(std::vector<Chicken>& chickens, std::vector<Asteroid>& 
 				}
 			//GameBosses
 			for (int i = 0; i < boss.size(); i++)
-				if (abs(boss[i].GetPosition().x - m_sprite.getPosition().x < 100))
-				{
-					m_lastBullet = clock.getElapsedTime().asSeconds();
-					return true;
-				}
+			{
+					if (boss[i].GetPosition().x - m_sprite.getPosition().x < 60 && boss[i].GetPosition().x - m_sprite.getPosition().x>0 && boss[i].IsMovingRight() == false)
+					{
+						m_lastBullet = clock.getElapsedTime().asSeconds();
+						return true;
+					}
+					if (boss[i].GetPosition().x - m_sprite.getPosition().x < 0 && boss[i].GetPosition().x - m_sprite.getPosition().x >-60 && boss[i].IsMovingRight() == true)
+					{
+						m_lastBullet = clock.getElapsedTime().asSeconds();
+						return true;
+					}
+
+			}
 		}
 	}
 	return false;
@@ -243,7 +251,8 @@ void AI_Companion::SetInactive()
 
 void AI_Companion::SetPosition(Player& player)
 {
-	m_sprite.setPosition(player.GetPosition().x + 100, player.GetPosition().y);
+
+	m_sprite.setPosition(player.GetPosition().x + 115, player.GetPosition().y+15);
 }
 
 bool AI_Companion::GetActivated()

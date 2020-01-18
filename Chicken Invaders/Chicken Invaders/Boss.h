@@ -10,7 +10,7 @@ private:
 	sf::Sprite m_sprite;
 	sf::Vector2f m_size;
 	int m_life;
-	bool m_leftOrRight = false;
+	bool m_leftOrRight=false;
 
 protected:
 	void BossAnimation();
@@ -26,5 +26,7 @@ public:
 	const int& GetLife();
 	void ByeByeBoss();
 	const int& GetScore();
+	bool IsMovingRight();
+	void ChangeMovementAIComp();
 };
 
