@@ -54,13 +54,13 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens, Player& player, AI_Comp
 			}
 		}
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated()==false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated()==false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2020 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
@@ -135,13 +135,13 @@ void Wave::Wave4And5Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, i
 		yPos = cos((degrees + chickens[index].m_chickenIndex * fact) * pi / 180) * (radius2 + chickens[index].m_yOffsetFact) + (SCREEN_HEIGHT - 128) / 3;
 		chickens[index].setPositionChicken(xPos, yPos);
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated() == false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
@@ -184,13 +184,13 @@ void Wave::wave6Movement(std::vector<Asteroid>& asteroids, int SCREEN_WIDTH, int
 		
 		asteroids[index].Falldown(SCREEN_HEIGHT, 0, asteroids[index].getasteroidsSpeed());
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated() == false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
@@ -221,13 +221,13 @@ void Wave::Wave8Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 	{
 		chickens[index].moveChicken(7, 7);
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated() == false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
@@ -284,13 +284,13 @@ void Wave::Wave7Movement(std::vector<Chicken>& chickens, int SCREEN_WIDTH, int S
 			else
 				chickens[i].moveChicken(-6, 1);
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated() == false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
@@ -372,13 +372,13 @@ void Wave::Wave9Movement(std::vector<Asteroid>& asteroids, int SCRENN_WIDTH, int
 			asteroids[index].Falldown(SCREEN_HEIGHT, -asteroids[index].getasteroidsSpeed()+10, asteroids[index].getasteroidsSpeed()-10);
 	
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated() == false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
@@ -414,13 +414,13 @@ void Wave::Wave10Movement(std::vector<Boss> &bosses, int SCREEN_WIDTH, int SCREE
 				bosses[index].UpdatePosition(-8, 0);
 		}
 	}
-	if (player.GetScore() - scoreBeforeDeath >= 2000 && aiCompanion.GetActivated() == false)
+	if (player.GetScore() - scoreBeforeDeath >= 5000 && aiCompanion.GetActivated() == false)
 	{
 		aiCompanion.SetActive();
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 5020 && player.GetScore() - scoreBeforeDeath >= 5000)
 	{
 		aiCompanion.SetPosition(player);
 	}
