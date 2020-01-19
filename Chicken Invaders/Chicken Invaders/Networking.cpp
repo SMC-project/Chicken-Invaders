@@ -13,11 +13,15 @@ void Networking::ServerConnection()
 	socket.receive(packet);
 	packet >> text;
 	std::cout << text << std::endl;
+
+	socket.setBlocking(false);
 }
 
-void Networking::ClientConnection()
+bool Networking::ClientConnection()
 {
-	socket.connect(ip, 49200);
+	if (socket.connect(ip, 49200) != sf::Socket::Done)
+		return false;
+
 	socket.receive(packet);
 	std::string text;
 	packet >> text;
@@ -27,6 +31,9 @@ void Networking::ClientConnection()
 	packet.clear();
 	packet << text;
 	socket.send(packet);
+
+	socket.setBlocking(false);
+	return true;
 }
 
 void Networking::SendData()
@@ -36,7 +43,10 @@ void Networking::SendData()
 
 bool Networking::ReceiveData()
 {
-	if(socket.receive(packet) == socket.Done)
+	if (socket.receive(packet) == socket.Done)
 		return true;
 	return false;
 }
+
+
+

@@ -165,10 +165,10 @@ bool AI_Companion::Shoot(std::vector<Chicken>& chickens, std::vector<Asteroid>& 
 {
 	if (m_active == true)
 	{
-		if (clock.getElapsedTime().asSeconds() - m_lastBullet > 8)
+		if (clock.getElapsedTime().asSeconds() - m_lastBullet > 5)
 		{
 			//Chickens
-			for (int i = 0; i < chickens.size(); i++)
+			for (int i=chickens.size()-1; i >=0; i--)
 				if (abs(chickens[i].getPosition().y - m_sprite.getPosition().y) < 700)
 				{
 					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 60 && chickens[i].getPosition().x - m_sprite.getPosition().x>0 && chickens[i].IsMovingRight() == true)
@@ -183,25 +183,20 @@ bool AI_Companion::Shoot(std::vector<Chicken>& chickens, std::vector<Asteroid>& 
 					}
 
 				}
-				else if (abs(chickens[i].getPosition().y - m_sprite.getPosition().y) < 900)
+				else if (abs(chickens[i].getPosition().y - m_sprite.getPosition().y) < 1080)
 				{
-					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 80 && chickens[i].getPosition().x - m_sprite.getPosition().x>0 && chickens[i].IsMovingRight() == true)
+					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 180 && chickens[i].getPosition().x - m_sprite.getPosition().x>0 && chickens[i].IsMovingRight() == true)
 					{
 						m_lastBullet = clock.getElapsedTime().asSeconds();
 						return true;
 					}
-					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 0 && chickens[i].getPosition().x - m_sprite.getPosition().x >-80 && chickens[i].IsMovingRight() == false)
+					if (chickens[i].getPosition().x - m_sprite.getPosition().x < 0 && chickens[i].getPosition().x - m_sprite.getPosition().x >-180 && chickens[i].IsMovingRight() == false)
 					{
 						m_lastBullet = clock.getElapsedTime().asSeconds();
 						return true;
 					}
 				}
 				
-			//else if (abs(chickens[i].getPosition().x - m_sprite.getPosition().x) < 60)
-			//{
-			//	m_lastBullet = clock.getElapsedTime().asSeconds();
-			//	return true;
-			//}
 		//Asteroids
 			for (int i = 0; i < asteroids.size(); i++)
 				if (abs(asteroids[i].GetPosition().x - m_sprite.getPosition().x < 250))

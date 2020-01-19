@@ -5,7 +5,7 @@ class Networking
 {
 public:
 	void ServerConnection();
-	void ClientConnection();
+	bool ClientConnection();
 
 	void SendData();
 	bool ReceiveData();
@@ -13,7 +13,7 @@ public:
 	sf::Packet packet;
 
 private:
-	sf::IpAddress ip = "172.27.1.119";
+	sf::IpAddress ip = "192.168.1.142";
 	sf::TcpListener listener;
 	sf::TcpSocket socket;
 };

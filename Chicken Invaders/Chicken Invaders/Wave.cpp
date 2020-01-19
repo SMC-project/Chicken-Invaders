@@ -60,7 +60,7 @@ void Wave::Wave1Movement(std::vector<Chicken> &chickens, Player& player, AI_Comp
 		aiCompanion.SetPosition(player);
 		aiCompanion.ChangeActivatedValue();
 	}
-	if (player.GetScore() - scoreBeforeDeath <= 2200 && player.GetScore() - scoreBeforeDeath >= 2000)
+	if (player.GetScore() - scoreBeforeDeath <= 2020 && player.GetScore() - scoreBeforeDeath >= 2000)
 	{
 		aiCompanion.SetPosition(player);
 	}
