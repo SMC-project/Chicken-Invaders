@@ -307,7 +307,7 @@ bool Init(int WINDOW_WIDTH, int WINDOW_HEIGHT, RenderWindow& gameWindow, Clock& 
 	gameBackground.Init(resourceLoader.GetTexture(ResourceLoader::TextureType::Background));
 
 	resourceLoader.GetMusic().play();
-	resourceLoader.GetMusic().setVolume(50);
+	resourceLoader.GetMusic().setVolume(10);
 
 	titleScreen.IntroMain_SetTextures(WINDOW_WIDTH, WINDOW_HEIGHT, resourceLoader);
 	pauseMenu.PauseMenu_SetTextures(WINDOW_WIDTH, WINDOW_HEIGHT, resourceLoader);
@@ -508,8 +508,8 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 						}
 						else
 						{
-							wave_number = 1;
-							waveTransition = 1;
+							wave_number = 10;
+							waveTransition = 10;
 							start_game = true;
 						}
 					}
