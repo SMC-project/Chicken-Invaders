@@ -10,7 +10,7 @@ void AI_Companion::Init(sf::Vector2f initialPos, const sf::Texture& texture)
 	//Retain how many pixels the ship covers because we will need it later for collision check
 	//We use a sprite sheet that has more than one sprite so we divide it by how many sprotes there are on a row
 	//and on col to get a single sprite's size
-	sf::Vector2 texturePos(m_sprite.getTexture()->getSize().x / 10, m_sprite.getTexture()->getSize().y / 4);
+	sf::Vector2f texturePos(m_sprite.getTexture()->getSize().x / 10, m_sprite.getTexture()->getSize().y / 4);
 	m_size = sf::Vector2f(texturePos.x * m_sprite.getScale().x, texturePos.y * m_sprite.getScale().y);
 
 	//Center the player on the screen

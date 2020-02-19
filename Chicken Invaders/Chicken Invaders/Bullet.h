@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
 #include<vector>
-#include<SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 enum class Level { Level_0, Level_1, Level_2, Level_3, Level_4, Level_5, Level_6, Level_7 };
 
 class Bullet

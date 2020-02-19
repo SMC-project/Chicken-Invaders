@@ -57,7 +57,7 @@ int main()
 	const int WINDOW_HEIGHT = 1080;
 
 	Networking net;
-	char playMode, connectionMode = 'c';
+	char playMode = '0', connectionMode = 'c';
 	std::cout << "How do you want to play?\n0 - single player\n1 - multiplayer\n\nUser choice: ";
 	std::cin >> playMode;
 	while (playMode != '0' && playMode != '1')
@@ -83,7 +83,7 @@ int main()
 
 	system("pause");
 
-	RenderWindow gameWindow(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Chicken Invaders DX", Style::Fullscreen);
+	RenderWindow gameWindow(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Chicken Invaders DX", Style::Default);
 	gameWindow.setFramerateLimit(30);
 
 	GameLoop(gameWindow, WINDOW_WIDTH, WINDOW_HEIGHT, playMode, connectionMode, net);
@@ -508,8 +508,8 @@ void CheckInput(RenderWindow& gameWindow, int WINDOW_WIDTH, int WINDOW_HEIGHT, i
 						}
 						else
 						{
-							wave_number = 10;
-							waveTransition = 10;
+							wave_number = 1;
+							waveTransition = 1;
 							start_game = true;
 						}
 					}
